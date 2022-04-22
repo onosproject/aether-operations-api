@@ -16,11 +16,11 @@ paths:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/applicationApplications'
+            $ref: '#/definitions/Applications'
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            $ref: '#/definitions/Status'
       tags:
       - RocApi
   /api/v1/enterprises:
@@ -30,15 +30,21 @@ paths:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/enterpriseEnterprise'
+            $ref: '#/definitions/Enterprise'
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            $ref: '#/definitions/Status'
       tags:
       - RocApi
 definitions:
-  applicationApplication:
+  Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  Application:
     type: object
     properties:
       ID:
@@ -48,15 +54,15 @@ definitions:
       endpoint:
         type: array
         items:
-          $ref: '#/definitions/endpointEndpoint'
-  applicationApplications:
+          $ref: '#/definitions/Endpoint'
+  Applications:
     type: object
     properties:
       applications:
         type: array
         items:
-          $ref: '#/definitions/applicationApplication'
-  endpointEndpoint:
+          $ref: '#/definitions/Application'
+  Endpoint:
     type: object
     properties:
       ID:
@@ -66,7 +72,7 @@ definitions:
       DisplayName:
         type: string
       Mbr:
-        $ref: '#/definitions/endpointMBR'
+        $ref: '#/definitions/MBR'
       PortStart:
         type: integer
         format: int32
@@ -75,16 +81,7 @@ definitions:
         format: int32
       Protocol:
         type: string
-  endpointMBR:
-    type: object
-    properties:
-      uplink:
-        type: string
-        format: int64
-      downlink:
-        type: string
-        format: int64
-  enterpriseEnterprise:
+  Enterprise:
     type: object
     properties:
       ID:
@@ -96,14 +93,17 @@ definitions:
       applications:
         type: array
         items:
-          $ref: '#/definitions/applicationApplication'
-  protobufAny:
+          $ref: '#/definitions/Application'
+  MBR:
     type: object
     properties:
-      '@type':
+      uplink:
         type: string
-    additionalProperties: {}
-  rpcStatus:
+        format: int64
+      downlink:
+        type: string
+        format: int64
+  Status:
     type: object
     properties:
       code:
@@ -114,4 +114,4 @@ definitions:
       details:
         type: array
         items:
-          $ref: '#/definitions/protobufAny'
+          $ref: '#/definitions/Any'

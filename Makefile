@@ -17,6 +17,7 @@ protos: setup_tools
 		--grpc-gateway_opt paths=source_relative \
 		--openapiv2_out ./api/swagger/dist \
 		--openapiv2_opt logtostderr=true,generate_unbound_methods=true \
+		--openapiv2_opt openapi_naming_strategy=simple \
 		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		$(PROTO_FILES)
 
