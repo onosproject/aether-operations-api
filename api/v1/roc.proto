@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/opencord/roc-api/api/v1";
+
+package roc;
+
+import "google/api/annotations.proto";
+import "api/v1/enterprise.proto";
+import "api/v1/application.proto";
+
+message Empty {
+}
+
+service RocApi {
+  rpc GetEnterprises(Empty) returns (enterprise.Enterprise) {
+
+  }
+  rpc GetApplications(Empty) returns (application.Applications) {
+    option (google.api.http) = {
+      get: "/v1/applications"
+    };
+  }
+}

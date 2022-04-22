@@ -1,0 +1,9 @@
+.idea
+/roc-api
+logs/*
+release
+.DS_Store
+*.logs
+*.trace
+sca-report/
+.vscode

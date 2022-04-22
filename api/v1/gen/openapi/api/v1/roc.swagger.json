@@ -1,0 +1,160 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/v1/roc.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "RocApi"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/applications": {
+      "get": {
+        "operationId": "RocApi_GetApplications",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/applicationApplications"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "RocApi"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "applicationApplication": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/endpointEndpoint"
+          }
+        }
+      }
+    },
+    "applicationApplications": {
+      "type": "object",
+      "properties": {
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/applicationApplication"
+          }
+        }
+      }
+    },
+    "endpointEndpoint": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Mbr": {
+          "$ref": "#/definitions/endpointMBR"
+        },
+        "PortStart": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "PortEnd": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Protocol": {
+          "type": "string"
+        }
+      }
+    },
+    "endpointMBR": {
+      "type": "object",
+      "properties": {
+        "uplink": {
+          "type": "string",
+          "format": "int64"
+        },
+        "downlink": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "enterpriseEnterprise": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/applicationApplication"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

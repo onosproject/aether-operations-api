@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/opencord/roc-api/api/v1";
+
+package enterprise;
+
+import "api/v1/application.proto";
+
+message Enterprise {
+  string ID = 1;
+  string description = 2;
+  string displayName = 3;
+  repeated application.Application applications = 4;
+}
+
+message Enterprises {
+  repeated Enterprise enterprises = 1;
+}
