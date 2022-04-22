@@ -2,11 +2,15 @@ package rest
 
 import (
 	"context"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/labstack/gommon/log"
-	gw "github.com/onosproject/roc-api/api/v1/gen/api/v1"
+	"github.com/onosproject/roc-api/api/swagger"
+	gw "github.com/onosproject/roc-api/api/v1"
 	"google.golang.org/grpc"
+	"io/fs"
+	"mime"
 	"net/http"
+	"strings"
 	"sync"
 )
 
@@ -17,20 +21,40 @@ type RocApiRestServer struct {
 	grpcAddress string
 }
 
+// getOpenAPIHandler serves an OpenAPI UI.
+// Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
+func getOpenAPIHandler() http.Handler {
+	mime.AddExtensionType(".svg", "image/svg+xml")
+	// Use subdirectory in embedded files
+	subFS, err := fs.Sub(swagger.OpenAPI, "dist")
+	if err != nil {
+		panic("couldn't create sub filesystem: " + err.Error())
+	}
+	return http.FileServer(http.FS(subFS))
+}
+
 func (s RocApiRestServer) StartRestServer() {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	mux := runtime.NewServeMux()
+	serveMux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	if err := gw.RegisterRocApiHandlerFromEndpoint(ctx, mux, s.grpcAddress, opts); err != nil {
+	if err := gw.RegisterRocApiHandlerFromEndpoint(ctx, serveMux, s.grpcAddress, opts); err != nil {
 		log.Errorf("Could not register API server: %v", err)
 		return
 	}
 
-	server := &http.Server{Addr: s.address, Handler: mux}
+	oa := getOpenAPIHandler()
+
+	server := &http.Server{Addr: s.address, Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/api") {
+			serveMux.ServeHTTP(w, r)
+			return
+		}
+		oa.ServeHTTP(w, r)
+	})}
 
 	go func() {
 		log.Infof("REST API server listening on %s", s.address)

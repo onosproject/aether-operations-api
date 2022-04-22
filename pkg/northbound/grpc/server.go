@@ -18,6 +18,7 @@ type RocApiGrpcServer struct {
 	doneCh            chan bool
 	wg                *sync.WaitGroup
 	address           string
+	v1.UnimplementedRocApiServer
 }
 
 func (r *RocApiGrpcServer) StartGrpcServer() error {

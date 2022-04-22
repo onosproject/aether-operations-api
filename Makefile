@@ -7,17 +7,17 @@ setup_tools:
 	@go mod download github.com/grpc-ecosystem/grpc-gateway
 	@echo "Dependencies downloaded OK"
 
-#--go_out=./ --go_opt=paths=source_relative
 protos: setup_tools
 	protoc -I . \
 		-I api \
 		--go_out=. --go_opt=paths=source_relative \
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-		--openapiv2_out ./api/v1/gen/openapi \
-		--openapiv2_opt logtostderr=true \
-		--grpc-gateway_out ./api/v1/gen \
+		--grpc-gateway_out . \
 		--grpc-gateway_opt logtostderr=true \
 		--grpc-gateway_opt paths=source_relative \
+		--openapiv2_out ./api/swagger/dist \
+		--openapiv2_opt logtostderr=true,generate_unbound_methods=true \
+		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		$(PROTO_FILES)
 
 .PHONY: build

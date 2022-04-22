@@ -13,11 +13,13 @@ message Empty {
 
 service RocApi {
   rpc GetEnterprises(Empty) returns (enterprise.Enterprise) {
-
+    option (google.api.http) = {
+      get: "/api/v1/enterprises"
+    };
   }
   rpc GetApplications(Empty) returns (application.Applications) {
     option (google.api.http) = {
-      get: "/v1/applications"
+      get: "/api/v1/applications"
     };
   }
 }
