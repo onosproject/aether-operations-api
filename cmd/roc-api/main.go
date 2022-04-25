@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/onosproject/roc-api/pkg/northbound/graphql"
 	"github.com/onosproject/roc-api/pkg/northbound/grpc"
 	"github.com/onosproject/roc-api/pkg/northbound/rest"
 	"github.com/onosproject/roc-api/pkg/southbound"
@@ -14,6 +15,7 @@ import (
 const onosConfigAddress = "localhost:5150"
 const grpcEndpoint = "0.0.0.0:50060"
 const restEndpoint = "0.0.0.0:8080"
+const gqlEndpoint = "0.0.0.0:8081" // FIXME use the same mux server for REST and GraphQL
 
 var log = logging.GetLogger("RocApi")
 
@@ -50,6 +52,13 @@ func main() {
 		log.Fatal("cannot start rest server")
 	}
 	go restSrv.StartRestServer()
+
+	wg.Add(1)
+	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcEndpoint)
+	if err != nil {
+		log.Fatal("cannot start graphql server")
+	}
+	go gqlSrv.StartGqlServer()
 
 	wg.Wait()
 }

@@ -14,7 +14,7 @@ import (
 	"sync"
 )
 
-var log = logging.GetLogger("GrpcServer")
+var log = logging.GetLogger("RestServer")
 
 type RocApiRestServer struct {
 	doneCh      chan bool
@@ -42,8 +42,14 @@ func (s RocApiRestServer) StartRestServer() {
 
 	serveMux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
+	conn, err := grpc.Dial(s.grpcAddress, opts...)
+	if err != nil {
+		log.Errorf("Could not start gRPC client: %v", err)
+		return
+	}
 
-	if err := gw.RegisterRocApiHandlerFromEndpoint(ctx, serveMux, s.grpcAddress, opts); err != nil {
+	if err := gw.RegisterRocApiHandler(ctx, serveMux, conn); err != nil {
+		//if err := gw.RegisterRocApiHandlerFromEndpoint(ctx, serveMux, s.grpcAddress, opts); err != nil {
 		log.Errorf("Could not register API server: %v", err)
 		return
 	}
@@ -66,13 +72,6 @@ func (s RocApiRestServer) StartRestServer() {
 		}
 	}()
 
-	x := <-s.doneCh
-	if x {
-		log.Warnf("Stopping API REST server")
-		_ = server.Shutdown(ctx)
-	}
-
-	s.wg.Done()
 }
 
 func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string) (*RocApiRestServer, error) {

@@ -3,10 +3,12 @@ module github.com/onosproject/roc-api
 go 1.18
 
 require (
+	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
-	github.com/labstack/gommon v0.3.1
 	github.com/onosproject/aether-roc-api v0.10.6
 	github.com/onosproject/onos-lib-go v0.8.15
+	github.com/pkg/errors v0.9.1
+	github.com/ysugimoto/grpc-graphql-gateway v0.22.0
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
 	google.golang.org/grpc v1.45.0
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0
@@ -36,6 +38,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/iancoleman/strcase v0.1.2 // indirect
 	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
 	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
 	github.com/jcmturner/gofork v1.0.0 // indirect
@@ -45,6 +48,7 @@ require (
 	github.com/klauspost/compress v1.14.2 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/labstack/echo/v4 v4.6.3 // indirect
+	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
@@ -58,7 +62,6 @@ require (
 	github.com/openconfig/ygot v0.14.0 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect

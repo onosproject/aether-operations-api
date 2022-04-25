@@ -23,6 +23,42 @@ protos: setup_tools
 		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		$(PROTO_FILES)
 
+graphql:
+	# generate the types
+	protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--graphql_opt=paths=source_relative \
+		--graphql_out=./api/v1 \
+		./api/v1/application.proto
+	mv api/v1/v1.graphql.go api/v1/application.graphql.go
+
+	protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--graphql_opt=paths=source_relative \
+		--graphql_out=./api/v1 \
+		./api/v1/endpoint.proto
+	mv api/v1/v1.graphql.go api/v1/endpoint.graphql.go
+
+	protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--graphql_opt=paths=source_relative \
+		--graphql_out=./api/v1 \
+		./api/v1/enterprise.proto
+	mv api/v1/v1.graphql.go api/v1/enterprise.graphql.go
+
+	protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--graphql_opt=paths=source_relative \
+		--graphql_out=./api/v1 \
+		./api/v1/roc.proto
+	mv api/v1/v1.graphql.go api/v1/roc.graphql.go
+
+
+
 .PHONY: build
 build: protos
 	@go build -mod vendor \

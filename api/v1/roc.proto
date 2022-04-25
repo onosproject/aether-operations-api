@@ -5,9 +5,10 @@ option go_package = "github.com/opencord/roc-api/api/v1";
 package roc;
 
 import "google/api/annotations.proto";
-import "api/v1/enterprise.proto";
-import "api/v1/application.proto";
+import public "api/v1/enterprise.proto";
+import public "api/v1/application.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "api/third_parties/grpc-graphql-gateway/graphql.proto";
 
 
 message Empty {
@@ -58,6 +59,10 @@ service RocApi {
         // are automatically added to query paramenters
         get: "/api/v1/applications"
       }
+    };
+    option (graphql.schema) = {
+      type: QUERY
+      name: "getApplications"
     };
   }
 
