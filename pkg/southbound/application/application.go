@@ -3,8 +3,10 @@ package application
 import (
 	"context"
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
+	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	v1 "github.com/onosproject/roc-api/api/v1"
+	"github.com/onosproject/roc-api/pkg/southbound/utils"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"reflect"
@@ -15,12 +17,12 @@ type ApplicationHandler struct {
 	aether21   *aether_2_1_0.ServerImpl
 }
 
-func (a ApplicationHandler) ListApplications() (*v1.Applications, error) {
+func (a ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
 	defer cancel()
 
-	const enterpriseId = "defaultent"
-	response, err := a.aether21.GnmiGetApplicationList(ctx, "/aether/v2.1.x/{enterprise-id}/application", enterpriseId)
+	//const enterpriseId = "acme" // NOTE this needs to be the same as the defaultTarget in sdcore-adapter
+	response, err := a.aether21.GnmiGetApplicationList(ctx, "/aether/v2.1.x/{enterprise-id}/application", types.EnterpriseId(enterpriseId))
 
 	if err != nil {
 		return nil, err
@@ -40,11 +42,11 @@ func (a ApplicationHandler) ListApplications() (*v1.Applications, error) {
 		for _, ep := range *a.Endpoint {
 			eps = append(eps, &v1.Endpoint{
 				ID:          string(ep.EndpointId),
-				Description: *ep.Description,
-				DisplayName: *ep.DisplayName,
+				Description: utils.PointerToString(ep.Description),
+				DisplayName: utils.PointerToString(ep.DisplayName),
 				Mbr: &v1.MBR{
-					Uplink:   *ep.Mbr.Uplink,
-					Downlink: *ep.Mbr.Downlink,
+					Uplink:   utils.PointerToInt64(ep.Mbr.Uplink),
+					Downlink: utils.PointerToInt64(ep.Mbr.Downlink),
 				},
 				PortStart: int32(*ep.PortStart),
 				PortEnd:   int32(*ep.PortEnd),

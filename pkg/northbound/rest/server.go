@@ -3,7 +3,7 @@ package rest
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/labstack/gommon/log"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/roc-api/api/swagger"
 	gw "github.com/onosproject/roc-api/api/v1"
 	"google.golang.org/grpc"
@@ -13,6 +13,8 @@ import (
 	"strings"
 	"sync"
 )
+
+var log = logging.GetLogger("GrpcServer")
 
 type RocApiRestServer struct {
 	doneCh      chan bool

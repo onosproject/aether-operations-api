@@ -12,7 +12,15 @@ List all the applications via gRPC:
 grpcurl -plaintext localhost:50060 roc.RocApi/GetApplications
 ```
 
-List all the applciations via REST:
+List Applications for a specific Enterprise via REST:
 ```shell
-curl http://localhost:8181/api/v1/applications
+curl -X 'GET' \
+  'http://localhost:8080/api/v1/enterpise/acme/applications' \
+  -H 'accept: application/json'
+```
+or
+```shell
+curl -X 'GET' \
+  'http://localhost:8080/api/v1/applications?enterpriseId=acme' \
+  -H 'accept: application/json'
 ```

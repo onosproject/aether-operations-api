@@ -4,14 +4,19 @@ option go_package = "github.com/opencord/roc-api/api/v1";
 
 package application;
 
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "api/v1/endpoint.proto";
+import "google/api/field_behavior.proto";
 
 message Application {
-  string ID = 1;
+  string ID = 1 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {title: "The ID field.", description: "Unique identifier for applications", pattern: "[a-zA-Z]"},
+    (google.api.field_behavior) = REQUIRED
+  ];
   string description = 2;
   repeated endpoint.Endpoint endpoint = 3;
 }
 
 message Applications {
-  repeated Application applications = 1;
+  repeated Application applications = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of Application objects"}];
 }

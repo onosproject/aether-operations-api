@@ -6,7 +6,9 @@ import (
 	v1 "github.com/onosproject/roc-api/api/v1"
 	"github.com/onosproject/roc-api/pkg/southbound"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 	"net"
 	"sync"
 )
@@ -51,13 +53,16 @@ func (r *RocApiGrpcServer) StartGrpcServer() error {
 	return nil
 }
 
-func (r *RocApiGrpcServer) GetApplications(ctx context.Context, empty *v1.Empty) (*v1.Applications, error) {
-	return r.southboundManager.ApplicationHandler.ListApplications()
+func (r *RocApiGrpcServer) GetApplications(ctx context.Context, entId *v1.EnterpriseId) (*v1.Applications, error) {
+	return r.southboundManager.ApplicationHandler.ListApplications(entId.EnterpriseId)
+}
+
+func (r *RocApiGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
+	return nil, status.Error(codes.Unimplemented, "create-applications-not-implemented")
 }
 
 func (r *RocApiGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprise, error) {
-	//TODO implement me
-	panic("implement me")
+	return nil, status.Error(codes.Unimplemented, "get-enterprises-not-implemented")
 }
 
 func NewGrpcServer(doneCh chan bool, wg *sync.WaitGroup, address string, sbManager *southbound.GnmiManager) (*RocApiGrpcServer, error) {

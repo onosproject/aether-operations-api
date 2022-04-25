@@ -13,7 +13,7 @@ import (
 
 const onosConfigAddress = "localhost:5150"
 const grpcEndpoint = "0.0.0.0:50060"
-const restEndpoint = "0.0.0.0:8181"
+const restEndpoint = "0.0.0.0:8080"
 
 var log = logging.GetLogger("RocApi")
 

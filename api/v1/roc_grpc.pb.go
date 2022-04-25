@@ -19,7 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RocApiClient interface {
 	GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error)
-	GetApplications(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Applications, error)
+	// Get Applications for a single Enterprise
+	GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error)
+	CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
 }
 
 type rocApiClient struct {
@@ -39,9 +41,18 @@ func (c *rocApiClient) GetEnterprises(ctx context.Context, in *Empty, opts ...gr
 	return out, nil
 }
 
-func (c *rocApiClient) GetApplications(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Applications, error) {
+func (c *rocApiClient) GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error) {
 	out := new(Applications)
 	err := c.cc.Invoke(ctx, "/roc.RocApi/GetApplications", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rocApiClient) CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
+	out := new(Application)
+	err := c.cc.Invoke(ctx, "/roc.RocApi/CreateApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +64,9 @@ func (c *rocApiClient) GetApplications(ctx context.Context, in *Empty, opts ...g
 // for forward compatibility
 type RocApiServer interface {
 	GetEnterprises(context.Context, *Empty) (*Enterprise, error)
-	GetApplications(context.Context, *Empty) (*Applications, error)
+	// Get Applications for a single Enterprise
+	GetApplications(context.Context, *EnterpriseId) (*Applications, error)
+	CreateApplication(context.Context, *Application) (*Application, error)
 	mustEmbedUnimplementedRocApiServer()
 }
 
@@ -64,8 +77,11 @@ type UnimplementedRocApiServer struct {
 func (UnimplementedRocApiServer) GetEnterprises(context.Context, *Empty) (*Enterprise, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEnterprises not implemented")
 }
-func (UnimplementedRocApiServer) GetApplications(context.Context, *Empty) (*Applications, error) {
+func (UnimplementedRocApiServer) GetApplications(context.Context, *EnterpriseId) (*Applications, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetApplications not implemented")
+}
+func (UnimplementedRocApiServer) CreateApplication(context.Context, *Application) (*Application, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateApplication not implemented")
 }
 func (UnimplementedRocApiServer) mustEmbedUnimplementedRocApiServer() {}
 
@@ -99,7 +115,7 @@ func _RocApi_GetEnterprises_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _RocApi_GetApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(EnterpriseId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -111,7 +127,25 @@ func _RocApi_GetApplications_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/roc.RocApi/GetApplications",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RocApiServer).GetApplications(ctx, req.(*Empty))
+		return srv.(RocApiServer).GetApplications(ctx, req.(*EnterpriseId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RocApi_CreateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Application)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RocApiServer).CreateApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/roc.RocApi/CreateApplication",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RocApiServer).CreateApplication(ctx, req.(*Application))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -130,6 +164,10 @@ var RocApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetApplications",
 			Handler:    _RocApi_GetApplications_Handler,
+		},
+		{
+			MethodName: "CreateApplication",
+			Handler:    _RocApi_CreateApplication_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

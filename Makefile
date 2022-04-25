@@ -8,8 +8,10 @@ setup_tools:
 	@echo "Dependencies downloaded OK"
 
 protos: setup_tools
+	## TODO decouple APIS
 	protoc -I . \
 		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
 		--go_out=. --go_opt=paths=source_relative \
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
 		--grpc-gateway_out . \

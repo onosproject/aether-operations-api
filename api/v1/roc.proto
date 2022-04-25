@@ -7,9 +7,40 @@ package roc;
 import "google/api/annotations.proto";
 import "api/v1/enterprise.proto";
 import "api/v1/application.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
 
 message Empty {
 }
+
+message EnterpriseId {
+  string enterpriseId = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "EnterpriseId",
+    description: "Unique identifier for enterprise",
+    format: "string",
+    example: "\"acme\""
+  }];
+}
+
+// more options references: https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Aether Roc API";
+    version: "0.0.1-alpha";
+    contact: {
+      name: "Aether Project";
+      url: "https://docs.aetherproject.org/";
+      email: "none@example.com";
+    };
+    license: {
+      name: "Apache-2.0";
+      url: "https://github.com/onosproject/aether-roc-gui/blob/master/LICENSES/Apache-2.0.txt";
+    };
+
+  };
+};
 
 service RocApi {
   rpc GetEnterprises(Empty) returns (enterprise.Enterprise) {
@@ -17,9 +48,23 @@ service RocApi {
       get: "/api/v1/enterprises"
     };
   }
-  rpc GetApplications(Empty) returns (application.Applications) {
+
+  // Get Applications for a single Enterprise
+  rpc GetApplications(EnterpriseId) returns (application.Applications) {
     option (google.api.http) = {
-      get: "/api/v1/applications"
+      get: "/api/v1/enterpise/{enterpriseId}/applications",
+      additional_bindings {
+        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
+        // are automatically added to query paramenters
+        get: "/api/v1/applications"
+      }
+    };
+  }
+
+  rpc CreateApplication(application.Application) returns (application.Application) {
+    option (google.api.http) = {
+      post: "/api/v1/applications"
+      body: "*"
     };
   }
 }

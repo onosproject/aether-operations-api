@@ -1,7 +1,14 @@
 swagger: "2.0"
 info:
-  title: api/v1/application.proto
-  version: version not set
+  title: Aether Roc API
+  version: 0.0.1-alpha
+  contact:
+    name: Aether Project
+    url: https://docs.aetherproject.org/
+    email: none@example.com
+  license:
+    name: Apache-2.0
+    url: https://github.com/onosproject/aether-roc-gui/blob/master/LICENSES/Apache-2.0.txt
 tags:
 - name: RocApi
 consumes:
@@ -11,6 +18,52 @@ produces:
 paths:
   /api/v1/applications:
     get:
+      summary: Get Applications for a single Enterprise
+      operationId: RocApi_GetApplications2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/Applications'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/Status'
+      parameters:
+      - name: enterpriseId
+        description: |-
+          EnterpriseId
+
+          Unique identifier for enterprise
+        in: query
+        required: false
+        type: string
+        format: string
+        pattern: '[a-zA-Z]'
+      tags:
+      - RocApi
+    post:
+      operationId: RocApi_CreateApplication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/Application'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/Status'
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Application'
+      tags:
+      - RocApi
+  /api/v1/enterpise/{enterpriseId}/applications:
+    get:
+      summary: Get Applications for a single Enterprise
       operationId: RocApi_GetApplications
       responses:
         "200":
@@ -21,6 +74,12 @@ paths:
           description: An unexpected error response.
           schema:
             $ref: '#/definitions/Status'
+      parameters:
+      - name: enterpriseId
+        description: Unique identifier for enterprise
+        in: path
+        required: true
+        type: string
       tags:
       - RocApi
   /api/v1/enterprises:
@@ -49,12 +108,19 @@ definitions:
     properties:
       ID:
         type: string
+        description: Unique identifier for applications
+        title: The ID field.
+        pattern: '[a-zA-Z]'
+        required:
+        - ID
       description:
         type: string
       endpoint:
         type: array
         items:
           $ref: '#/definitions/Endpoint'
+    required:
+    - ID
   Applications:
     type: object
     properties:
@@ -62,6 +128,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Application'
+        description: A list of Application objects
   Endpoint:
     type: object
     properties:
