@@ -1,4 +1,6 @@
-VOLTHA_TOOLS_VERSION ?= 2.3.1
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
 
 PROTO_FILES := $(sort $(wildcard api/**/*.proto))
 

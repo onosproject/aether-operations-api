@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
 syntax = "proto3";
 
 option go_package = "github.com/opencord/roc-api/api/v1";
