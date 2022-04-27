@@ -48,11 +48,17 @@ func (s RocApiRestServer) StartRestServer() {
 		return
 	}
 
-	if err := gw.RegisterRocApiHandler(ctx, serveMux, conn); err != nil {
-		//if err := gw.RegisterRocApiHandlerFromEndpoint(ctx, serveMux, s.grpcAddress, opts); err != nil {
-		log.Errorf("Could not register API server: %v", err)
+	// TODO split the REST Gateway registration in sub-packages, see northbound/grpc for an example
+	if err := gw.RegisterApplicationApiHandler(ctx, serveMux, conn); err != nil {
+		log.Errorf("Could not register ApplicationApi handler: %v", err)
 		return
 	}
+
+	if err := gw.RegisterEnterpriseApiHandler(ctx, serveMux, conn); err != nil {
+		log.Errorf("Could not register EnterpriseApi handler: %v", err)
+		return
+	}
+	// TODO END
 
 	oa := getOpenAPIHandler()
 

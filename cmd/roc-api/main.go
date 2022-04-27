@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/roc-api/pkg/northbound/graphql"
 	"github.com/onosproject/roc-api/pkg/northbound/grpc"
 	"github.com/onosproject/roc-api/pkg/northbound/rest"
 	"github.com/onosproject/roc-api/pkg/southbound"
@@ -40,10 +39,7 @@ func main() {
 	}()
 
 	wg.Add(1)
-	grpcSrv, err := grpc.NewGrpcServer(doneChannel, &wg, grpcEndpoint, gnmiManager)
-	if err != nil {
-		log.Fatal("cannot start grpc server")
-	}
+	grpcSrv := grpc.NewGrpcServer(doneChannel, &wg, grpcEndpoint, gnmiManager)
 	go grpcSrv.StartGrpcServer()
 
 	wg.Add(1)
@@ -53,12 +49,14 @@ func main() {
 	}
 	go restSrv.StartRestServer()
 
-	wg.Add(1)
-	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcEndpoint)
-	if err != nil {
-		log.Fatal("cannot start graphql server")
-	}
-	go gqlSrv.StartGqlServer()
+	// EXPERIMENTAL GraphQL Gateway
+	// Uncomment code in pkg/northbound/graphql/server.go to use
+	//wg.Add(1)
+	//gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcEndpoint)
+	//if err != nil {
+	//	log.Fatal("cannot start graphql server")
+	//}
+	//go gqlSrv.StartGqlServer()
 
 	wg.Wait()
 }

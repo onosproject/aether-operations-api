@@ -2,13 +2,32 @@ VOLTHA_TOOLS_VERSION ?= 2.3.1
 
 PROTO_FILES := $(sort $(wildcard api/**/*.proto))
 
-setup_tools:
+help: # @HELP Print the command options
+	@echo
+	@echo "\033[0;31m    ROC API (scaling-umbrella) \033[0m"
+	@echo
+	@echo Aether ROC APIs
+	@echo
+	@grep -E '^.*: .* *# *@HELP' $(MAKEFILE_LIST) \
+    | sort \
+    | awk ' \
+        BEGIN {FS = ": .* *# *@HELP"}; \
+        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
+    '
+
+setup_tools: mod-update
 	@echo "Downloading dependencies..."
-	@go mod download github.com/grpc-ecosystem/grpc-gateway
+	go install \
+        github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+        github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+        google.golang.org/protobuf/cmd/protoc-gen-go \
+        google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+        github.com/danielvladco/go-proto-gql/protoc-gen-gql \
+        github.com/danielvladco/go-proto-gql/protoc-gen-gogql \
+        github.com/ysugimoto/grpc-graphql-gateway/protoc-gen-graphql
 	@echo "Dependencies downloaded OK"
 
-protos: setup_tools
-	## TODO decouple APIS
+protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
 	protoc -I . \
 		-I api \
 		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
@@ -23,7 +42,21 @@ protos: setup_tools
 		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		$(PROTO_FILES)
 
-graphql:
+schema: # @HELP [Experimental] Generates GraphQL schema using github.com/danielvladco/go-proto-gql
+	protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--gql_out=paths=source_relative:. $(PROTO_FILES)
+
+schema-local: # @HELP [Super-Experimental] Generates GraphQL schema using a custom plugin (defined in cmd/protoc-gen-graphql-schema)
+	go install ./cmd/protoc-gen-graphql-schema && protoc -I .\
+		-I api \
+		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
+		--graphql-schema_out=./api/v1 --graphql-schema_opt=paths=source_relative\
+    	$(PROTO_FILES)
+
+
+graphql: # @HELP [Experimental] Generates a GraphQL Gateway using github.com/ysugimoto/grpc-graphql-gateway
 	# generate the types
 	protoc -I .\
 		-I api \
@@ -60,7 +93,7 @@ graphql:
 
 
 .PHONY: build
-build: protos
+build: protos # @HELP Build the go executable
 	@go build -mod vendor \
 	  -ldflags "-w -X main.buildTime=$(date +%Y/%m/%d-%H:%M:%S) \
 		-X main.commitHash=$(git log --pretty=format:%H -n 1) \

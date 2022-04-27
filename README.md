@@ -19,17 +19,6 @@ starting from Protobuf.
 
 Requires `protoc` to be installed.
 
-Addictionally requires some `go` packages to be installed:
-
-```shell
-go install \
-    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
-    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
-    google.golang.org/protobuf/cmd/protoc-gen-go \
-    google.golang.org/grpc/cmd/protoc-gen-go-grpc \
-    github.com/ysugimoto/grpc-graphql-gateway/protoc-gen-graphql
-```
-
 ## Setup
 
 In order to play around with this code you need to deploy `aether-roc-umbrella` and
@@ -41,7 +30,7 @@ The swagger UI for the REST APIs is available at: http://localhost:8080
 
 List all the applications via gRPC:
 ```shell
-grpcurl -plaintext -d '{"enterpriseId": "acme"}' localhost:50060 roc.RocApi/GetApplications
+grpcurl -plaintext -d '{"enterpriseId": "acme"}' localhost:50060 roc.ApplicationApi/GetApplications
 # {
 #   "applications": [
 #     {

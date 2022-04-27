@@ -6,7 +6,7 @@ import (
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	v1 "github.com/onosproject/roc-api/api/v1"
-	"github.com/onosproject/roc-api/pkg/southbound/utils"
+	"github.com/onosproject/roc-api/pkg/southbound/endpoints"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"reflect"
@@ -31,27 +31,21 @@ func (a ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applicati
 	if reflect.ValueOf(response).Kind() == reflect.Ptr && reflect.ValueOf(response).IsNil() {
 		return nil, status.Error(codes.NotFound, "applications-not-found")
 	}
+
+	return FromGnmi(response)
+}
+
+func FromGnmi(gnmiApps *types.ApplicationList) (*v1.Applications, error) {
 	apps := v1.Applications{
 		Applications: []*v1.Application{},
 	}
 
-	for _, a := range *response {
+	for _, a := range *gnmiApps {
 
-		eps := []*v1.Endpoint{}
+		eps, err := endpoints.FromGnmi(a.Endpoint)
 
-		for _, ep := range *a.Endpoint {
-			eps = append(eps, &v1.Endpoint{
-				ID:          string(ep.EndpointId),
-				Description: utils.PointerToString(ep.Description),
-				DisplayName: utils.PointerToString(ep.DisplayName),
-				Mbr: &v1.MBR{
-					Uplink:   utils.PointerToInt64(ep.Mbr.Uplink),
-					Downlink: utils.PointerToInt64(ep.Mbr.Downlink),
-				},
-				PortStart: int32(*ep.PortStart),
-				PortEnd:   int32(*ep.PortEnd),
-				Protocol:  *ep.Protocol,
-			})
+		if err != nil {
+			return nil, err
 		}
 
 		apps.Applications = append(apps.Applications, &v1.Application{

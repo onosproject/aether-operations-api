@@ -14,160 +14,208 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// RocApiClient is the client API for RocApi service.
+// EnterpriseApiClient is the client API for EnterpriseApi service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RocApiClient interface {
+type EnterpriseApiClient interface {
 	GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error)
-	// Get Applications for a single Enterprise
-	GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error)
-	CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
 }
 
-type rocApiClient struct {
+type enterpriseApiClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewRocApiClient(cc grpc.ClientConnInterface) RocApiClient {
-	return &rocApiClient{cc}
+func NewEnterpriseApiClient(cc grpc.ClientConnInterface) EnterpriseApiClient {
+	return &enterpriseApiClient{cc}
 }
 
-func (c *rocApiClient) GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error) {
+func (c *enterpriseApiClient) GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error) {
 	out := new(Enterprise)
-	err := c.cc.Invoke(ctx, "/roc.RocApi/GetEnterprises", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/roc.EnterpriseApi/GetEnterprises", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rocApiClient) GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error) {
-	out := new(Applications)
-	err := c.cc.Invoke(ctx, "/roc.RocApi/GetApplications", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *rocApiClient) CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
-	out := new(Application)
-	err := c.cc.Invoke(ctx, "/roc.RocApi/CreateApplication", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// RocApiServer is the server API for RocApi service.
-// All implementations must embed UnimplementedRocApiServer
+// EnterpriseApiServer is the server API for EnterpriseApi service.
+// All implementations must embed UnimplementedEnterpriseApiServer
 // for forward compatibility
-type RocApiServer interface {
+type EnterpriseApiServer interface {
 	GetEnterprises(context.Context, *Empty) (*Enterprise, error)
-	// Get Applications for a single Enterprise
-	GetApplications(context.Context, *EnterpriseId) (*Applications, error)
-	CreateApplication(context.Context, *Application) (*Application, error)
-	mustEmbedUnimplementedRocApiServer()
+	mustEmbedUnimplementedEnterpriseApiServer()
 }
 
-// UnimplementedRocApiServer must be embedded to have forward compatible implementations.
-type UnimplementedRocApiServer struct {
+// UnimplementedEnterpriseApiServer must be embedded to have forward compatible implementations.
+type UnimplementedEnterpriseApiServer struct {
 }
 
-func (UnimplementedRocApiServer) GetEnterprises(context.Context, *Empty) (*Enterprise, error) {
+func (UnimplementedEnterpriseApiServer) GetEnterprises(context.Context, *Empty) (*Enterprise, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEnterprises not implemented")
 }
-func (UnimplementedRocApiServer) GetApplications(context.Context, *EnterpriseId) (*Applications, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetApplications not implemented")
-}
-func (UnimplementedRocApiServer) CreateApplication(context.Context, *Application) (*Application, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateApplication not implemented")
-}
-func (UnimplementedRocApiServer) mustEmbedUnimplementedRocApiServer() {}
+func (UnimplementedEnterpriseApiServer) mustEmbedUnimplementedEnterpriseApiServer() {}
 
-// UnsafeRocApiServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RocApiServer will
+// UnsafeEnterpriseApiServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EnterpriseApiServer will
 // result in compilation errors.
-type UnsafeRocApiServer interface {
-	mustEmbedUnimplementedRocApiServer()
+type UnsafeEnterpriseApiServer interface {
+	mustEmbedUnimplementedEnterpriseApiServer()
 }
 
-func RegisterRocApiServer(s grpc.ServiceRegistrar, srv RocApiServer) {
-	s.RegisterService(&RocApi_ServiceDesc, srv)
+func RegisterEnterpriseApiServer(s grpc.ServiceRegistrar, srv EnterpriseApiServer) {
+	s.RegisterService(&EnterpriseApi_ServiceDesc, srv)
 }
 
-func _RocApi_GetEnterprises_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _EnterpriseApi_GetEnterprises_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RocApiServer).GetEnterprises(ctx, in)
+		return srv.(EnterpriseApiServer).GetEnterprises(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/roc.RocApi/GetEnterprises",
+		FullMethod: "/roc.EnterpriseApi/GetEnterprises",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RocApiServer).GetEnterprises(ctx, req.(*Empty))
+		return srv.(EnterpriseApiServer).GetEnterprises(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RocApi_GetApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+// EnterpriseApi_ServiceDesc is the grpc.ServiceDesc for EnterpriseApi service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EnterpriseApi_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "roc.EnterpriseApi",
+	HandlerType: (*EnterpriseApiServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetEnterprises",
+			Handler:    _EnterpriseApi_GetEnterprises_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "api/v1/roc.proto",
+}
+
+// ApplicationApiClient is the client API for ApplicationApi service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ApplicationApiClient interface {
+	GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error)
+	CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
+}
+
+type applicationApiClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewApplicationApiClient(cc grpc.ClientConnInterface) ApplicationApiClient {
+	return &applicationApiClient{cc}
+}
+
+func (c *applicationApiClient) GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error) {
+	out := new(Applications)
+	err := c.cc.Invoke(ctx, "/roc.ApplicationApi/GetApplications", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *applicationApiClient) CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
+	out := new(Application)
+	err := c.cc.Invoke(ctx, "/roc.ApplicationApi/CreateApplication", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ApplicationApiServer is the server API for ApplicationApi service.
+// All implementations must embed UnimplementedApplicationApiServer
+// for forward compatibility
+type ApplicationApiServer interface {
+	GetApplications(context.Context, *EnterpriseId) (*Applications, error)
+	CreateApplication(context.Context, *Application) (*Application, error)
+	mustEmbedUnimplementedApplicationApiServer()
+}
+
+// UnimplementedApplicationApiServer must be embedded to have forward compatible implementations.
+type UnimplementedApplicationApiServer struct {
+}
+
+func (UnimplementedApplicationApiServer) GetApplications(context.Context, *EnterpriseId) (*Applications, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetApplications not implemented")
+}
+func (UnimplementedApplicationApiServer) CreateApplication(context.Context, *Application) (*Application, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateApplication not implemented")
+}
+func (UnimplementedApplicationApiServer) mustEmbedUnimplementedApplicationApiServer() {}
+
+// UnsafeApplicationApiServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ApplicationApiServer will
+// result in compilation errors.
+type UnsafeApplicationApiServer interface {
+	mustEmbedUnimplementedApplicationApiServer()
+}
+
+func RegisterApplicationApiServer(s grpc.ServiceRegistrar, srv ApplicationApiServer) {
+	s.RegisterService(&ApplicationApi_ServiceDesc, srv)
+}
+
+func _ApplicationApi_GetApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EnterpriseId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RocApiServer).GetApplications(ctx, in)
+		return srv.(ApplicationApiServer).GetApplications(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/roc.RocApi/GetApplications",
+		FullMethod: "/roc.ApplicationApi/GetApplications",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RocApiServer).GetApplications(ctx, req.(*EnterpriseId))
+		return srv.(ApplicationApiServer).GetApplications(ctx, req.(*EnterpriseId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RocApi_CreateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ApplicationApi_CreateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Application)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RocApiServer).CreateApplication(ctx, in)
+		return srv.(ApplicationApiServer).CreateApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/roc.RocApi/CreateApplication",
+		FullMethod: "/roc.ApplicationApi/CreateApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RocApiServer).CreateApplication(ctx, req.(*Application))
+		return srv.(ApplicationApiServer).CreateApplication(ctx, req.(*Application))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RocApi_ServiceDesc is the grpc.ServiceDesc for RocApi service.
+// ApplicationApi_ServiceDesc is the grpc.ServiceDesc for ApplicationApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var RocApi_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "roc.RocApi",
-	HandlerType: (*RocApiServer)(nil),
+var ApplicationApi_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "roc.ApplicationApi",
+	HandlerType: (*ApplicationApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetEnterprises",
-			Handler:    _RocApi_GetEnterprises_Handler,
-		},
-		{
 			MethodName: "GetApplications",
-			Handler:    _RocApi_GetApplications_Handler,
+			Handler:    _ApplicationApi_GetApplications_Handler,
 		},
 		{
 			MethodName: "CreateApplication",
-			Handler:    _RocApi_CreateApplication_Handler,
+			Handler:    _ApplicationApi_CreateApplication_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
