@@ -9,6 +9,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/application"
+	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc"
 	"net/http"
 	"sync"
 )
@@ -16,20 +18,28 @@ import (
 var log = logging.GetLogger("GqlServer")
 
 type RocApiGqlServer struct {
-	doneCh      chan bool
-	wg          *sync.WaitGroup
-	address     string
-	grpcAddress string
+	doneCh     chan bool
+	wg         *sync.WaitGroup
+	address    string
+	grpcServer *grpc.RocApiGrpcServer
 }
 
 func (s RocApiGqlServer) StartGqlServer() {
 
+	appResolver := NewApplicationResolver(s.grpcServer.ApplicationService)
 	appSrv := handler.NewDefaultServer(application.NewExecutableSchema(application.Config{
-		Resolvers: applicationRoot{},
+		Resolvers: appResolver,
 	}))
 
-	http.Handle("/", playground.Handler("ROC API", "/query"))
-	http.Handle("/query", appSrv)
+	entResolver := NewEnterpriseResolver(s.grpcServer.EnterpriseService)
+	entSrv := handler.NewDefaultServer(enterprise.NewExecutableSchema(enterprise.Config{
+		Resolvers: entResolver,
+	}))
+
+	http.Handle("/enterprise-playground", playground.Handler("ROC API", "/enterprise-query"))
+	http.Handle("/enterprise-query", entSrv)
+	http.Handle("/application-playground", playground.Handler("ROC API", "/application-query"))
+	http.Handle("/application-query", appSrv)
 
 	go func() {
 		log.Infof("GraphQL API server listening on %s", s.address)
@@ -48,12 +58,12 @@ func (s RocApiGqlServer) StartGqlServer() {
 	s.wg.Done()
 }
 
-func NewGqlServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string) (*RocApiGqlServer, error) {
+func NewGqlServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcServer *grpc.RocApiGrpcServer) (*RocApiGqlServer, error) {
 	srv := RocApiGqlServer{
-		doneCh:      doneCh,
-		wg:          wg,
-		address:     address,
-		grpcAddress: grpcAddress,
+		doneCh:     doneCh,
+		wg:         wg,
+		address:    address,
+		grpcServer: grpcServer,
 	}
 
 	return &srv, nil

@@ -12,24 +12,26 @@ echo "Testing REST server"
 
 curl -X 'GET' \
   'http://localhost:8080/api/v1/enterpise/acme/applications' \
-  -H 'accept: application/json'
+  -H 'accept: application/json' | jq .
 echo " "
 curl -X 'GET' \
   'http://localhost:8080/api/v1/applications?enterpriseId=acme' \
-  -H 'accept: application/json'
+  -H 'accept: application/json' | jq .
 
 echo -e "\n--- done testing REST"
 
 echo "Testing GraphQL server"
 
-curl -X POST "http://localhost:8081/graphql" -d '
-{
-  getApplications(enterpriseId: "acme") {
-    applications {
-      ID,
-      description
-    }
-  }
-}'
+curl 'http://localhost:8081/application-query' \
+    -H 'accept: application/json, multipart/mixed' \
+    -H 'content-type: application/json' \
+    --data-raw '{"query":"query {\n  applicationServiceGetApplications(in: {enterpriseId: \"acme\"} ) {\n    applications {\n      iD\n      endpoint {\n        iD\n       displayName\n}\n    }\n  }\n}"}' \
+    | jq .
 
-echo "--- done testing GraphQL"
+curl 'http://localhost:8081/enterprise-query' \
+  -H 'accept: application/json, multipart/mixed' \
+  -H 'content-type: application/json' \
+  --data-raw '{"query":"query {\n  enterpriseServiceGetEnterprises {\n    enterprises {\n      iD\n    }\n  }\n}","variables":null}' \
+  | jq .
+
+echo -e "\n--- done testing GraphQL"

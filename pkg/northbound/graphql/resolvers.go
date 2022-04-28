@@ -6,7 +6,9 @@ import (
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
 )
 
-type enterpriseRoot struct{}
+type enterpriseRoot struct {
+	grpcServer v1.EnterpriseServiceServer
+}
 
 //func (e enterpriseRoot) Mutation() enterprise.MutationResolver {
 //	return &v1.ApplicationApiResolvers{
@@ -14,23 +16,36 @@ type enterpriseRoot struct{}
 //	}
 //}
 
-func (e enterpriseRoot) Query() enterprise.QueryResolver {
+func (e *enterpriseRoot) Query() enterprise.QueryResolver {
 	return &v1.EnterpriseServiceResolvers{
-		Service: v1.EnterpriseServiceServer(nil),
+		Service: e.grpcServer,
+	}
+}
+
+func NewEnterpriseResolver(grpcServer v1.EnterpriseServiceServer) *enterpriseRoot {
+	return &enterpriseRoot{
+		grpcServer: grpcServer,
 	}
 }
 
 type applicationRoot struct {
+	grpcServer v1.ApplicationServiceServer
 }
 
-func (a applicationRoot) Mutation() application.MutationResolver {
+func (a *applicationRoot) Mutation() application.MutationResolver {
 	return &v1.ApplicationServiceResolvers{
-		Service: v1.ApplicationServiceServer(nil),
+		Service: a.grpcServer,
 	}
 }
 
-func (a applicationRoot) Query() application.QueryResolver {
+func (a *applicationRoot) Query() application.QueryResolver {
 	return &v1.ApplicationServiceResolvers{
-		Service: v1.ApplicationServiceServer(nil),
+		Service: a.grpcServer,
+	}
+}
+
+func NewApplicationResolver(grpcServer v1.ApplicationServiceServer) *applicationRoot {
+	return &applicationRoot{
+		grpcServer: grpcServer,
 	}
 }

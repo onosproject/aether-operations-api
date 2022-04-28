@@ -55,7 +55,7 @@ func main() {
 	go restSrv.StartRestServer()
 
 	wg.Add(1)
-	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcEndpoint)
+	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcSrv)
 	if err != nil {
 		log.Fatal("cannot start graphql server")
 	}

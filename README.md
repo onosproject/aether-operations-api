@@ -27,68 +27,12 @@ make sure you forward:
 - the `onos-topo` gRPC server on port `5151` (`kubectl port-forward svc/onos-topo 5151:5150`)
 
 
-## Commands
+## Usage
 
 The swagger UI for the REST APIs is available at: http://localhost:8080
+The graphQL playground is available at:
+- http://localhost:8081/enterprise-playground
+- http://localhost:8081/application-playground
 
-Discover the gRPC services
-```shell
-grpcurl -plaintext localhost:50060 list
-grpcurl -plaintext localhost:50060 describe roc.ApplicationService
-```
+For more usage examples see `test/smoke.sh` 
 
-List all the applications via gRPC:
-```shell
-grpcurl -plaintext -d '{"enterpriseId": "acme"}' localhost:50060 roc.ApplicationApi/GetApplications
-# {
-#   "applications": [
-#     {
-#       "ID": "acme-dataacquisition",
-#       "description": "Data Acquisition",
-#       "endpoint": [
-#         {
-#           "ID": "da",
-#           "DisplayName": "data acquisition endpoint",
-#           "Mbr": {
-#             "uplink": "2000000",
-#             "downlink": "1000000"
-#           },
-#           "PortStart": 7585,
-#           "PortEnd": 7588,
-#           "Protocol": "TCP"
-#         }
-#       ]
-#     }
-#   ]
-# }
-```
-
-List Applications for a specific Enterprise via REST:
-```shell
-curl -X 'GET' \
-  'http://localhost:8080/api/v1/enterpise/acme/applications' \
-  -H 'accept: application/json'
-# {"applications":[{"ID":"acme-dataacquisition", "description":"Data Acquisition", "endpoint":[{"ID":"da", "Description":"", "DisplayName":"data acquisition endpoint", "Mbr":{"uplink":"2000000", "downlink":"1000000"}, "PortStart":7585, "PortEnd":7588, "Protocol":"TCP"}]}]}     
-```
-or
-```shell
-curl -X 'GET' \
-  'http://localhost:8080/api/v1/applications?enterpriseId=acme' \
-  -H 'accept: application/json'
-# {"applications":[{"ID":"acme-dataacquisition", "description":"Data Acquisition", "endpoint":[{"ID":"da", "Description":"", "DisplayName":"data acquisition endpoint", "Mbr":{"uplink":"2000000", "downlink":"1000000"}, "PortStart":7585, "PortEnd":7588, "Protocol":"TCP"}]}]} 
-```
-
-Via GraphQL
-
-```shell
-curl -g "http://localhost:8081/graphql" -d '
-{
-  getApplications(enterpriseId: "acme") {
-    applications {
-      ID,
-      description
-    }
-  }
-}'
-# {"data":{"getApplications":{"applications":[{"ID":"acme-dataacquisition","description":"Data Acquisition"}]}}}
-```
