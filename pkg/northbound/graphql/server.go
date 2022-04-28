@@ -10,6 +10,8 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/application"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
+	ar "github.com/onosproject/scaling-umbrella/pkg/northbound/graphql/resolvers/application"
+	er "github.com/onosproject/scaling-umbrella/pkg/northbound/graphql/resolvers/enterprise"
 	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc"
 	"net/http"
 	"sync"
@@ -26,12 +28,12 @@ type RocApiGqlServer struct {
 
 func (s RocApiGqlServer) StartGqlServer() {
 
-	appResolver := NewApplicationResolver(s.grpcServer.ApplicationService)
+	appResolver := ar.NewApplicationResolver(s.grpcServer.ApplicationService)
 	appSrv := handler.NewDefaultServer(application.NewExecutableSchema(application.Config{
 		Resolvers: appResolver,
 	}))
 
-	entResolver := NewEnterpriseResolver(s.grpcServer.EnterpriseService)
+	entResolver := er.NewEnterpriseResolver(s.grpcServer.EnterpriseService)
 	entSrv := handler.NewDefaultServer(enterprise.NewExecutableSchema(enterprise.Config{
 		Resolvers: entResolver,
 	}))

@@ -48,21 +48,16 @@ protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway an
 
 graphql:
 	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml
-	cp gqlgen.apps.yaml gqlgen.yaml
+	cp pkg/northbound/graphql/config/gqlgen.apps.yaml gqlgen.yaml
 	go run github.com/99designs/gqlgen --config gqlgen.apps.yaml --verbose generate
-	cp gqlgen.ent.yaml gqlgen.yaml
+	cp pkg/northbound/graphql/config/gqlgen.ent.yaml gqlgen.yaml
 	go run github.com/99designs/gqlgen --config gqlgen.ent.yaml --verbose generate
 	rm gqlgen.yaml
 
-schema-local: # @HELP [Super-Experimental] Generates GraphQL schema using a custom plugin (defined in cmd/protoc-gen-graphql-schema)
-	go install ./cmd/protoc-gen-graphql-schema && protoc -I .\
-		-I api \
-		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
-		--graphql-schema_out=./api/v1 --graphql-schema_opt=paths=source_relative\
-    	$(PROTO_FILES)
-
 .PHONY: build
-build: # @HELP Build the go executable
+build: protos graphql build-go # @HELP Build the protos, graphql gateway and go executable
+
+build-go: # @HELP Build the go executable
 	@go build -mod vendor \
 	  -ldflags "-w -X main.buildTime=$(date +%Y/%m/%d-%H:%M:%S) \
 		-X main.commitHash=$(git log --pretty=format:%H -n 1) \
