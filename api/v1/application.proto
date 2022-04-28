@@ -11,6 +11,8 @@ package application;
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "api/v1/endpoint.proto";
 import "google/api/field_behavior.proto";
+import "pb/graphql.proto";
+import "google/api/annotations.proto";
 
 message Application {
   string ID = 1 [
@@ -23,4 +25,36 @@ message Application {
 
 message Applications {
   repeated Application applications = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of Application objects"}];
+}
+
+message EnterpriseId {
+  string enterpriseId = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "EnterpriseId",
+    description: "Unique identifier for enterprise",
+    format: "string",
+    example: "\"acme\""
+  }];
+}
+
+service ApplicationService {
+  rpc GetApplications(EnterpriseId) returns (application.Applications) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      get: "/api/v1/enterpise/{enterpriseId}/applications",
+      additional_bindings {
+        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
+        // are automatically added to query paramenters
+        get: "/api/v1/applications"
+      }
+    };
+  }
+
+  rpc CreateApplication(application.Application) returns (application.Application) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: MUTATION};
+    option (google.api.http) = {
+      post: "/api/v1/applications"
+      body: "*"
+    };
+  }
 }

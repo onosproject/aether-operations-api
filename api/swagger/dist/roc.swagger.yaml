@@ -10,8 +10,8 @@ info:
     name: Apache-2.0
     url: https://github.com/onosproject/aether-roc-gui/blob/master/LICENSES/Apache-2.0.txt
 tags:
-- name: EnterpriseApi
-- name: ApplicationApi
+- name: ApplicationService
+- name: EnterpriseService
 consumes:
 - application/json
 produces:
@@ -19,7 +19,7 @@ produces:
 paths:
   /api/v1/applications:
     get:
-      operationId: ApplicationApi_GetApplications2
+      operationId: ApplicationService_GetApplications2
       responses:
         "200":
           description: A successful response.
@@ -41,9 +41,9 @@ paths:
         format: string
         pattern: '[a-zA-Z]'
       tags:
-      - ApplicationApi
+      - ApplicationService
     post:
-      operationId: ApplicationApi_CreateApplication
+      operationId: ApplicationService_CreateApplication
       responses:
         "200":
           description: A successful response.
@@ -60,10 +60,10 @@ paths:
         schema:
           $ref: '#/definitions/Application'
       tags:
-      - ApplicationApi
+      - ApplicationService
   /api/v1/enterpise/{enterpriseId}/applications:
     get:
-      operationId: ApplicationApi_GetApplications
+      operationId: ApplicationService_GetApplications
       responses:
         "200":
           description: A successful response.
@@ -80,10 +80,10 @@ paths:
         required: true
         type: string
       tags:
-      - ApplicationApi
+      - ApplicationService
   /api/v1/enterprises:
     get:
-      operationId: EnterpriseApi_GetEnterprises
+      operationId: EnterpriseService_GetEnterprises
       responses:
         "200":
           description: A successful response.
@@ -94,7 +94,7 @@ paths:
           schema:
             $ref: '#/definitions/Status'
       tags:
-      - EnterpriseApi
+      - EnterpriseService
 definitions:
   Any:
     type: object

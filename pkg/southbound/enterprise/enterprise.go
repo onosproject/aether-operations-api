@@ -10,7 +10,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/roc-api/api/v1"
+	v1 "github.com/onosproject/scaling-umbrella/api/v1"
 	"google.golang.org/grpc"
 	"os"
 	"time"

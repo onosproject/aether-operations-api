@@ -1,0 +1,49 @@
+directive @ApplicationService on FIELD_DEFINITION
+type Application {
+	iD: String
+	description: String
+	endpoint: [Endpoint!]
+}
+input ApplicationInput {
+	iD: String
+	description: String
+	endpoint: [EndpointInput!]
+}
+type Applications {
+	applications: [Application!]
+}
+type Endpoint {
+	iD: String
+	description: String
+	displayName: String
+	mbr: MBR
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+input EndpointInput {
+	iD: String
+	description: String
+	displayName: String
+	mbr: MBRInput
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+input EnterpriseIdInput {
+	enterpriseId: String
+}
+type MBR {
+	uplink: Int
+	downlink: Int
+}
+input MBRInput {
+	uplink: Int
+	downlink: Int
+}
+type Mutation {
+	applicationServiceCreateApplication(in: ApplicationInput): Application
+}
+type Query {
+	applicationServiceGetApplications(in: EnterpriseIdInput): Applications
+}

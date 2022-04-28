@@ -7,29 +7,29 @@ package enterprise
 import (
 	"context"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/roc-api/api/v1"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"google.golang.org/grpc"
 )
 
 var log = logging.GetLogger("EnterpriseGrpcServer")
 
-type EnterpriseApiGrpcServer struct {
+type EnterpriseServiceGrpcServer struct {
 	southboundManager *southbound.GnmiManager
 	doneCh            chan bool
-	v1.UnimplementedEnterpriseApiServer
+	v1.UnimplementedEnterpriseServiceServer
 }
 
-func (r *EnterpriseApiGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
-	v1.RegisterEnterpriseApiServer(srv, r)
+func (r *EnterpriseServiceGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
+	v1.RegisterEnterpriseServiceServer(srv, r)
 }
 
-func (r *EnterpriseApiGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprises, error) {
+func (r *EnterpriseServiceGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprises, error) {
 	return r.southboundManager.EnterpriseHandler.ListEnterprises()
 }
 
-func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *EnterpriseApiGrpcServer {
-	srv := EnterpriseApiGrpcServer{
+func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *EnterpriseServiceGrpcServer {
+	srv := EnterpriseServiceGrpcServer{
 		southboundManager: sbManager,
 		doneCh:            doneCh,
 	}

@@ -6,9 +6,10 @@ package grpc
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/roc-api/pkg/northbound/grpc/application"
-	"github.com/onosproject/roc-api/pkg/northbound/grpc/enterprise"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc/application"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc/enterprise"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -22,11 +23,13 @@ type IRocApiGrpcServer interface {
 }
 
 type RocApiGrpcServer struct {
-	southboundManager *southbound.GnmiManager
-	doneCh            chan bool
-	wg                *sync.WaitGroup
-	address           string
-	servers           []IRocApiGrpcServer
+	southboundManager  *southbound.GnmiManager
+	doneCh             chan bool
+	wg                 *sync.WaitGroup
+	address            string
+	Servers            []IRocApiGrpcServer
+	ApplicationService v1.ApplicationServiceServer
+	EnterpriseService  v1.EnterpriseServiceServer
 }
 
 func (s *RocApiGrpcServer) StartGrpcServer() error {
@@ -38,7 +41,7 @@ func (s *RocApiGrpcServer) StartGrpcServer() error {
 		return err
 	}
 
-	for _, s := range s.servers {
+	for _, s := range s.Servers {
 		s.StartGrpcServer(grpcServer)
 	}
 
@@ -70,14 +73,16 @@ func NewGrpcServer(doneCh chan bool, wg *sync.WaitGroup, address string, sbManag
 		doneCh:            doneCh,
 		wg:                wg,
 		address:           address,
-		servers:           []IRocApiGrpcServer{},
+		Servers:           []IRocApiGrpcServer{},
 	}
 
 	appServer := application.NewGrpcServer(doneCh, sbManager)
-	srv.servers = append(srv.servers, appServer)
+	srv.ApplicationService = appServer
+	srv.Servers = append(srv.Servers, appServer)
 
 	enterpriseServer := enterprise.NewGrpcServer(doneCh, sbManager)
-	srv.servers = append(srv.servers, enterpriseServer)
+	srv.EnterpriseService = enterpriseServer
+	srv.Servers = append(srv.Servers, enterpriseServer)
 
 	return &srv
 }

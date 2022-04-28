@@ -1,0 +1,13 @@
+schema:
+  - api/v1/application.graphql
+
+exec:
+  filename: api/v1/gqlgen/application/generated.go
+  package: application
+
+model:
+  filename: api/v1/gqlgen/application/model.go
+  package: application
+
+autobind:
+  - "github.com/onosproject/scaling-umbrella/api/v1"

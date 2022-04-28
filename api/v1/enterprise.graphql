@@ -1,0 +1,31 @@
+directive @EnterpriseService on FIELD_DEFINITION
+type Application {
+	iD: String
+	description: String
+	endpoint: [Endpoint!]
+}
+type Endpoint {
+	iD: String
+	description: String
+	displayName: String
+	mbr: MBR
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+type Enterprise {
+	iD: String
+	description: String
+	displayName: String
+	applications: [Application!]
+}
+type Enterprises {
+	enterprises: [Enterprise!]
+}
+type MBR {
+	uplink: Int
+	downlink: Int
+}
+type Query {
+	enterpriseServiceGetEnterprises: Enterprises
+}

@@ -7,5 +7,3 @@ release
 *.trace
 sca-report/
 .vscode
-api/v1/*.graphql
-api/v1/*.graphql.go
