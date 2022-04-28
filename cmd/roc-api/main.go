@@ -9,6 +9,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
 	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
+	"github.com/onosproject/scaling-umbrella/internal/servers/rest"
 	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"os"
 	"os/signal"
@@ -57,13 +58,13 @@ func main() {
 	wg.Add(1)
 	grpcSrv := grpc.NewGrpcServer(doneChannel, &wg, cfg.ServersConfig.GrpcAddress, s)
 	go grpcSrv.StartGrpcServer()
-	//
-	//wg.Add(1)
-	//restSrv, err := rest.NewRestServer(doneChannel, &wg, restEndpoint, grpcEndpoint)
-	//if err != nil {
-	//	log.Fatal("cannot start rest server")
-	//}
-	//go restSrv.StartRestServer()
+
+	wg.Add(1)
+	restSrv, err := rest.NewRestServer(doneChannel, &wg, cfg.ServersConfig.RestAddress, cfg.ServersConfig.GrpcAddress)
+	if err != nil {
+		log.Fatal("cannot start rest server")
+	}
+	go restSrv.StartRestServer()
 	//
 	//wg.Add(1)
 	//gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcSrv)
