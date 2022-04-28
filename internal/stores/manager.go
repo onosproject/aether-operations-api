@@ -17,6 +17,8 @@ type Stores struct {
 	Enterprise  *enterprise.EnterpriseHandler
 }
 
+// RegisterStores will create one Store per supported resource
+// and makes them available to the servers
 func RegisterStores(ds *datasources.Datasources) (*Stores, error) {
 	return &Stores{
 		Application: application.NewApplicationHandler(ds.OnosConfig),

@@ -11,8 +11,9 @@ type DataSourcesConfig struct {
 	OnosTopoAddress   string
 }
 type ServersConfig struct {
-	GrpcAddress string
-	RestAddress string
+	GrpcAddress    string
+	RestAddress    string
+	GraphQlAddress string
 }
 
 type Config struct {
@@ -29,8 +30,9 @@ func GetConfig() *Config {
 			OnosTopoAddress:   "0.0.0.0:5151",
 		},
 		ServersConfig: &ServersConfig{
-			GrpcAddress: "0.0.0.0:50060",
-			RestAddress: "0.0.0.0:8080",
+			GrpcAddress:    "0.0.0.0:50060",
+			RestAddress:    "0.0.0.0:8080",
+			GraphQlAddress: "0.0.0.0:8081", // FIXME use the same mux server for REST and GraphQL
 		},
 	}
 }

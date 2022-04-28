@@ -18,11 +18,6 @@ import (
 	"syscall"
 )
 
-const onosConfigAddress = "localhost:5150"
-const grpcEndpoint = "0.0.0.0:50060"
-const restEndpoint = "0.0.0.0:8080"
-const gqlEndpoint = "0.0.0.0:8081" // FIXME use the same mux server for REST and GraphQL
-
 var log = logging.GetLogger("RocApi")
 
 func main() {
@@ -58,19 +53,27 @@ func main() {
 
 	wg.Add(1)
 	grpcSrv := grpc.NewGrpcServer(doneChannel, &wg, cfg.ServersConfig.GrpcAddress, s)
-	go grpcSrv.StartGrpcServer()
+	go func() {
+		if err := grpcSrv.StartGrpcServer(); err != nil {
+			log.Fatalw("cannot-start-grpc-server", "err", err)
+		}
+	}()
 
 	wg.Add(1)
 	restSrv, err := rest.NewRestServer(doneChannel, &wg, cfg.ServersConfig.RestAddress, cfg.ServersConfig.GrpcAddress)
 	if err != nil {
-		log.Fatal("cannot start rest server")
+		log.Fatalw("cannot-create-rest-server", "err", err)
 	}
-	go restSrv.StartRestServer()
-	
+	go func() {
+		if err := restSrv.StartRestServer(); err != nil {
+			log.Fatalw("cannot-start-rest-server", "err", err)
+		}
+	}()
+
 	wg.Add(1)
-	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcSrv)
+	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, cfg.ServersConfig.GraphQlAddress, grpcSrv)
 	if err != nil {
-		log.Fatal("cannot start graphql server")
+		log.Fatal("cannot-start-graphql-server")
 	}
 	go gqlSrv.StartGqlServer()
 

@@ -35,6 +35,7 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 	// - onos.topo.MastershipState={"term":"1","nodeId":"uuid:7ccafdaf-350c-40d6-9335-fd8dfbd6a512"}
 	// - onos.topo.Location={"lat":52.515,"lng":13.3885}
 
+	log.Debug("listing-enterprises")
 	res, err := e.client.List(context.Background(), &topo.ListRequest{
 		Filters: &topo.Filters{
 			KindFilter: &topo.Filter{
@@ -56,7 +57,10 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 	for _, o := range res.Objects {
 
 		asset := &topo.Asset{}
-		o.GetAspect(asset)
+		err := o.GetAspect(asset)
+		if err != nil {
+			return nil, err
+		}
 
 		e := &v1.Enterprise{
 			ID:          string(o.ID),

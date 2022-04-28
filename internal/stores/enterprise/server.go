@@ -17,7 +17,7 @@ type EnterpriseServiceGrpcServer struct {
 	v1.UnimplementedEnterpriseServiceServer
 }
 
-func (r *EnterpriseServiceGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
+func (r *EnterpriseServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegistrar) {
 	v1.RegisterEnterpriseServiceServer(srv, r)
 }
 

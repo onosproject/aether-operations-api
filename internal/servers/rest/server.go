@@ -29,17 +29,21 @@ type RocApiRestServer struct {
 
 // getOpenAPIHandler serves an OpenAPI UI.
 // Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
-func getOpenAPIHandler() http.Handler {
-	mime.AddExtensionType(".svg", "image/svg+xml")
+func getOpenAPIHandler() (http.Handler, error) {
+	err := mime.AddExtensionType(".svg", "image/svg+xml")
+	if err != nil {
+		return nil, err
+	}
+
 	// Use subdirectory in embedded files
 	subFS, err := fs.Sub(swagger.OpenAPI, "dist")
 	if err != nil {
 		panic("couldn't create sub filesystem: " + err.Error())
 	}
-	return http.FileServer(http.FS(subFS))
+	return http.FileServer(http.FS(subFS)), nil
 }
 
-func (s RocApiRestServer) StartRestServer() {
+func (s RocApiRestServer) StartRestServer() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -49,22 +53,26 @@ func (s RocApiRestServer) StartRestServer() {
 	conn, err := grpc.Dial(s.grpcAddress, opts...)
 	if err != nil {
 		log.Errorf("Could not start gRPC client: %v", err)
-		return
+		return err
 	}
 
 	// TODO split the REST Gateway registration in sub-packages, see northbound/grpc for an example
 	if err := gw.RegisterApplicationServiceHandler(ctx, serveMux, conn); err != nil {
 		log.Errorf("Could not register ApplicationService handler: %v", err)
-		return
+		return err
 	}
 
 	if err := gw.RegisterEnterpriseServiceHandler(ctx, serveMux, conn); err != nil {
 		log.Errorf("Could not register EnterpriseService handler: %v", err)
-		return
+		return err
 	}
 	// TODO END
 
-	oa := getOpenAPIHandler()
+	oa, err := getOpenAPIHandler()
+	if err != nil {
+		log.Errorw("cannot-get-oapi-handler", "err", err)
+		return err
+	}
 
 	server := &http.Server{Addr: s.address, Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/api") {
@@ -81,6 +89,8 @@ func (s RocApiRestServer) StartRestServer() {
 			return
 		}
 	}()
+
+	return nil
 
 }
 

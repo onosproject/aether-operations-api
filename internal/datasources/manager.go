@@ -9,23 +9,25 @@ package datasources
 import (
 	"github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/scaling-umbrella/internal/config"
-	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
-	onos_topo "github.com/onosproject/scaling-umbrella/internal/datasources/onos-topo"
+	onosConfig "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
+	onosTopo "github.com/onosproject/scaling-umbrella/internal/datasources/onos-topo"
 )
 
 type Datasources struct {
-	OnosConfig *onos_config.GnmiManager
+	OnosConfig *onosConfig.GnmiManager
 	OnosTopo   topo.TopoClient
 }
 
+// RegisterDatasources will initialize all the required
+// southbound datasources and store them so that they are available to the Stores
 func RegisterDatasources(cfg *config.Config) (*Datasources, error) {
 
-	onosConfigDs, err := onos_config.NewOnosConfigClient(cfg.DataSources.OnosConfigAddress)
+	onosConfigDs, err := onosConfig.NewOnosConfigClient(cfg.DataSources.OnosConfigAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	onosTopoDs, err := onos_topo.NewOnosTopoClient(cfg.DataSources.OnosTopoAddress)
+	onosTopoDs, err := onosTopo.NewOnosTopoClient(cfg.DataSources.OnosTopoAddress)
 	if err != nil {
 		return nil, err
 	}

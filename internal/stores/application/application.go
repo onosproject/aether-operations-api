@@ -26,6 +26,7 @@ type ApplicationHandler struct {
 }
 
 func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
+	log.Debug("listing-application")
 	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
 	defer cancel()
 

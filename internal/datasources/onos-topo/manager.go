@@ -30,6 +30,10 @@ func NewOnosTopoClient(address string) (topo.TopoClient, error) {
 	optsWithRetry = append(opts, optsWithRetry...)
 	conn, err := grpc.Dial(address, optsWithRetry...)
 
+	if err != nil {
+		return nil, err
+	}
+
 	topoClient := topo.NewTopoClient(conn)
 	return topoClient, nil
 }

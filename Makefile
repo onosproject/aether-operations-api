@@ -65,6 +65,10 @@ build-go: # @HELP Build the go executable
 		-X main.version=${VERSION}" \
 	  ./cmd/roc-api
 
+lint:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
+	golangci-lint run
+
 mod-update: # @HELP Download the dependencies to the vendor folder
 	go mod tidy
 	go mod vendor

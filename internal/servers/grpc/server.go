@@ -21,7 +21,7 @@ import (
 var log = logging.GetLogger("RocApiGrpcServer")
 
 type IRocApiGrpcServer interface {
-	StartGrpcServer(srv grpc.ServiceRegistrar)
+	RegisterGrpcServer(srv grpc.ServiceRegistrar)
 }
 
 type RocApiGrpcServices struct {
@@ -47,7 +47,7 @@ func (s *RocApiGrpcServer) StartGrpcServer() error {
 	}
 
 	for _, s := range s.Servers {
-		s.StartGrpcServer(grpcServer)
+		s.RegisterGrpcServer(grpcServer)
 	}
 
 	reflection.Register(grpcServer)
@@ -71,6 +71,8 @@ func (s *RocApiGrpcServer) StartGrpcServer() error {
 	return nil
 }
 
+// NewGrpcServer creates a new gRPC server with handlers for all the services
+// defined in the protos
 func NewGrpcServer(doneCh chan bool, wg *sync.WaitGroup, address string, s *stores.Stores) *RocApiGrpcServer {
 
 	srv := RocApiGrpcServer{

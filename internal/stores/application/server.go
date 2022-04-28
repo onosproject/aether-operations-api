@@ -19,7 +19,7 @@ type ApplicationServiceGrpcServer struct {
 	v1.UnimplementedApplicationServiceServer
 }
 
-func (r *ApplicationServiceGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
+func (r *ApplicationServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegistrar) {
 	v1.RegisterApplicationServiceServer(srv, r)
 }
 
