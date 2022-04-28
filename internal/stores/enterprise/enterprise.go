@@ -1,24 +1,22 @@
-// SPDX-FileCopyrightText: 2022-present Intel Corporation
-//
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: $today.year-present Intel Corporation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 package enterprise
 
 import (
 	"context"
 	"github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-lib-go/pkg/certs"
-	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	v1 "github.com/onosproject/scaling-umbrella/api/v1"
-	"google.golang.org/grpc"
-	"os"
-	"time"
 )
 
-var log = logging.GetLogger("EnterpriseSouthbound")
+var log = logging.GetLogger("Enterprise")
 
 type EnterpriseHandler struct {
+	client topo.TopoClient
 }
 
 func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
@@ -37,22 +35,7 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 	// - onos.topo.MastershipState={"term":"1","nodeId":"uuid:7ccafdaf-350c-40d6-9335-fd8dfbd6a512"}
 	// - onos.topo.Location={"lat":52.515,"lng":13.3885}
 
-	// TODO allow secure connections
-	opts, err := certs.HandleCertPaths("", "", "", true)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(-1)
-	}
-
-	optsWithRetry := []grpc.DialOption{
-		grpc.WithStreamInterceptor(retry.RetryingStreamClientInterceptor(retry.WithInterval(100 * time.Millisecond))),
-	}
-	optsWithRetry = append(opts, optsWithRetry...)
-	conn, err := grpc.Dial("localhost:5151", optsWithRetry...)
-
-	topoClient := topo.NewTopoClient(conn)
-
-	res, err := topoClient.List(context.Background(), &topo.ListRequest{
+	res, err := e.client.List(context.Background(), &topo.ListRequest{
 		Filters: &topo.Filters{
 			KindFilter: &topo.Filter{
 				Filter: &topo.Filter_In{In: &topo.InFilter{Values: []string{"aether"}}},
@@ -85,6 +68,8 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 	return enterprises, nil
 }
 
-func NewEnterpriseHandler() *EnterpriseHandler {
-	return &EnterpriseHandler{}
+func NewEnterpriseHandler(client topo.TopoClient) *EnterpriseHandler {
+	return &EnterpriseHandler{
+		client: client,
+	}
 }

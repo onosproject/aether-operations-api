@@ -1,6 +1,8 @@
-// SPDX-FileCopyrightText: 2022-present Intel Corporation
-//
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: $today.year-present Intel Corporation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 package application
 
@@ -8,17 +10,19 @@ import (
 	"context"
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
-	"github.com/onosproject/aether-roc-api/pkg/southbound"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	v1 "github.com/onosproject/scaling-umbrella/api/v1"
-	"github.com/onosproject/scaling-umbrella/pkg/southbound/endpoints"
+	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
+	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"reflect"
 )
 
+var log = logging.GetLogger("Application")
+
 type ApplicationHandler struct {
-	gnmiClient southbound.GnmiClient
-	aether21   *aether_2_1_0.ServerImpl
+	aether21 *aether_2_1_0.ServerImpl
 }
 
 func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
@@ -60,6 +64,6 @@ func FromGnmi(gnmiApps *types.ApplicationList) (*v1.Applications, error) {
 	return &apps, nil
 }
 
-func NewApplicationHandler(client southbound.GnmiClient, aether21 *aether_2_1_0.ServerImpl) *ApplicationHandler {
-	return &ApplicationHandler{gnmiClient: client, aether21: aether21}
+func NewApplicationHandler(gnmi *onos_config.GnmiManager) *ApplicationHandler {
+	return &ApplicationHandler{aether21: gnmi.Aether21}
 }

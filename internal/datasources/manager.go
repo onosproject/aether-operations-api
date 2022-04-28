@@ -7,7 +7,6 @@
 package datasources
 
 import (
-	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
@@ -15,18 +14,18 @@ import (
 )
 
 type Datasources struct {
-	OnosConfig *southbound.GNMIProvisioner
-	OnosTopo   *topo.TopoClient
+	OnosConfig *onos_config.GnmiManager
+	OnosTopo   topo.TopoClient
 }
 
 func RegisterDatasources(cfg *config.Config) (*Datasources, error) {
 
-	onosConfigDs, err := onos_config.NewOnosConfigClient(cfg.OnosConfigAddress)
+	onosConfigDs, err := onos_config.NewOnosConfigClient(cfg.DataSources.OnosConfigAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	onosTopoDs, err := onos_topo.NewOnosTopoClient(cfg.OnosTopoAddress)
+	onosTopoDs, err := onos_topo.NewOnosTopoClient(cfg.DataSources.OnosTopoAddress)
 	if err != nil {
 		return nil, err
 	}

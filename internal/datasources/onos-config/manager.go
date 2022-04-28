@@ -2,6 +2,7 @@ package onos_config
 
 import (
 	"fmt"
+	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
@@ -12,8 +13,15 @@ import (
 
 var log = logging.GetLogger("OnosConfigDatasource")
 
-func NewOnosConfigClient(address string) (*southbound.GNMIProvisioner, error) {
-	log.Infow("initializing-onos-config-client", "address", address)
+type GnmiManager struct {
+	gnmiClient *southbound.GNMIProvisioner // FIXME why not to use the standard gnmi.GnmiClient?
+	address    string
+
+	Aether21 *aether_2_1_0.ServerImpl
+}
+
+func (m GnmiManager) newGnmiClient() (*southbound.GNMIProvisioner, error) {
+	log.Infow("initializing-onos-config-client", "address", m.address)
 	// TODO handle secure connections
 	opts, err := certs.HandleCertPaths("", "", "", true)
 	if err != nil {
@@ -25,7 +33,7 @@ func NewOnosConfigClient(address string) (*southbound.GNMIProvisioner, error) {
 	}
 	optsWithRetry = append(opts, optsWithRetry...)
 
-	gnmiConn, err := grpc.Dial(address, optsWithRetry...)
+	gnmiConn, err := grpc.Dial(m.address, optsWithRetry...)
 	if err != nil {
 		return nil, fmt.Errorf("cannot-connect-to-gnmi-server: %s", err)
 	}
@@ -37,4 +45,24 @@ func NewOnosConfigClient(address string) (*southbound.GNMIProvisioner, error) {
 	}
 
 	return gnmiClient, nil
+}
+
+func NewOnosConfigClient(address string) (*GnmiManager, error) {
+	manager := GnmiManager{
+		address: address,
+	}
+
+	client, err := manager.newGnmiClient()
+	if err != nil {
+		return nil, err
+	}
+
+	manager.gnmiClient = client
+
+	manager.Aether21 = &aether_2_1_0.ServerImpl{
+		GnmiClient:  client,
+		GnmiTimeout: 10 * time.Second,
+	}
+
+	return &manager, nil
 }

@@ -17,7 +17,7 @@ import (
 
 var log = logging.GetLogger("OnosTopoDatasource")
 
-func NewOnosTopoClient(address string) (*topo.TopoClient, error) {
+func NewOnosTopoClient(address string) (topo.TopoClient, error) {
 	log.Infow("initializing-onos-topo-client", "address", address)
 	opts, err := certs.HandleCertPaths("", "", "", true)
 	if err != nil {
@@ -31,5 +31,5 @@ func NewOnosTopoClient(address string) (*topo.TopoClient, error) {
 	conn, err := grpc.Dial(address, optsWithRetry...)
 
 	topoClient := topo.NewTopoClient(conn)
-	return &topoClient, nil
+	return topoClient, nil
 }

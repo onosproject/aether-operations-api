@@ -6,16 +6,31 @@
 
 package config
 
-type Config struct {
+type DataSourcesConfig struct {
 	OnosConfigAddress string
 	OnosTopoAddress   string
+}
+type ServersConfig struct {
+	GrpcAddress string
+	RestAddress string
+}
+
+type Config struct {
+	DataSources   *DataSourcesConfig
+	ServersConfig *ServersConfig
 }
 
 func GetConfig() *Config {
 	// TODO add CLI Params
 
 	return &Config{
-		OnosConfigAddress: "localhost:5150",
-		OnosTopoAddress:   "localhost:5151",
+		DataSources: &DataSourcesConfig{
+			OnosConfigAddress: "0.0.0.0:5150",
+			OnosTopoAddress:   "0.0.0.0:5151",
+		},
+		ServersConfig: &ServersConfig{
+			GrpcAddress: "0.0.0.0:50060",
+			RestAddress: "0.0.0.0:8080",
+		},
 	}
 }

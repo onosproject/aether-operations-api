@@ -8,6 +8,12 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
+	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
+	"github.com/onosproject/scaling-umbrella/internal/stores"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 )
 
 const onosConfigAddress = "localhost:5150"
@@ -24,31 +30,33 @@ func main() {
 	log.Infow("roc-api started", "cfg", cfg)
 
 	// setup the datasources
-	_, err := datasources.RegisterDatasources(cfg)
+	ds, err := datasources.RegisterDatasources(cfg)
 	if err != nil {
 		log.Fatalw("cannot-setup-datasources", "err", err)
 	}
 
-	// create the southbound manager
-	//gnmiManager, err := southbound.NewGnmiManager(onosConfigAddress)
-	//if err != nil {
-	//	log.Fatalw("cannot-start-gnmi-client", "err", err)
-	//}
-	//
-	//// start the gRPC server
-	//doneChannel := make(chan bool)
-	//wg := sync.WaitGroup{}
-	//
-	//sigs := make(chan os.Signal, 1)
-	//signal.Notify(sigs, syscall.SIGTERM)
-	//go func() {
-	//	<-sigs
-	//	close(doneChannel)
-	//}()
-	//
-	//wg.Add(1)
-	//grpcSrv := grpc.NewGrpcServer(doneChannel, &wg, grpcEndpoint, gnmiManager)
-	//go grpcSrv.StartGrpcServer()
+	// setup the stores
+	s, err := stores.RegisterStores(ds)
+	if err != nil {
+		log.Fatalw("cannot-setup-stores", "err", err)
+	}
+
+	// create a channel to manage the servers lifecycle
+	doneChannel := make(chan bool)
+	// create a Waitgroup to wait for the server to exit before shutting down
+	wg := sync.WaitGroup{}
+
+	// listen on SIGTERM to signal to the servers to shutdown (via doneChannel)
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGTERM)
+	go func() {
+		<-sigs
+		close(doneChannel)
+	}()
+
+	wg.Add(1)
+	grpcSrv := grpc.NewGrpcServer(doneChannel, &wg, cfg.ServersConfig.GrpcAddress, s)
+	go grpcSrv.StartGrpcServer()
 	//
 	//wg.Add(1)
 	//restSrv, err := rest.NewRestServer(doneChannel, &wg, restEndpoint, grpcEndpoint)
@@ -64,5 +72,5 @@ func main() {
 	//}
 	//go gqlSrv.StartGqlServer()
 	//
-	//wg.Wait()
+	wg.Wait()
 }

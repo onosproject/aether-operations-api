@@ -7,7 +7,7 @@ package endpoints
 import (
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	v1 "github.com/onosproject/scaling-umbrella/api/v1"
-	"github.com/onosproject/scaling-umbrella/pkg/southbound/utils"
+	"github.com/onosproject/scaling-umbrella/internal/utils"
 )
 
 func FromGnmi(gnmiEp *types.ApplicationEndpointList) ([]*v1.Endpoint, error) {
