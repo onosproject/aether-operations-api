@@ -1,0 +1,12 @@
+schema:
+  - api/v1/roc.graphql
+
+exec:
+  filename: api/v1/gqlgen/generated.go
+  package: graphql
+
+model:
+  filename: api/v1/gqlgen/constructs/model.go
+
+autobind:
+  - "github.com/onosproject/scaling-umbrella/api/v1"

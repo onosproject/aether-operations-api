@@ -7,8 +7,8 @@ package application
 import (
 	"context"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/roc-api/api/v1"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -33,10 +33,6 @@ func (r *ApplicationApiGrpcServer) GetApplications(ctx context.Context, entId *v
 func (r *ApplicationApiGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
 	return nil, status.Error(codes.Unimplemented, "create-applications-not-implemented")
 }
-
-//func (r *RocApiGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprise, error) {
-//	return nil, status.Error(codes.Unimplemented, "get-enterprises-not-implemented")
-//}
 
 func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *ApplicationApiGrpcServer {
 	srv := ApplicationApiGrpcServer{

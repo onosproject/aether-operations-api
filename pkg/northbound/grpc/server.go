@@ -6,9 +6,9 @@ package grpc
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/roc-api/pkg/northbound/grpc/application"
-	"github.com/onosproject/roc-api/pkg/northbound/grpc/enterprise"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc/application"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc/enterprise"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"

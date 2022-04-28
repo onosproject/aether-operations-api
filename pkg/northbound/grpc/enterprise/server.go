@@ -7,8 +7,8 @@ package enterprise
 import (
 	"context"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/roc-api/api/v1"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"google.golang.org/grpc"
 )
 

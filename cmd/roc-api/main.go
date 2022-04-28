@@ -6,9 +6,9 @@ package main
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/roc-api/pkg/northbound/grpc"
-	"github.com/onosproject/roc-api/pkg/northbound/rest"
-	"github.com/onosproject/roc-api/pkg/southbound"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc"
+	"github.com/onosproject/scaling-umbrella/pkg/northbound/rest"
+	"github.com/onosproject/scaling-umbrella/pkg/southbound"
 	"os"
 	"os/signal"
 	"sync"
