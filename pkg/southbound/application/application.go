@@ -21,7 +21,7 @@ type ApplicationHandler struct {
 	aether21   *aether_2_1_0.ServerImpl
 }
 
-func (a ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
+func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
 	defer cancel()
 

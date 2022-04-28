@@ -88,7 +88,7 @@ paths:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/Enterprise'
+            $ref: '#/definitions/Enterprises'
         default:
           description: An unexpected error response.
           schema:
@@ -160,6 +160,13 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Application'
+  Enterprises:
+    type: object
+    properties:
+      enterprises:
+        type: array
+        items:
+          $ref: '#/definitions/Enterprise'
   MBR:
     type: object
     properties:

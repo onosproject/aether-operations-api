@@ -7,6 +7,7 @@ require (
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/onosproject/aether-roc-api v0.10.7
+	github.com/onosproject/onos-api/go v0.9.8
 	github.com/onosproject/onos-lib-go v0.8.15
 	github.com/ysugimoto/grpc-graphql-gateway v0.22.0
 	golang.org/x/text v0.3.7
@@ -57,7 +58,6 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
 	github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437 // indirect
-	github.com/onosproject/onos-api/go v0.9.8 // indirect
 	github.com/openconfig/gnmi v0.0.0-20220131173555-39aa74195f0d // indirect
 	github.com/openconfig/goyang v0.4.0 // indirect
 	github.com/openconfig/ygot v0.14.0 // indirect

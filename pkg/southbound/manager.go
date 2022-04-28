@@ -11,6 +11,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/roc-api/pkg/southbound/application"
+	"github.com/onosproject/roc-api/pkg/southbound/enterprise"
 	"google.golang.org/grpc"
 	"os"
 	"time"
@@ -25,6 +26,7 @@ type GnmiManager struct {
 	aether21 *aether_2_1_0.ServerImpl
 
 	ApplicationHandler *application.ApplicationHandler
+	EnterpriseHandler  *enterprise.EnterpriseHandler
 }
 
 func (m GnmiManager) NewGnmiClient() (*southbound.GNMIProvisioner, error) {
@@ -74,6 +76,7 @@ func NewGnmiManager(address string) (*GnmiManager, error) {
 	}
 
 	manager.ApplicationHandler = application.NewApplicationHandler(client, manager.aether21)
+	manager.EnterpriseHandler = enterprise.NewEnterpriseHandler()
 	return &manager, nil
 
 }

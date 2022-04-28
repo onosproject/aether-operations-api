@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EnterpriseApiClient interface {
-	GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error)
+	GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprises, error)
 }
 
 type enterpriseApiClient struct {
@@ -29,8 +29,8 @@ func NewEnterpriseApiClient(cc grpc.ClientConnInterface) EnterpriseApiClient {
 	return &enterpriseApiClient{cc}
 }
 
-func (c *enterpriseApiClient) GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprise, error) {
-	out := new(Enterprise)
+func (c *enterpriseApiClient) GetEnterprises(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Enterprises, error) {
+	out := new(Enterprises)
 	err := c.cc.Invoke(ctx, "/roc.EnterpriseApi/GetEnterprises", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (c *enterpriseApiClient) GetEnterprises(ctx context.Context, in *Empty, opt
 // All implementations must embed UnimplementedEnterpriseApiServer
 // for forward compatibility
 type EnterpriseApiServer interface {
-	GetEnterprises(context.Context, *Empty) (*Enterprise, error)
+	GetEnterprises(context.Context, *Empty) (*Enterprises, error)
 	mustEmbedUnimplementedEnterpriseApiServer()
 }
 
@@ -50,7 +50,7 @@ type EnterpriseApiServer interface {
 type UnimplementedEnterpriseApiServer struct {
 }
 
-func (UnimplementedEnterpriseApiServer) GetEnterprises(context.Context, *Empty) (*Enterprise, error) {
+func (UnimplementedEnterpriseApiServer) GetEnterprises(context.Context, *Empty) (*Enterprises, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEnterprises not implemented")
 }
 func (UnimplementedEnterpriseApiServer) mustEmbedUnimplementedEnterpriseApiServer() {}

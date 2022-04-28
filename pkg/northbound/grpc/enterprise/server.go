@@ -10,8 +10,6 @@ import (
 	v1 "github.com/onosproject/roc-api/api/v1"
 	"github.com/onosproject/roc-api/pkg/southbound"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 var log = logging.GetLogger("EnterpriseGrpcServer")
@@ -26,8 +24,8 @@ func (r *EnterpriseApiGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
 	v1.RegisterEnterpriseApiServer(srv, r)
 }
 
-func (r *EnterpriseApiGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprise, error) {
-	return nil, status.Error(codes.Unimplemented, "get-enterprises-not-implemented")
+func (r *EnterpriseApiGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprises, error) {
+	return r.southboundManager.EnterpriseHandler.ListEnterprises()
 }
 
 func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *EnterpriseApiGrpcServer {
