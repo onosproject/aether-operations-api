@@ -8,6 +8,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
+	"github.com/onosproject/scaling-umbrella/internal/servers/graphql"
 	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"github.com/onosproject/scaling-umbrella/internal/servers/rest"
 	"github.com/onosproject/scaling-umbrella/internal/stores"
@@ -65,13 +66,13 @@ func main() {
 		log.Fatal("cannot start rest server")
 	}
 	go restSrv.StartRestServer()
-	//
-	//wg.Add(1)
-	//gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcSrv)
-	//if err != nil {
-	//	log.Fatal("cannot start graphql server")
-	//}
-	//go gqlSrv.StartGqlServer()
-	//
+	
+	wg.Add(1)
+	gqlSrv, err := graphql.NewGqlServer(doneChannel, &wg, gqlEndpoint, grpcSrv)
+	if err != nil {
+		log.Fatal("cannot start graphql server")
+	}
+	go gqlSrv.StartGqlServer()
+
 	wg.Wait()
 }

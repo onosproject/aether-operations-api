@@ -10,9 +10,9 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/application"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	ar "github.com/onosproject/scaling-umbrella/internal/stores/application"
 	er "github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
-	"github.com/onosproject/scaling-umbrella/pkg/northbound/grpc"
 	"net/http"
 	"sync"
 )
@@ -28,12 +28,12 @@ type RocApiGqlServer struct {
 
 func (s RocApiGqlServer) StartGqlServer() {
 
-	appResolver := ar.NewApplicationResolver(s.grpcServer.ApplicationService)
+	appResolver := ar.NewApplicationResolver(s.grpcServer.Services.ApplicationService)
 	appSrv := handler.NewDefaultServer(application.NewExecutableSchema(application.Config{
 		Resolvers: appResolver,
 	}))
 
-	entResolver := er.NewEnterpriseResolver(s.grpcServer.EnterpriseService)
+	entResolver := er.NewEnterpriseResolver(s.grpcServer.Services.EnterpriseService)
 	entSrv := handler.NewDefaultServer(enterprise.NewExecutableSchema(enterprise.Config{
 		Resolvers: entResolver,
 	}))
@@ -46,10 +46,6 @@ func (s RocApiGqlServer) StartGqlServer() {
 	go func() {
 		log.Infof("GraphQL API server listening on %s", s.address)
 		log.Fatal(http.ListenAndServe(":8081", nil))
-		//if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		//	log.Errorf("Could not start GraphQL server: %v", err)
-		//	return
-		//}
 	}()
 
 	x := <-s.doneCh
