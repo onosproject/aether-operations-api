@@ -34,7 +34,7 @@ The swagger UI for the REST APIs is available at: http://localhost:8080
 Discover the gRPC services
 ```shell
 grpcurl -plaintext localhost:50060 list
-grpcurl -plaintext localhost:50060 describe roc.ApplicationApi
+grpcurl -plaintext localhost:50060 describe roc.ApplicationService
 ```
 
 List all the applications via gRPC:
@@ -78,7 +78,7 @@ curl -X 'GET' \
 # {"applications":[{"ID":"acme-dataacquisition", "description":"Data Acquisition", "endpoint":[{"ID":"da", "Description":"", "DisplayName":"data acquisition endpoint", "Mbr":{"uplink":"2000000", "downlink":"1000000"}, "PortStart":7585, "PortEnd":7588, "Protocol":"TCP"}]}]} 
 ```
 
-Via GraphQL (currently disabled)
+Via GraphQL
 
 ```shell
 curl -g "http://localhost:8081/graphql" -d '

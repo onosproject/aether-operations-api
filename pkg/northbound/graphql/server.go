@@ -8,7 +8,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	graphQl "github.com/onosproject/scaling-umbrella/api/v1/gqlgen"
+	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/application"
 	"net/http"
 	"sync"
 )
@@ -24,18 +24,12 @@ type RocApiGqlServer struct {
 
 func (s RocApiGqlServer) StartGqlServer() {
 
-	srv := handler.NewDefaultServer(graphQl.NewExecutableSchema(graphQl.Config{
-		Resolvers: enterpriseRoot{},
+	appSrv := handler.NewDefaultServer(application.NewExecutableSchema(application.Config{
+		Resolvers: applicationRoot{},
 	}))
-	//srv.SetRecoverFunc(func(ctx context.Context, err interface{}) (userMessage error) {
-	//	// send this panic somewhere
-	//	log.Errorf("%s", err)
-	//	debug.PrintStack()
-	//	return errors.New("user message on panic")
-	//})
 
 	http.Handle("/", playground.Handler("ROC API", "/query"))
-	http.Handle("/query", srv)
+	http.Handle("/query", appSrv)
 
 	go func() {
 		log.Infof("GraphQL API server listening on %s", s.address)

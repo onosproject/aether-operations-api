@@ -8,25 +8,7 @@ option go_package = "github.com/opencord/roc-api/api/v1";
 
 package roc;
 
-import "google/api/annotations.proto";
-import "api/v1/enterprise.proto";
-import "api/v1/application.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "pb/graphql.proto";
-
-
-message Empty {
-}
-
-message EnterpriseId {
-  string enterpriseId = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    pattern: "[a-zA-Z]",
-    title: "EnterpriseId",
-    description: "Unique identifier for enterprise",
-    format: "string",
-    example: "\"acme\""
-  }];
-}
 
 // more options references: https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto
 
@@ -47,33 +29,5 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   };
 };
 
-service EnterpriseApi {
-  rpc GetEnterprises(Empty) returns (enterprise.Enterprises) {
-    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
-    option (google.api.http) = {
-      get: "/api/v1/enterprises"
-    };
-  }
-}
 
-service ApplicationApi {
-  rpc GetApplications(EnterpriseId) returns (application.Applications) {
-    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
-    option (google.api.http) = {
-      get: "/api/v1/enterpise/{enterpriseId}/applications",
-      additional_bindings {
-        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
-        // are automatically added to query paramenters
-        get: "/api/v1/applications"
-      }
-    };
-  }
 
-  rpc CreateApplication(application.Application) returns (application.Application) {
-    option (danielvladco.protobuf.graphql.rpc) = {type: MUTATION};
-    option (google.api.http) = {
-      post: "/api/v1/applications"
-      body: "*"
-    };
-  }
-}

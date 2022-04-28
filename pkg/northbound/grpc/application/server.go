@@ -16,26 +16,26 @@ import (
 
 var log = logging.GetLogger("ApplicationGrpcServer")
 
-type ApplicationApiGrpcServer struct {
+type ApplicationServiceGrpcServer struct {
 	southboundManager *southbound.GnmiManager
 	doneCh            chan bool
-	v1.UnimplementedApplicationApiServer
+	v1.UnimplementedApplicationServiceServer
 }
 
-func (r *ApplicationApiGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
-	v1.RegisterApplicationApiServer(srv, r)
+func (r *ApplicationServiceGrpcServer) StartGrpcServer(srv grpc.ServiceRegistrar) {
+	v1.RegisterApplicationServiceServer(srv, r)
 }
 
-func (r *ApplicationApiGrpcServer) GetApplications(ctx context.Context, entId *v1.EnterpriseId) (*v1.Applications, error) {
+func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, entId *v1.EnterpriseId) (*v1.Applications, error) {
 	return r.southboundManager.ApplicationHandler.ListApplications(entId.EnterpriseId)
 }
 
-func (r *ApplicationApiGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
+func (r *ApplicationServiceGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
 	return nil, status.Error(codes.Unimplemented, "create-applications-not-implemented")
 }
 
-func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *ApplicationApiGrpcServer {
-	srv := ApplicationApiGrpcServer{
+func NewGrpcServer(doneCh chan bool, sbManager *southbound.GnmiManager) *ApplicationServiceGrpcServer {
+	srv := ApplicationServiceGrpcServer{
 		southboundManager: sbManager,
 		doneCh:            doneCh,
 	}

@@ -9,6 +9,9 @@ option go_package = "github.com/opencord/roc-api/api/v1";
 package enterprise;
 
 import "api/v1/application.proto";
+import "pb/graphql.proto";
+import "google/api/annotations.proto";
+import public "google/protobuf/empty.proto";
 
 message Enterprise {
   string ID = 1;
@@ -19,4 +22,13 @@ message Enterprise {
 
 message Enterprises {
   repeated Enterprise enterprises = 1;
+}
+
+service EnterpriseService {
+  rpc GetEnterprises(google.protobuf.Empty) returns (enterprise.Enterprises) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      get: "/api/v1/enterprises"
+    };
+  }
 }
