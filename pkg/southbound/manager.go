@@ -57,6 +57,7 @@ func (m GnmiManager) NewGnmiClient() (*southbound.GNMIProvisioner, error) {
 	return gnmiClient, nil
 }
 
+// deprecated
 func NewGnmiManager(address string) (*GnmiManager, error) {
 
 	manager := GnmiManager{

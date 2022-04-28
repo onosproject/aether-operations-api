@@ -54,10 +54,9 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 
 	res, err := topoClient.List(context.Background(), &topo.ListRequest{
 		Filters: &topo.Filters{
-			// TODO how to use operator-created Kinds?
-			//KindFilter:  &topo.Filter{
-			//	Filter: &topo.Filter_In{In: &topo.InFilter{Values: []string{topo.Aether}}},
-			//},
+			KindFilter: &topo.Filter{
+				Filter: &topo.Filter_In{In: &topo.InFilter{Values: []string{"aether"}}},
+			},
 			WithAspects: []string{"onos.topo.Location"},
 			ObjectTypes: []topo.Object_Type{topo.Object_ENTITY},
 		},
