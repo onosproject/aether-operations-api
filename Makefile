@@ -57,7 +57,7 @@ schema-local: # @HELP [Super-Experimental] Generates GraphQL schema using a cust
     	$(PROTO_FILES)
 
 .PHONY: build
-build: protos graphql # @HELP Build the go executable
+build: # @HELP Build the go executable
 	@go build -mod vendor \
 	  -ldflags "-w -X main.buildTime=$(date +%Y/%m/%d-%H:%M:%S) \
 		-X main.commitHash=$(git log --pretty=format:%H -n 1) \

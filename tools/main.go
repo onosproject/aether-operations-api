@@ -9,6 +9,7 @@ package tools
 
 import (
 	_ "github.com/99designs/gqlgen"
+	_ "github.com/99designs/gqlgen/graphql/introspection"
 	_ "github.com/danielvladco/go-proto-gql/protoc-gen-gogql"
 	_ "github.com/danielvladco/go-proto-gql/protoc-gen-gql"
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"

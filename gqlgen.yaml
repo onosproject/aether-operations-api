@@ -6,7 +6,8 @@ exec:
   package: graphql
 
 model:
-  filename: api/v1/gqlgen/constructs/model.go
+  filename: api/v1/gqlgen/model.go
+  package: graphql
 
 autobind:
   - "github.com/onosproject/scaling-umbrella/api/v1"

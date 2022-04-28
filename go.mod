@@ -10,7 +10,7 @@ require (
 	github.com/onosproject/aether-roc-api v0.10.7
 	github.com/onosproject/onos-api/go v0.9.8
 	github.com/onosproject/onos-lib-go v0.8.15
-	github.com/ysugimoto/grpc-graphql-gateway v0.22.0
+	github.com/vektah/gqlparser/v2 v2.4.0
 	golang.org/x/text v0.3.7
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
 	google.golang.org/grpc v1.45.0
@@ -80,7 +80,6 @@ require (
 	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
-	github.com/vektah/gqlparser/v2 v2.4.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.17.0 // indirect

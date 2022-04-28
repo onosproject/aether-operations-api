@@ -13,6 +13,7 @@ github.com/99designs/gqlgen/graphql/handler
 github.com/99designs/gqlgen/graphql/handler/extension
 github.com/99designs/gqlgen/graphql/handler/lru
 github.com/99designs/gqlgen/graphql/handler/transport
+github.com/99designs/gqlgen/graphql/introspection
 github.com/99designs/gqlgen/graphql/playground
 github.com/99designs/gqlgen/internal/code
 github.com/99designs/gqlgen/internal/imports
@@ -353,9 +354,6 @@ github.com/vektah/gqlparser/v2/lexer
 github.com/vektah/gqlparser/v2/parser
 github.com/vektah/gqlparser/v2/validator
 github.com/vektah/gqlparser/v2/validator/rules
-# github.com/ysugimoto/grpc-graphql-gateway v0.22.0
-## explicit; go 1.15
-github.com/ysugimoto/grpc-graphql-gateway/graphql
 # go.uber.org/atomic v1.7.0
 ## explicit; go 1.13
 go.uber.org/atomic
