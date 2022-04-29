@@ -8,6 +8,7 @@ package enterprise
 
 import (
 	"context"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	v1 "github.com/onosproject/scaling-umbrella/api/v1"
 	"google.golang.org/grpc"
 )
@@ -31,4 +32,12 @@ func NewGrpcServer(handler *EnterpriseHandler) *EnterpriseServiceGrpcServer {
 	}
 
 	return &srv
+}
+
+func RegisterGatewayHandler(ctx context.Context, mux *runtime.ServeMux, grpcConn *grpc.ClientConn) error {
+	if err := v1.RegisterEnterpriseServiceHandler(ctx, mux, grpcConn); err != nil {
+		log.Errorf("Could not register EnterpriseService handler: %v", err)
+		return err
+	}
+	return nil
 }

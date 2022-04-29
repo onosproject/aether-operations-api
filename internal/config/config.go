@@ -11,8 +11,9 @@ type DataSourcesConfig struct {
 	OnosTopoAddress   string
 }
 type ServersConfig struct {
-	GrpcAddress    string
-	RestAddress    string
+	GrpcAddress string
+	RestAddress string
+	// deprecated
 	GraphQlAddress string
 }
 

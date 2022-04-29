@@ -6,13 +6,18 @@ package rest
 
 import (
 	"context"
+	"fmt"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
+	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/swagger"
-	gw "github.com/onosproject/scaling-umbrella/api/v1"
+	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
+	"github.com/onosproject/scaling-umbrella/internal/stores/application"
+	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
 	"google.golang.org/grpc"
 	"io/fs"
-	"mime"
 	"net/http"
 	"strings"
 	"sync"
@@ -21,70 +26,78 @@ import (
 var log = logging.GetLogger("RestServer")
 
 type RocApiRestServer struct {
-	doneCh      chan bool
-	wg          *sync.WaitGroup
-	address     string
-	grpcAddress string
+	doneCh     chan bool
+	wg         *sync.WaitGroup
+	address    string
+	grpcConn   *grpc.ClientConn
+	grpcServer *rocGrpcServer.RocApiGrpcServer
+	gin        *gin.Engine
+	mux        *runtime.ServeMux
 }
 
-// getOpenAPIHandler serves an OpenAPI UI.
-// Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
-func getOpenAPIHandler() (http.Handler, error) {
-	err := mime.AddExtensionType(".svg", "image/svg+xml")
+type embedFileSystem struct {
+	http.FileSystem
+}
+
+func (e embedFileSystem) Exists(prefix string, path string) bool {
+	realpath := strings.ReplaceAll(path, prefix, "")
+	if realpath == "" {
+		realpath = "/"
+	}
+	_, err := e.Open(realpath)
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func getStaticOapiFiles() (static.ServeFileSystem, error) {
+	files, err := fs.Sub(swagger.OpenAPI, "dist")
 	if err != nil {
 		return nil, err
 	}
-
-	// Use subdirectory in embedded files
-	subFS, err := fs.Sub(swagger.OpenAPI, "dist")
-	if err != nil {
-		panic("couldn't create sub filesystem: " + err.Error())
-	}
-	return http.FileServer(http.FS(subFS)), nil
+	return embedFileSystem{FileSystem: http.FS(files)}, err
 }
 
-func (s RocApiRestServer) StartRestServer() error {
+func (s RocApiRestServer) RegisterRestGatewayHandlers() error {
+
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	serveMux := runtime.NewServeMux()
-	opts := []grpc.DialOption{grpc.WithInsecure()}
-	conn, err := grpc.Dial(s.grpcAddress, opts...)
-	if err != nil {
-		log.Errorf("Could not start gRPC client: %v", err)
+	if err := application.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
+	if err := enterprise.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
 
-	// TODO split the REST Gateway registration in sub-packages, see northbound/grpc for an example
-	if err := gw.RegisterApplicationServiceHandler(ctx, serveMux, conn); err != nil {
-		log.Errorf("Could not register ApplicationService handler: %v", err)
+	// map the gRPC gateway to GIN
+	// note that /api/v1 must match the endpoint declaration in the protos
+	// if that's not possible we'll have to look into rewriting the paths
+	// within the handler
+	s.gin.Group("/api/v1/*any").Any("", gin.WrapH(s.mux))
+	return nil
+}
+
+func (s RocApiRestServer) RegisterGraphqlHandlers() {
+	// TODO it would be good to collect the registered endpoinds to
+	// dinamically generate a navigation page
+	application.RegisterGraphQlHandler(s.grpcServer.Services.ApplicationService, s.gin)
+	enterprise.RegisterGraphQlHandler(s.grpcServer.Services.EnterpriseService, s.gin)
+}
+
+func (s RocApiRestServer) StartRestServer() error {
+
+	if err := s.RegisterRestGatewayHandlers(); err != nil {
 		return err
 	}
-
-	if err := gw.RegisterEnterpriseServiceHandler(ctx, serveMux, conn); err != nil {
-		log.Errorf("Could not register EnterpriseService handler: %v", err)
-		return err
-	}
-	// TODO END
-
-	oa, err := getOpenAPIHandler()
-	if err != nil {
-		log.Errorw("cannot-get-oapi-handler", "err", err)
-		return err
-	}
-
-	server := &http.Server{Addr: s.address, Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/api") {
-			serveMux.ServeHTTP(w, r)
-			return
-		}
-		oa.ServeHTTP(w, r)
-	})}
+	s.RegisterGraphqlHandlers()
 
 	go func() {
 		log.Infof("REST API server listening on %s", s.address)
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+
+		if err := s.gin.Run(s.address); err != nil {
 			log.Errorf("Could not start API server: %v", err)
 			return
 		}
@@ -94,12 +107,61 @@ func (s RocApiRestServer) StartRestServer() error {
 
 }
 
-func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string) (*RocApiRestServer, error) {
+func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string, grpcServer *rocGrpcServer.RocApiGrpcServer) (*RocApiRestServer, error) {
+
+	// create a Mux server (required by grpc-gateway)
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+
+	// create a gRPC connection to our inter server to proxy requests from the gateway
+	conn, err := grpc.Dial(grpcAddress, opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	// create a Gin Server to handle both the Gateway and GraphQL requests
+	// NOTE consider https://chenyitian.gitbooks.io/gin-web-framework/content/docs/38.html
+	// for graceful shutdowns
+	server := gin.New()
+	server.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "*"},
+		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH"},
+		AllowHeaders:     []string{"content-type"},
+		AllowCredentials: true,
+	}))
+	server.GET("/", func(c *gin.Context) {
+		c.IndentedJSON(http.StatusOK, gin.H{
+			"graphql-playground": "http://localhost:8080/graphiql",
+			"graphql":            "http://localhost:8080/graphql",
+			"v1":                 "http://localhost:8080/api/v1",
+			"openapi-specs":      "http://localhost:8080/docs",
+		})
+	})
+	server.Use(gin.Logger()) // NOTE we might want to replace with a custom logger that uses our format
+
+	//serve the OpenAPI specs
+	oapiFiles, err := getStaticOapiFiles()
+	if err != nil {
+		return nil, fmt.Errorf("cannot-get-oapi-files: %s", err)
+	}
+	server.Use(static.Serve("/docs", oapiFiles))
+	health := server.Group("/health")
+	{
+		health.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "pong",
+			})
+		})
+	}
+
 	srv := RocApiRestServer{
-		doneCh:      doneCh,
-		wg:          wg,
-		address:     address,
-		grpcAddress: grpcAddress,
+		doneCh:     doneCh,
+		wg:         wg,
+		address:    address,
+		grpcConn:   conn,
+		grpcServer: grpcServer,
+		gin:        server,
+		mux:        mux,
 	}
 
 	return &srv, nil

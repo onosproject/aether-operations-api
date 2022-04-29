@@ -8,6 +8,7 @@ package application
 
 import (
 	"context"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	v1 "github.com/onosproject/scaling-umbrella/api/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -37,4 +38,12 @@ func NewGrpcServer(handler *ApplicationHandler) *ApplicationServiceGrpcServer {
 	}
 
 	return &srv
+}
+
+func RegisterGatewayHandler(ctx context.Context, mux *runtime.ServeMux, grpcConn *grpc.ClientConn) error {
+	if err := v1.RegisterApplicationServiceHandler(ctx, mux, grpcConn); err != nil {
+		log.Errorf("Could not register ApplicationService handler: %v", err)
+		return err
+	}
+	return nil
 }
