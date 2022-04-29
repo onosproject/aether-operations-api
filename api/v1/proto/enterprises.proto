@@ -1,0 +1,34 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+option go_package = "github.com/onosproject/roc-api/api/v1/proto";
+
+package enterprise;
+
+import "api/v1/proto/applications.proto";
+import "pb/graphql.proto";
+import "google/api/annotations.proto";
+import public "google/protobuf/empty.proto";
+
+message Enterprise {
+  string ID = 1;
+  string description = 2;
+  string displayName = 3;
+  repeated application.Application applications = 4;
+}
+
+message Enterprises {
+  repeated Enterprise enterprises = 1;
+}
+
+service EnterpriseService {
+  rpc GetEnterprises(google.protobuf.Empty) returns (enterprise.Enterprises) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      get: "/api/v1/enterprises"
+    };
+  }
+}
