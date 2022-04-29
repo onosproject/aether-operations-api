@@ -9,7 +9,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
 	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
-	"github.com/onosproject/scaling-umbrella/internal/servers/rest"
+	"github.com/onosproject/scaling-umbrella/internal/servers/http"
 	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"os"
 	"os/signal"
@@ -59,7 +59,7 @@ func main() {
 	}()
 
 	wg.Add(1)
-	restSrv, err := rest.NewRestServer(doneChannel, &wg, cfg.ServersConfig.RestAddress, cfg.ServersConfig.GrpcAddress, grpcSrv)
+	restSrv, err := http.NewRestServer(doneChannel, &wg, cfg.ServersConfig.RestAddress, cfg.ServersConfig.GrpcAddress, grpcSrv)
 	if err != nil {
 		log.Fatalw("cannot-create-rest-server", "err", err)
 	}
