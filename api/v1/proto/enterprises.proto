@@ -8,7 +8,7 @@ option go_package = "github.com/onosproject/roc-api/api/v1/proto";
 
 package enterprise;
 
-import "api/v1/proto/applications.proto";
+import "applications.proto";
 import "pb/graphql.proto";
 import "google/api/annotations.proto";
 import public "google/protobuf/empty.proto";
