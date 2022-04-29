@@ -9,7 +9,7 @@ option go_package = "github.com/onosproject/roc-api/api/v1/proto";
 package application;
 
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "api/v1/proto/endpoints.proto";
+import "endpoints.proto";
 import "google/api/field_behavior.proto";
 import "pb/graphql.proto";
 import "google/api/annotations.proto";
