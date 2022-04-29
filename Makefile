@@ -48,9 +48,9 @@ protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway an
 
 graphql:
 	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml
-	cp pkg/northbound/graphql/config/gqlgen.apps.yaml gqlgen.yaml
+	cp internal/servers/graphql/config/gqlgen.apps.yaml gqlgen.yaml
 	go run github.com/99designs/gqlgen --config gqlgen.apps.yaml --verbose generate
-	cp pkg/northbound/graphql/config/gqlgen.ent.yaml gqlgen.yaml
+	cp internal/servers/graphql/config/gqlgen.ent.yaml gqlgen.yaml
 	go run github.com/99designs/gqlgen --config gqlgen.ent.yaml --verbose generate
 	rm gqlgen.yaml
 
@@ -64,6 +64,10 @@ build-go: # @HELP Build the go executable
 		-X main.gitStatus=${GIT_STATUS} \
 		-X main.version=${VERSION}" \
 	  ./cmd/roc-api
+
+lint:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
+	golangci-lint run
 
 mod-update: # @HELP Download the dependencies to the vendor folder
 	go mod tidy
