@@ -1,0 +1,5 @@
+version: v1
+directories:
+  - api/v1/proto
+  - vendor/github.com/grpc-ecosystem/grpc-gateway/v2/
+  - vendor/github.com/danielvladco/go-proto-gql/
