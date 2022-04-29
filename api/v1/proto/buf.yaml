@@ -1,8 +1,9 @@
 version: v1
-#name: ""
+name: "buf.build/onosproject/scaling-umbrella"
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/envoyproxy/protoc-gen-validate
+  - buf.build/grpc-ecosystem/grpc-gateway
 #build:
 #  roots:
 #    - .
