@@ -165,10 +165,10 @@ func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAdd
 	}))
 	server.GET("/", func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, gin.H{
-			"graphiql":      "http://localhost:8080/graphiql",
-			"graphql":       "http://localhost:8080/graphql",
-			"v1":            "http://localhost:8080/api/v1",
-			"openapi-specs": "http://localhost:8080/docs",
+			"graphiql":      fmt.Sprintf("http://%s/graphiql", address),
+			"graphql":       fmt.Sprintf("http://%s/graphql", address),
+			"v1":            fmt.Sprintf("http://%s/api/v1", address),
+			"openapi-specs": fmt.Sprintf("http://%s/docs", address),
 		})
 	})
 	server.Use(gin.Logger()) // NOTE we might want to replace with a custom logger that uses our format
