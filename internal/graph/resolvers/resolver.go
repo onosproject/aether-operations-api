@@ -55,15 +55,6 @@ func (r *QueryResolver) Enterprises(ctx context.Context) ([]*model.Enterprise, e
 
 	for _, e := range grpcEnterprises.Enterprises {
 
-		//apps, err := r.Applications(ctx, e.EnterpriseId)
-		//if err != nil {
-		//	fmt.Println(err)
-		//}
-		//sites, _ := r.Sites(ctx, e.EnterpriseId)
-		//if err != nil {
-		//	fmt.Println(err)
-		//}
-
 		enterprise := model.Enterprise{
 			ID:          e.EnterpriseId,
 			Name:        e.Name,
@@ -102,14 +93,38 @@ func (r *QueryResolver) Endpoints(ctx context.Context) ([]*model.Endpoint, error
 func (r *QueryResolver) Sites(ctx context.Context, enterpriseID string) ([]*model.Site, error) {
 	var sites []*model.Site
 
+	// -----
+	var devices []*model.Device
+	// -----
+
 	protoReq := sitesv1.GetSitesRequest{
 		EnterpriseId: enterpriseID,
 	}
 	grpcSites, _ := r.grpcServer.Services.SiteService.GetSites(ctx, &protoReq)
 	for _, a := range grpcSites.Sites {
+
+		// -----
+		devProto := devicesv1.GetDevicesRequest{
+			EnterpriseId: enterpriseID,
+			SiteId:       a.SiteId,
+		}
+		grpcDevices, _ := r.grpcServer.Services.DeviceService.GetDevices(ctx, &devProto)
+		for _, d := range grpcDevices.Devices {
+			d := model.Device{
+				ID:          d.DeviceId,
+				Name:        d.Name,
+				Description: d.Description,
+				SimCard:     nil,
+				IP:          nil,
+			}
+			devices = append(devices, &d)
+		}
+		// ----
+
 		site := model.Site{
-			ID:   a.SiteId,
-			Name: a.Name,
+			ID:      a.SiteId,
+			Name:    a.Name,
+			Devices: devices,
 		}
 		sites = append(sites, &site)
 	}
