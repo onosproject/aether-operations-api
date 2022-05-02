@@ -17,9 +17,17 @@ type ServersConfig struct {
 	HttpAddress string
 }
 
+type BuildConfig struct {
+	BuildTime  string
+	CommitHash string
+	VcsDirty   string
+	Version    string
+}
+
 type Config struct {
 	DataSources   *DataSourcesConfig
 	ServersConfig *ServersConfig
+	BuildConfig   *BuildConfig
 }
 
 func GetConfig() *Config {
@@ -27,6 +35,12 @@ func GetConfig() *Config {
 	config := &Config{
 		DataSources:   &DataSourcesConfig{},
 		ServersConfig: &ServersConfig{},
+		BuildConfig: &BuildConfig{
+			BuildTime:  buildTime,
+			CommitHash: commitHash,
+			VcsDirty:   vcsDirty,
+			Version:    version,
+		},
 	}
 
 	flag.StringVar(&config.DataSources.OnosConfigAddress, onosConfigAddressParam, defaultOnosConfigAddress, "The ONOS Config address")

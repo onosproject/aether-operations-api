@@ -19,3 +19,9 @@ const defaultOnosTopoAddress = "onos-topo:5150"
 // Defaults for exposed (northbound) resources
 const defaultGrpcAddress = "0.0.0.0:50060"
 const defaultHttpAddress = "0.0.0.0:8080"
+
+// Variables that are overridden at build time
+var buildTime string
+var commitHash string
+var vcsDirty string
+var version string

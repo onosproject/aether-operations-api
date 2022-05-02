@@ -1,0 +1,10 @@
+build/*
+deployments/*
+release/*
+tests/*
+tools/*
+LICENSES/*
+roc-api
+Makefile
+README.md
+VERSION
