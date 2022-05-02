@@ -8,10 +8,17 @@ package grpc
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	applicationsv1 "github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
+	devicesv1 "github.com/onosproject/scaling-umbrella/gen/go/devices/v1"
+	enterprisesv1 "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	sitesv1 "github.com/onosproject/scaling-umbrella/gen/go/sites/v1"
+	slicesv1 "github.com/onosproject/scaling-umbrella/gen/go/slices/v1"
 	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
+	"github.com/onosproject/scaling-umbrella/internal/stores/device"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/stores/site"
+	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -25,8 +32,11 @@ type IRocApiGrpcServer interface {
 }
 
 type RocApiGrpcServices struct {
-	ApplicationService v1.ApplicationServiceServer
-	EnterpriseService  v1.EnterpriseServiceServer
+	EnterpriseService  enterprisesv1.EnterpriseServiceServer
+	ApplicationService applicationsv1.ApplicationServiceServer
+	SiteService        sitesv1.SiteServiceServer
+	DeviceService      devicesv1.DeviceServiceServer
+	SliceService       slicesv1.SliceServiceServer
 }
 
 type RocApiGrpcServer struct {
@@ -82,13 +92,25 @@ func NewGrpcServer(doneCh chan bool, wg *sync.WaitGroup, address string, s *stor
 		Services: &RocApiGrpcServices{},
 	}
 
+	enterpriseServer := enterprise.NewGrpcServer(s.Enterprise)
+	srv.Services.EnterpriseService = enterpriseServer
+	srv.Servers = append(srv.Servers, enterpriseServer)
+
 	appServer := application.NewGrpcServer(s.Application)
 	srv.Services.ApplicationService = appServer
 	srv.Servers = append(srv.Servers, appServer)
 
-	enterpriseServer := enterprise.NewGrpcServer(s.Enterprise)
-	srv.Services.EnterpriseService = enterpriseServer
-	srv.Servers = append(srv.Servers, enterpriseServer)
+	siteServer := site.NewGrpcServer(s.Site)
+	srv.Services.SiteService = siteServer
+	srv.Servers = append(srv.Servers, siteServer)
+
+	deviceServer := device.NewGrpcServer(s.Device)
+	srv.Services.DeviceService = deviceServer
+	srv.Servers = append(srv.Servers, deviceServer)
+
+	sliceServer := slice.NewGrpcServer(s.Slice)
+	srv.Services.SliceService = sliceServer
+	srv.Servers = append(srv.Servers, sliceServer)
 
 	return &srv
 }

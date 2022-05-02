@@ -1,0 +1,5 @@
+type Slice {
+    id: ID!
+    name: String!
+    description: String!
+}

@@ -1,0 +1,22 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package smallcells.v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/smallcells/v1";
+
+
+message SmallCell {
+  string smallcell_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message SmallCells {
+  repeated SmallCell small_cells = 1;
+}
+
+

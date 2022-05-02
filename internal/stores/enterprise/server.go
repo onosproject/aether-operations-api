@@ -9,7 +9,7 @@ package enterprise
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
 	"google.golang.org/grpc"
 )
 

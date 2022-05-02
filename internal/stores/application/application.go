@@ -11,7 +11,7 @@ import (
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
 	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
 	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"
 	"google.golang.org/grpc/codes"
@@ -58,9 +58,9 @@ func FromGnmi(gnmiApps *types.ApplicationList) (*v1.Applications, error) {
 		}
 
 		apps.Applications = append(apps.Applications, &v1.Application{
-			ID:          string(a.ApplicationId),
-			Description: *a.Description,
-			Endpoint:    eps})
+			ApplicationId: string(a.ApplicationId),
+			Description:   *a.Description,
+			Endpoints:     eps})
 	}
 	return &apps, nil
 }

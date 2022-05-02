@@ -1,0 +1,21 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package devicegroups.v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/devicegroups/v1";
+
+message DeviceGroup {
+  string devicegroup_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message DeviceGroups {
+  repeated DeviceGroup device_groups = 1;
+}
+
+

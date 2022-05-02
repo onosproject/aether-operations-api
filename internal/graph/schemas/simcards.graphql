@@ -1,0 +1,5 @@
+type SimCard {
+    id: ID!
+    name: String!
+    description: String!
+}

@@ -10,7 +10,7 @@ import (
 	"context"
 	"github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
 )
 
 var log = logging.GetLogger("Enterprise")
@@ -63,8 +63,8 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 		}
 
 		e := &v1.Enterprise{
-			ID:          string(o.ID),
-			DisplayName: asset.Name,
+			EnterpriseId: string(o.ID),
+			Name:         asset.Name,
 		}
 		enterprises.Enterprises = append(enterprises.Enterprises, e)
 	}

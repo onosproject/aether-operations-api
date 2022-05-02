@@ -1,0 +1,162 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "slices/v1/slices.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "SliceService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/enterprises/{enterpriseId}/sites/{siteId}/slices": {
+      "get": {
+        "operationId": "SliceService_GetSlices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetSlicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "Unique identifier for an enterprise",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "Unique identifier for a site",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SliceService"
+        ]
+      }
+    },
+    "/api/v1/slices": {
+      "get": {
+        "operationId": "SliceService_GetSlices2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetSlicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "EnterpriseId. Unique identifier for an enterprise",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "SiteId. Unique identifier for a site",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "SliceService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetSlicesResponse": {
+      "type": "object",
+      "properties": {
+        "slices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Slice"
+          },
+          "description": "A list of Slice objects"
+        }
+      }
+    },
+    "v1Slice": {
+      "type": "object",
+      "properties": {
+        "sliceId": {
+          "type": "string",
+          "description": "Unique identifier for a slice",
+          "title": "The ID field.",
+          "pattern": "[a-zA-Z]",
+          "required": [
+            "slice_id"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sliceId"
+      ]
+    }
+  }
+}
