@@ -10,8 +10,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
-	v1 "github.com/onosproject/scaling-umbrella/api/v1"
 	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
+	//v1 "github.com/onosproject/scaling-umbrella/api/v1"
+	v1 "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
 )
 
 type EnterpriseResolver struct {

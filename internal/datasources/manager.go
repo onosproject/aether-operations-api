@@ -32,9 +32,12 @@ func RegisterDatasources(cfg *config.Config) (*Datasources, error) {
 		return nil, err
 	}
 
+	// TODO: prometheus connection
+
 	return &Datasources{
 		OnosConfig: onosConfigDs,
 		OnosTopo:   onosTopoDs,
+		//Prometheus:   TODO,
 	}, nil
 
 }

@@ -7,15 +7,22 @@ package http
 import (
 	"context"
 	"fmt"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/swagger"
+	generated "github.com/onosproject/scaling-umbrella/gen/graph"
+	"github.com/onosproject/scaling-umbrella/internal/graph/resolvers"
 	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
+	"github.com/onosproject/scaling-umbrella/internal/stores/device"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/stores/site"
+	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
 	"google.golang.org/grpc"
 	"io/fs"
 	"net/http"
@@ -25,7 +32,7 @@ import (
 
 var log = logging.GetLogger("RestServer")
 
-type RocApiRestServer struct {
+type RocHttpServer struct {
 	doneCh     chan bool
 	wg         *sync.WaitGroup
 	address    string
@@ -59,16 +66,25 @@ func getStaticOapiFiles() (static.ServeFileSystem, error) {
 	return embedFileSystem{FileSystem: http.FS(files)}, err
 }
 
-func (s RocApiRestServer) RegisterRestGatewayHandlers() error {
+func (s RocHttpServer) RegisterRestGatewayHandlers() error {
 
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	if err := enterprise.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
 	if err := application.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
-	if err := enterprise.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+	if err := site.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
+	if err := device.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
+	if err := slice.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
 
@@ -80,18 +96,40 @@ func (s RocApiRestServer) RegisterRestGatewayHandlers() error {
 	return nil
 }
 
-func (s RocApiRestServer) RegisterGraphqlHandlers() {
+// Defining the Graphql handler
+func (s RocHttpServer) graphqlHandler() gin.HandlerFunc {
+
+	h := handler.NewDefaultServer(generated.NewExecutableSchema(resolvers.NewResolver(s.grpcServer)))
+
+	return func(c *gin.Context) {
+		h.ServeHTTP(c.Writer, c.Request)
+	}
+}
+
+// Defining the Playground handler
+func (s RocHttpServer) playgroundHandler() gin.HandlerFunc {
+	h := playground.Handler("GraphQL", "/graphql")
+
+	return func(c *gin.Context) {
+		h.ServeHTTP(c.Writer, c.Request)
+	}
+}
+
+func (s RocHttpServer) RegisterGraphqlHandlers() {
+	s.gin.POST("/graphql", s.graphqlHandler())
+	s.gin.GET("/graphiql", s.playgroundHandler())
 	// TODO it would be good to collect the registered endpoinds to
 	// dinamically generate a navigation page
 	application.RegisterGraphQlHandler(s.grpcServer.Services.ApplicationService, s.gin)
 	enterprise.RegisterGraphQlHandler(s.grpcServer.Services.EnterpriseService, s.gin)
 }
 
-func (s RocApiRestServer) StartRestServer() error {
+func (s RocHttpServer) StartHttpServer() error {
 
 	if err := s.RegisterRestGatewayHandlers(); err != nil {
 		return err
 	}
+
 	s.RegisterGraphqlHandlers()
 
 	go func() {
@@ -107,7 +145,7 @@ func (s RocApiRestServer) StartRestServer() error {
 
 }
 
-func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string, grpcServer *rocGrpcServer.RocApiGrpcServer) (*RocApiRestServer, error) {
+func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string, grpcServer *rocGrpcServer.RocApiGrpcServer) (*RocHttpServer, error) {
 
 	// create a Mux server (required by grpc-gateway)
 	mux := runtime.NewServeMux()
@@ -131,10 +169,10 @@ func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAdd
 	}))
 	server.GET("/", func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, gin.H{
-			"graphql-playground": "http://localhost:8080/graphiql",
-			"graphql":            "http://localhost:8080/graphql",
-			"v1":                 "http://localhost:8080/api/v1",
-			"openapi-specs":      "http://localhost:8080/docs",
+			"graphiql":      "http://localhost:8080/graphiql",
+			"graphql":       "http://localhost:8080/graphql",
+			"v1":            "http://localhost:8080/api/v1",
+			"openapi-specs": "http://localhost:8080/docs",
 		})
 	})
 	server.Use(gin.Logger()) // NOTE we might want to replace with a custom logger that uses our format
@@ -154,7 +192,7 @@ func NewRestServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAdd
 		})
 	}
 
-	srv := RocApiRestServer{
+	srv := RocHttpServer{
 		doneCh:     doneCh,
 		wg:         wg,
 		address:    address,

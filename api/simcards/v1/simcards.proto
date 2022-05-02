@@ -1,0 +1,22 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package simcards.v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/simcards/v1";
+
+
+message SimCard {
+  string simcard_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message SimCards {
+  repeated SimCard sim_cards = 1;
+}
+
+

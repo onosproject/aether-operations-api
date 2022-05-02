@@ -59,13 +59,13 @@ func main() {
 	}()
 
 	wg.Add(1)
-	restSrv, err := http.NewRestServer(doneChannel, &wg, cfg.ServersConfig.RestAddress, cfg.ServersConfig.GrpcAddress, grpcSrv)
+	httpSrv, err := http.NewHttpServer(doneChannel, &wg, cfg.ServersConfig.HttpAddress, cfg.ServersConfig.GrpcAddress, grpcSrv)
 	if err != nil {
 		log.Fatalw("cannot-create-rest-server", "err", err)
 	}
 	go func() {
-		if err := restSrv.StartRestServer(); err != nil {
-			log.Fatalw("cannot-start-rest-server", "err", err)
+		if err := httpSrv.StartHttpServer(); err != nil {
+			log.Fatalw("cannot-start-http-server", "err", err)
 		}
 	}()
 

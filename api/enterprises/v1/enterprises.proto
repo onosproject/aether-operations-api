@@ -1,0 +1,36 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package enterprises.v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1";
+
+import "applications/v1/applications.proto";
+import "sites/v1/sites.proto";
+import "pb/graphql.proto";
+import "google/api/annotations.proto";
+import public "google/protobuf/empty.proto";
+
+message Enterprise {
+  string enterprise_id = 1;
+  string name = 2;
+  string description = 3;
+  repeated applications.v1.Application applications = 4;
+  repeated sites.v1.Site sites = 5;
+}
+
+message Enterprises {
+  repeated Enterprise enterprises = 1;
+}
+
+service EnterpriseService {
+  rpc GetEnterprises(google.protobuf.Empty) returns (Enterprises) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      get: "/api/v1/enterprises"
+    };
+  }
+}

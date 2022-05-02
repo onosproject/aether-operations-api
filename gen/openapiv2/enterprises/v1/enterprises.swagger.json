@@ -1,0 +1,268 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "enterprises/v1/enterprises.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "EnterpriseService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/enterprises": {
+      "get": {
+        "operationId": "EnterpriseService_GetEnterprises",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Enterprises"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "EnterpriseService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Application": {
+      "type": "object",
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "description": "Unique identifier for applications",
+          "title": "The ID field.",
+          "pattern": "[a-zA-Z]",
+          "required": [
+            "application_id"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Endpoint"
+          }
+        }
+      },
+      "required": [
+        "applicationId"
+      ]
+    },
+    "v1Device": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string",
+          "description": "Unique identifier for devices",
+          "title": "The ID field.",
+          "pattern": "[a-zA-Z]",
+          "required": [
+            "device_id"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "attached": {
+          "type": "string"
+        },
+        "imei": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "deviceId"
+      ]
+    },
+    "v1Endpoint": {
+      "type": "object",
+      "properties": {
+        "endpointId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "mbr": {
+          "$ref": "#/definitions/v1MBR"
+        },
+        "portStart": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "portEnd": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "protocol": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Enterprise": {
+      "type": "object",
+      "properties": {
+        "enterpriseId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Application"
+          }
+        },
+        "sites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Site"
+          }
+        }
+      }
+    },
+    "v1Enterprises": {
+      "type": "object",
+      "properties": {
+        "enterprises": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Enterprise"
+          }
+        }
+      }
+    },
+    "v1MBR": {
+      "type": "object",
+      "properties": {
+        "uplink": {
+          "type": "string",
+          "format": "int64"
+        },
+        "downlink": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1Site": {
+      "type": "object",
+      "properties": {
+        "siteId": {
+          "type": "string",
+          "description": "Unique identifier for sites",
+          "title": "The ID field.",
+          "pattern": "[a-zA-Z]",
+          "required": [
+            "site_id"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Device"
+          }
+        },
+        "slices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Slice"
+          }
+        }
+      },
+      "required": [
+        "siteId"
+      ]
+    },
+    "v1Slice": {
+      "type": "object",
+      "properties": {
+        "sliceId": {
+          "type": "string",
+          "description": "Unique identifier for a slice",
+          "title": "The ID field.",
+          "pattern": "[a-zA-Z]",
+          "required": [
+            "slice_id"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sliceId"
+      ]
+    }
+  }
+}

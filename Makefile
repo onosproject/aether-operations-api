@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PROTO_FILES := $(sort $(wildcard api/**/*.proto))
+PROTO_FILES := $(sort $(wildcard api/**/*/*.proto))
 
 help: # @HELP Print the command options
 	@echo
@@ -28,23 +28,27 @@ setup_tools: mod-update
         github.com/danielvladco/go-proto-gql/protoc-gen-gogql
 	@echo "Dependencies downloaded OK"
 
+buf: # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
+	buf mod update api
+	buf build
+	buf generate api
+
 protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
 	protoc -I . \
 		-I api \
 		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
 		-I vendor/github.com/danielvladco/go-proto-gql/ \
-		--go_out=. --go_opt=paths=source_relative \
-		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-		--grpc-gateway_out . \
-		--grpc-gateway_opt logtostderr=true \
-		--grpc-gateway_opt paths=source_relative \
-		--openapiv2_out ./api/swagger/dist \
-		--openapiv2_opt logtostderr=true,generate_unbound_methods=true \
-		--openapiv2_opt openapi_naming_strategy=simple \
-		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		--gql_out=paths=source_relative:. \
 		--gogql_out=paths=source_relative:. \
 		$(PROTO_FILES)
+
+# TODO: consider just crafting a single graphql schema and break it down only if needed
+# or figure out way to stitch them together... discuss tradeoffs
+# * doesn't need 1:1 mapping of proto models and maybe the decoupling is good
+# * simpler protos
+# * may allow for more idiomatic implementations
+gql:
+	go run github.com/99designs/gqlgen --verbose generate
 
 graphql:
 	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml

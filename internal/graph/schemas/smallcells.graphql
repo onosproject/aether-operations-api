@@ -1,0 +1,5 @@
+type SmallCell {
+    id: ID!
+    name: String!
+    description: String!
+}
