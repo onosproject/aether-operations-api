@@ -7,10 +7,15 @@
 package config
 
 // Default parameters name
+const logLevelParam = "log-level"
 const onosConfigAddressParam = "onos-config-address"
 const onosTopoAddressParam = "onos-topo-address"
 const grpcServerAddressParam = "grpc-server"
 const httpServerAddressParam = "http-server"
+const corsOriginParam = "cors-origin"
+
+// Default values
+const logLevel = "info"
 
 // Default values for southbound resources
 const defaultOnosConfigAddress = "onos-config:5150"

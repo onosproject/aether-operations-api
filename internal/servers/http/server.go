@@ -16,6 +16,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/swagger"
 	generated "github.com/onosproject/scaling-umbrella/gen/graph"
+	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/graph/resolvers"
 	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
@@ -23,11 +24,13 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
+	"github.com/onosproject/scaling-umbrella/internal/utils"
 	"google.golang.org/grpc"
 	"io/fs"
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 )
 
 var log = logging.GetLogger("RestServer")
@@ -141,14 +144,14 @@ func (s RocHttpServer) StartHttpServer() error {
 
 }
 
-func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAddress string, grpcServer *rocGrpcServer.RocApiGrpcServer) (*RocHttpServer, error) {
+func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, config config.Config, grpcServer *rocGrpcServer.RocApiGrpcServer) (*RocHttpServer, error) {
 
 	// create a Mux server (required by grpc-gateway)
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// create a gRPC connection to our inter server to proxy requests from the gateway
-	conn, err := grpc.Dial(grpcAddress, opts...)
+	conn, err := grpc.Dial(config.ServersConfig.GrpcAddress, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,21 +160,51 @@ func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAdd
 	// NOTE consider https://chenyitian.gitbooks.io/gin-web-framework/content/docs/38.html
 	// for graceful shutdowns
 	server := gin.New()
+
+	corsOrigins := append(config.ServersConfig.Cors, "*")
+
 	server.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "*"},
+		AllowOrigins:     corsOrigins,
 		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH"},
 		AllowHeaders:     []string{"content-type"},
 		AllowCredentials: true,
 	}))
 	server.GET("/", func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, gin.H{
-			"graphiql":      fmt.Sprintf("http://%s/graphiql", address),
-			"graphql":       fmt.Sprintf("http://%s/graphql", address),
-			"v1":            fmt.Sprintf("http://%s/api/v1", address),
-			"openapi-specs": fmt.Sprintf("http://%s/docs", address),
+			"graphiql":      fmt.Sprintf("http://%s/graphiql", config.ServersConfig.HttpAddress),
+			"graphql":       fmt.Sprintf("http://%s/graphql", config.ServersConfig.HttpAddress),
+			"v1":            fmt.Sprintf("http://%s/api/v1", config.ServersConfig.HttpAddress),
+			"openapi-specs": fmt.Sprintf("http://%s/docs", config.ServersConfig.HttpAddress),
 		})
 	})
-	server.Use(gin.Logger()) // NOTE we might want to replace with a custom logger that uses our format
+
+	server.Use(func(c *gin.Context) {
+		// Start timer
+		start := time.Now()
+
+		// Process Request
+		c.Next()
+
+		// Stop timer
+		duration := utils.GetDurationInMillseconds(start)
+
+		fields := []interface{}{
+			"duration", duration,
+			"client_ip", utils.GetClientIP(c),
+			"method", c.Request.Method,
+			"path", c.Request.RequestURI,
+			"status", c.Writer.Status(),
+			"referrer", c.Request.Referer(),
+		}
+
+		if c.Writer.Status() >= 500 {
+			log.Errorw(c.Errors.String(), fields...)
+		} else if c.Writer.Status() >= 400 {
+			log.Warnw("", fields...)
+		} else {
+			log.Debugw("", fields...)
+		}
+	})
 
 	//serve the OpenAPI specs
 	oapiFiles, err := getStaticOapiFiles()
@@ -191,7 +224,7 @@ func NewHttpServer(doneCh chan bool, wg *sync.WaitGroup, address string, grpcAdd
 	srv := RocHttpServer{
 		doneCh:     doneCh,
 		wg:         wg,
-		address:    address,
+		address:    config.ServersConfig.HttpAddress,
 		grpcConn:   conn,
 		grpcServer: grpcServer,
 		gin:        server,

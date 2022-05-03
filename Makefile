@@ -7,7 +7,7 @@ VERSION     ?= $(shell cat ./VERSION)
 PROTO_FILES := $(sort $(wildcard api/**/*.proto))
 
 DOCKER_TAG  			?= ${VERSION}
-DOCKER_REPOSITORY  		?=
+DOCKER_REPOSITORY  		?= onosproject/
 DOCKER_REGISTRY 		?=
 ## Docker labels. Only set ref and commit date if committed
 DOCKER_LABEL_VCS_URL       ?= $(shell git remote get-url $(shell git remote))
@@ -117,10 +117,10 @@ docker-build: # @HELP Build the BBSim docker container (contains BBSimCtl too)
 	  -f build/Dockerfile .
 
 docker-push: # @HELP Push the docker container to a registry
-	docker push ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}bbsim:${DOCKER_TAG}
+	docker push ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
 
 kind-only: # @HELP Load the docker container into a kind cluster (cluster name can be customized with KIND_CLUSTER_NAME)
 	@if [ "`kind get clusters`" = '' ]; then echo "no kind cluster found" && exit 1; fi
-	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}onos-config:${ONOS_CONFIG_VERSION}
+	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
 
-kind: docker-build
+kind: docker-build kind-only

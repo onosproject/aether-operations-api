@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scaling-umbrella.fullname" . }}
+  labels:
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/part-of: "roc"
+    name: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      name: {{ template "scaling-umbrella.fullname" . }}
+      app: aether
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/part-of: "roc"
+        name: {{ template "scaling-umbrella.fullname" . }}
+        app: aether
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.scalingUmbrella.servers.http.port }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.scalingUmbrella.servers.grpc.port }}
+              protocol: TCP
+          command:
+            - "/app/roc-api"
+          args:
+            - "--log-level={{ .Values.scalingUmbrella.logLevel }}"
+            - "--onos-config-address={{ .Values.scalingUmbrella.dataSources.onosConfig }}"
+            - "--onos-topo-address={{ .Values.scalingUmbrella.dataSources.onosTopo }}"
+            - "--grpc-server={{ .Values.scalingUmbrella.servers.grpc.host }}:{{ .Values.scalingUmbrella.servers.grpc.port }}"
+            - "--http-server={{ .Values.scalingUmbrella.servers.http.host }}:{{ .Values.scalingUmbrella.servers.http.port }}"
+            {{- range .Values.scalingUmbrella.servers.http.corsOrigins }}
+            - "--cors-origin={{ . }}"
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health/ping
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health/ping
+              port: http
