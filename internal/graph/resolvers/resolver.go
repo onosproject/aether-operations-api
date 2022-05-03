@@ -12,8 +12,8 @@ import (
 	appsv1 "github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
 	devicesv1 "github.com/onosproject/scaling-umbrella/gen/go/devices/v1"
 	sitesv1 "github.com/onosproject/scaling-umbrella/gen/go/sites/v1"
-	"github.com/onosproject/scaling-umbrella/gen/graph"
-	"github.com/onosproject/scaling-umbrella/gen/graph/model"
+	generated "github.com/onosproject/scaling-umbrella/gen/graph/graphql"
+	"github.com/onosproject/scaling-umbrella/gen/graph/graphql/model"
 	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 )

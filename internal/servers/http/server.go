@@ -15,7 +15,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/api/swagger"
-	generated "github.com/onosproject/scaling-umbrella/gen/graph"
+	generated "github.com/onosproject/scaling-umbrella/gen/graph/graphql"
 	"github.com/onosproject/scaling-umbrella/internal/graph/resolvers"
 	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
