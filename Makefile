@@ -28,19 +28,10 @@ setup_tools: mod-update
         github.com/danielvladco/go-proto-gql/protoc-gen-gogql
 	@echo "Dependencies downloaded OK"
 
-buf: # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
+buf: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
 	buf mod update api
 	buf build
-	buf generate api
-
-protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
-	protoc -I . \
-		-I api \
-		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
-		-I vendor/github.com/danielvladco/go-proto-gql/ \
-		--gql_out=paths=source_relative:. \
-		--gogql_out=paths=source_relative:. \
-		$(PROTO_FILES)
+	buf generate
 
 # TODO: consider just crafting a single graphql schema and break it down only if needed
 # or figure out way to stitch them together... discuss tradeoffs
@@ -48,7 +39,7 @@ protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway an
 # * simpler protos
 # * may allow for more idiomatic implementations
 gql:
-	go run github.com/99designs/gqlgen --verbose generate
+	go run github.com/99designs/gqlgen --verbose generate --config internal/graph/gqlgen.yaml
 
 graphql:
 	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml
@@ -59,7 +50,7 @@ graphql:
 	rm gqlgen.yaml
 
 .PHONY: build
-build: protos graphql build-go # @HELP Build the protos, graphql gateway and go executable
+build: buf gql graphql build-go # @HELP Build the protos, graphql gateway and go executable
 
 build-go: # @HELP Build the go executable
 	@go build -mod vendor \

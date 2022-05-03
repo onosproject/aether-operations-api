@@ -1,0 +1,31 @@
+directive @DeviceService on FIELD_DEFINITION
+type Device {
+	deviceId: String
+	name: String
+	description: String
+	attached: String
+	imei: String
+	ip: String
+	simCard: SimCard
+	deviceGroups: [DeviceGroup!]
+}
+type DeviceGroup {
+	id: String
+	name: String
+	description: String
+}
+input GetDevicesRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetDevicesResponse {
+	devices: [Device!]
+}
+type Query {
+	deviceServiceGetDevices(in: GetDevicesRequestInput): GetDevicesResponse
+}
+type SimCard {
+	id: String
+	name: String
+	description: String
+}

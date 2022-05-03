@@ -10,20 +10,13 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
-	"github.com/onosproject/scaling-umbrella/api/v1/gqlgen/enterprise"
-	//v1 "github.com/onosproject/scaling-umbrella/api/v1"
-	v1 "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	"github.com/onosproject/scaling-umbrella/gen/graph/enterprises/v1"
 )
 
 type EnterpriseResolver struct {
 	grpcServer v1.EnterpriseServiceServer
 }
-
-//func (e EnterpriseResolver) Mutation() enterprise.MutationResolver {
-//	return &v1.ApplicationApiResolvers{
-//		Service: v1.ApplicationApiServer(nil),
-//	}
-//}
 
 //func (e *EnterpriseResolver) Query() enterprise.QueryResolver {
 //	return &v1.EnterpriseServiceResolvers{

@@ -1,14 +1,15 @@
 schema:
-  - api/v1/application.graphql
+#  - api/v1/application.graphql
+  - gen/applications/v1/applications.graphql
 
 exec:
 #  filename: api/v1/gqlgen/application/generated.go
-  filename: gen/graph/application/v1/generated.go
+  filename: gen/graph/applications/v1/generated.go
   package: application
 
 model:
 #  filename: api/v1/gqlgen/application/model.go
-  filename: gen/graph/application/v1/model.go
+  filename: gen/graph/applications/v1/model.go
   package: application
 
 autobind:

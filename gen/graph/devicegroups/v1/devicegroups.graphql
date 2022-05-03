@@ -1,0 +1,16 @@
+directive @DeviceGroupService on FIELD_DEFINITION
+type DeviceGroup {
+	id: String
+	name: String
+	description: String
+}
+input GetDeviceGroupsRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetDeviceGroupsResponse {
+	deviceGroups: [DeviceGroup!]
+}
+type Query {
+	deviceGroupServiceGetDeviceGroups(in: GetDeviceGroupsRequestInput): GetDeviceGroupsResponse
+}

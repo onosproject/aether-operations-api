@@ -1,0 +1,47 @@
+directive @SiteService on FIELD_DEFINITION
+type Device {
+	deviceId: String
+	name: String
+	description: String
+	attached: String
+	imei: String
+	ip: String
+	simCard: SimCard
+	deviceGroups: [DeviceGroup!]
+}
+type DeviceGroup {
+	id: String
+	name: String
+	description: String
+}
+input GetSitesRequestInput {
+	enterpriseId: String
+}
+type GetSitesResponse {
+	sites: [Site!]
+}
+type Query {
+	siteServiceGetSites(in: GetSitesRequestInput): GetSitesResponse
+}
+type SimCard {
+	id: String
+	name: String
+	description: String
+}
+type Site {
+	siteId: String
+	name: String
+	description: String
+	devices: [Device!]
+	"""
+	  repeated smallcells.v1.SmallCell small_cells = 6;
+	  repeated simcards.v1.SimCard sim_cards = 7;
+	
+	"""
+	slices: [Slice!]
+}
+type Slice {
+	sliceId: String
+	name: String
+	description: String
+}

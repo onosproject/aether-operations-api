@@ -1,0 +1,70 @@
+directive @EnterpriseService on FIELD_DEFINITION
+type Application {
+	applicationId: String
+	name: String
+	description: String
+	endpoints: [Endpoint!]
+}
+type Device {
+	deviceId: String
+	name: String
+	description: String
+	attached: String
+	imei: String
+	ip: String
+	simCard: SimCard
+	deviceGroups: [DeviceGroup!]
+}
+type DeviceGroup {
+	id: String
+	name: String
+	description: String
+}
+type Endpoint {
+	endpointId: String
+	name: String
+	description: String
+	mbr: MBR
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+type Enterprise {
+	enterpriseId: String
+	name: String
+	description: String
+	applications: [Application!]
+	sites: [Site!]
+}
+type Enterprises {
+	enterprises: [Enterprise!]
+}
+type MBR {
+	uplink: Int
+	downlink: Int
+}
+type Query {
+	enterpriseServiceGetEnterprises: Enterprises
+}
+type SimCard {
+	id: String
+	name: String
+	description: String
+}
+type Site {
+	siteId: String
+	name: String
+	description: String
+	devices: [Device!]
+	"""
+	  repeated smallcells.v1.SmallCell small_cells = 6;
+	  repeated simcards.v1.SimCard sim_cards = 7;
+	
+	"""
+	slices: [Slice!]
+}
+type Slice {
+	sliceId: String
+	name: String
+	description: String
+}

@@ -31,8 +31,14 @@ plugins:
     opt:
       - paths=source_relative
       - lang=go
-#  - name: go-proto-gql
-#    path: vendor/github.com/danielvladco/go-proto-gql/
-#    out: gen/foo
-#    opt:
-#      - paths=source_relative
+  # generate graphql schemas for apis
+  - name: protoc-gen-gogql
+    path: protoc-gen-gogql
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - name: protoc-gen-gql
+    path: protoc-gen-gql
+    out: gen/graph
+    opt:
+      - paths=source_relative

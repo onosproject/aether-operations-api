@@ -7,6 +7,7 @@ deps:
 #build:
 #  roots:
 #    - .
+#    - vendor/github.com/danielvladco/go-proto-gql/
 #  excludes: []
 lint:
   use:
