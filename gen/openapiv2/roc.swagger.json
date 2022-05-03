@@ -9,6 +9,9 @@
       "name": "ApplicationService"
     },
     {
+      "name": "DeviceGroupService"
+    },
+    {
       "name": "SimCardService"
     },
     {
@@ -90,6 +93,46 @@
         ],
         "tags": [
           "ApplicationService"
+        ]
+      }
+    },
+    "/api/v1/device_groups": {
+      "get": {
+        "operationId": "DeviceGroupService_GetDeviceGroups2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetDeviceGroupsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "EnterpriseId. Unique identifier for an enterprise",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "SiteId. Unique identifier for a site",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "DeviceGroupService"
         ]
       }
     },
@@ -214,6 +257,44 @@
         ],
         "tags": [
           "SiteService"
+        ]
+      }
+    },
+    "/api/v1/enterprises/{enterpriseId}/sites/{siteId}/device_groups": {
+      "get": {
+        "operationId": "DeviceGroupService_GetDeviceGroups",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetDeviceGroupsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "Unique identifier for an enterprise",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "Unique identifier for a site",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DeviceGroupService"
         ]
       }
     },
@@ -524,11 +605,31 @@
         },
         "simCard": {
           "$ref": "#/definitions/SimCard"
+        },
+        "deviceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceGroup"
+          }
         }
       },
       "required": [
         "deviceId"
       ]
+    },
+    "DeviceGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
     },
     "Endpoint": {
       "type": "object",
@@ -592,6 +693,18 @@
           "items": {
             "$ref": "#/definitions/Enterprise"
           }
+        }
+      }
+    },
+    "GetDeviceGroupsResponse": {
+      "type": "object",
+      "properties": {
+        "deviceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceGroup"
+          },
+          "description": "A list of DeviceGroup objects"
         }
       }
     },

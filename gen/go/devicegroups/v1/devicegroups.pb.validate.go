@@ -57,7 +57,7 @@ func (m *DeviceGroup) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for DevicegroupId
+	// no validation rules for Id
 
 	// no validation rules for Name
 
@@ -140,22 +140,22 @@ var _ interface {
 	ErrorName() string
 } = DeviceGroupValidationError{}
 
-// Validate checks the field values on DeviceGroups with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *DeviceGroups) Validate() error {
+// Validate checks the field values on GetDeviceGroupsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetDeviceGroupsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on DeviceGroups with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in DeviceGroupsMultiError, or
-// nil if none found.
-func (m *DeviceGroups) ValidateAll() error {
+// ValidateAll checks the field values on GetDeviceGroupsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetDeviceGroupsResponseMultiError, or nil if none found.
+func (m *GetDeviceGroupsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *DeviceGroups) validate(all bool) error {
+func (m *GetDeviceGroupsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -169,7 +169,7 @@ func (m *DeviceGroups) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, DeviceGroupsValidationError{
+					errors = append(errors, GetDeviceGroupsResponseValidationError{
 						field:  fmt.Sprintf("DeviceGroups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -177,7 +177,7 @@ func (m *DeviceGroups) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, DeviceGroupsValidationError{
+					errors = append(errors, GetDeviceGroupsResponseValidationError{
 						field:  fmt.Sprintf("DeviceGroups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -186,7 +186,7 @@ func (m *DeviceGroups) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return DeviceGroupsValidationError{
+				return GetDeviceGroupsResponseValidationError{
 					field:  fmt.Sprintf("DeviceGroups[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -197,18 +197,19 @@ func (m *DeviceGroups) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return DeviceGroupsMultiError(errors)
+		return GetDeviceGroupsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// DeviceGroupsMultiError is an error wrapping multiple validation errors
-// returned by DeviceGroups.ValidateAll() if the designated constraints aren't met.
-type DeviceGroupsMultiError []error
+// GetDeviceGroupsResponseMultiError is an error wrapping multiple validation
+// errors returned by GetDeviceGroupsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetDeviceGroupsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DeviceGroupsMultiError) Error() string {
+func (m GetDeviceGroupsResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -217,11 +218,11 @@ func (m DeviceGroupsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DeviceGroupsMultiError) AllErrors() []error { return m }
+func (m GetDeviceGroupsResponseMultiError) AllErrors() []error { return m }
 
-// DeviceGroupsValidationError is the validation error returned by
-// DeviceGroups.Validate if the designated constraints aren't met.
-type DeviceGroupsValidationError struct {
+// GetDeviceGroupsResponseValidationError is the validation error returned by
+// GetDeviceGroupsResponse.Validate if the designated constraints aren't met.
+type GetDeviceGroupsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -229,22 +230,24 @@ type DeviceGroupsValidationError struct {
 }
 
 // Field function returns field value.
-func (e DeviceGroupsValidationError) Field() string { return e.field }
+func (e GetDeviceGroupsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DeviceGroupsValidationError) Reason() string { return e.reason }
+func (e GetDeviceGroupsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DeviceGroupsValidationError) Cause() error { return e.cause }
+func (e GetDeviceGroupsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DeviceGroupsValidationError) Key() bool { return e.key }
+func (e GetDeviceGroupsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DeviceGroupsValidationError) ErrorName() string { return "DeviceGroupsValidationError" }
+func (e GetDeviceGroupsResponseValidationError) ErrorName() string {
+	return "GetDeviceGroupsResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e DeviceGroupsValidationError) Error() string {
+func (e GetDeviceGroupsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -256,14 +259,14 @@ func (e DeviceGroupsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDeviceGroups.%s: %s%s",
+		"invalid %sGetDeviceGroupsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DeviceGroupsValidationError{}
+var _ error = GetDeviceGroupsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -271,4 +274,110 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DeviceGroupsValidationError{}
+} = GetDeviceGroupsResponseValidationError{}
+
+// Validate checks the field values on GetDeviceGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetDeviceGroupsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetDeviceGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetDeviceGroupsRequestMultiError, or nil if none found.
+func (m *GetDeviceGroupsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetDeviceGroupsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for EnterpriseId
+
+	// no validation rules for SiteId
+
+	if len(errors) > 0 {
+		return GetDeviceGroupsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetDeviceGroupsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetDeviceGroupsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetDeviceGroupsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetDeviceGroupsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetDeviceGroupsRequestMultiError) AllErrors() []error { return m }
+
+// GetDeviceGroupsRequestValidationError is the validation error returned by
+// GetDeviceGroupsRequest.Validate if the designated constraints aren't met.
+type GetDeviceGroupsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetDeviceGroupsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetDeviceGroupsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetDeviceGroupsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetDeviceGroupsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetDeviceGroupsRequestValidationError) ErrorName() string {
+	return "GetDeviceGroupsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetDeviceGroupsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetDeviceGroupsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetDeviceGroupsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetDeviceGroupsRequestValidationError{}

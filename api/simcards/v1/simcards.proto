@@ -19,10 +19,6 @@ message SimCard {
   string description = 3;
 }
 
-//message SimCards {
-//  repeated SimCard sim_cards = 1;
-//}
-
 message GetSimCardsResponse {
   repeated SimCard sim_cards = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of SimCard objects"}];
 }
