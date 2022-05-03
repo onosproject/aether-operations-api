@@ -10,8 +10,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
-	"github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
-	"github.com/onosproject/scaling-umbrella/gen/graph/applications/v1"
+	v1 "github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
+	application "github.com/onosproject/scaling-umbrella/gen/graph/applications/v1"
 )
 
 type ApplicationResolver struct {
@@ -28,6 +28,14 @@ func (a *ApplicationResolver) Query() application.QueryResolver {
 	return &v1.ApplicationServiceResolvers{
 		Service: a.grpcServer,
 	}
+}
+
+func (a *ApplicationResolver) Application() application.ApplicationResolver {
+	return nil
+}
+
+func (a *ApplicationResolver) ApplicationInput() application.ApplicationInputResolver {
+	return nil
 }
 
 func NewApplicationResolver(grpcServer v1.ApplicationServiceServer) *ApplicationResolver {

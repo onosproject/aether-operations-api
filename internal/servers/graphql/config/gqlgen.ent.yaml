@@ -1,6 +1,5 @@
 schema:
-#  - api/v1/enterprise.graphql
-  - gen/enterprises/v1/enterprises.graphql
+  - gen/graph/enterprises/v1/enterprises.graphql
 
 exec:
   filename: gen/graph/enterprises/v1/generated.go
@@ -11,4 +10,4 @@ model:
   package: enterprise
 
 autobind:
-  - "github.com/onosproject/scaling-umbrella/api/enterprises/v1"
+  - "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"

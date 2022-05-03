@@ -1,16 +1,13 @@
 schema:
-#  - api/v1/application.graphql
-  - gen/applications/v1/applications.graphql
+  - gen/graph/applications/v1/applications.graphql
 
 exec:
-#  filename: api/v1/gqlgen/application/generated.go
   filename: gen/graph/applications/v1/generated.go
   package: application
 
 model:
-#  filename: api/v1/gqlgen/application/model.go
   filename: gen/graph/applications/v1/model.go
   package: application
 
 autobind:
-  - "github.com/onosproject/scaling-umbrella/api/applications/v1"
+  - "github.com/onosproject/scaling-umbrella/gen/go/applications/v1"

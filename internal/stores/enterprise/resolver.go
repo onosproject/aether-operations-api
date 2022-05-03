@@ -10,19 +10,23 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
-	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
-	"github.com/onosproject/scaling-umbrella/gen/graph/enterprises/v1"
+	v1 "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	enterprise "github.com/onosproject/scaling-umbrella/gen/graph/enterprises/v1"
 )
 
 type EnterpriseResolver struct {
 	grpcServer v1.EnterpriseServiceServer
 }
 
-//func (e *EnterpriseResolver) Query() enterprise.QueryResolver {
-//	return &v1.EnterpriseServiceResolvers{
-//		Service: e.grpcServer,
-//	}
-//}
+func (e *EnterpriseResolver) Query() enterprise.QueryResolver {
+	return &v1.EnterpriseServiceResolvers{
+		Service: e.grpcServer,
+	}
+}
+
+func (e *EnterpriseResolver) Enterprise() enterprise.EnterpriseResolver {
+	return nil
+}
 
 func NewEnterpriseResolver(grpcServer v1.EnterpriseServiceServer) *EnterpriseResolver {
 	return &EnterpriseResolver{
