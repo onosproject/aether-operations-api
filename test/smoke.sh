@@ -13,7 +13,7 @@ echo "--- done testing gRPC"
 echo "Testing REST server"
 
 curl --fail -X 'GET' \
-  'http://localhost:8080/api/v1/enterpise/acme/applications' \
+  'http://localhost:8080/api/v1/enterprises/acme/applications' \
   -H 'accept: application/json' | jq .
 echo " "
 curl --fail -X 'GET' \
@@ -61,13 +61,13 @@ curl --fail 'http://localhost:8080/graphql' \
 curl --fail 'http://localhost:8080/application-query' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
-    --data-raw '{"query":"query {\n  applicationServiceGetApplications(in: {enterpriseId: \"acme\"} ) {\n    applications {\n      iD\n      endpoint {\n        iD\n       displayName\n}\n    }\n  }\n}"}' \
+    --data-raw '{"query":"query {\n  applicationServiceGetApplications(in: {enterpriseId: \"acme\"}) {\n    applications{\n      applicationId\n    }\n  }\n}","variables":null}' \
     | jq .
 
 curl --fail 'http://localhost:8080/enterprise-query' \
   -H 'accept: application/json, multipart/mixed' \
   -H 'content-type: application/json' \
-  --data-raw '{"query":"query {\n  enterpriseServiceGetEnterprises {\n    enterprises {\n      iD\n    }\n  }\n}","variables":null}' \
+  --data-raw '{"query":"query {\n  enterpriseServiceGetEnterprises {\n    enterprises {\n      enterpriseId\n    }\n  }\n}","variables":null}' \
   | jq .
 
 echo -e "\n--- done testing GraphQL"

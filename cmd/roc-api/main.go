@@ -5,6 +5,7 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
@@ -13,15 +14,39 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
 )
 
 var log = logging.GetLogger("RocApi")
 
+func stringToLogLevel(l string) logging.Level {
+	switch strings.ToLower(l) {
+	case "debug":
+		return logging.DebugLevel
+	case "info":
+		return logging.InfoLevel
+	case "warn":
+		return logging.WarnLevel
+	case "error":
+		return logging.ErrorLevel
+	default:
+		log.Warnf("Provided log level (%s) is unknown, defaulting to INFO. Valid values are: DEBUG, INFO, WARN, ERROR")
+		return logging.InfoLevel
+	}
+}
+
 func main() {
 
 	cfg := config.GetConfig()
+
+	l := stringToLogLevel(cfg.LogLevel)
+	log.SetLevel(l)
+
+	if l != logging.DebugLevel {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	log.Infow("roc-api started", "cfg", cfg)
 
@@ -59,7 +84,7 @@ func main() {
 	}()
 
 	wg.Add(1)
-	httpSrv, err := http.NewHttpServer(doneChannel, &wg, cfg.ServersConfig.HttpAddress, cfg.ServersConfig.GrpcAddress, grpcSrv)
+	httpSrv, err := http.NewHttpServer(doneChannel, &wg, *cfg, grpcSrv)
 	if err != nil {
 		log.Fatalw("cannot-create-rest-server", "err", err)
 	}

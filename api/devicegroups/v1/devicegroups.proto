@@ -53,5 +53,3 @@ service DeviceGroupService {
     };
   }
 }
-
-

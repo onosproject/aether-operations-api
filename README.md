@@ -19,15 +19,37 @@ starting from Protobuf.
 
 ## Required tools
 
-Requires `protoc` to be installed.
+Requires `protoc` (for now) and `buf` to be installed.
 
-## Setup
+## Local Setup
 
 In order to play around with this code you need to deploy `aether-roc-umbrella` and
 make sure you forward: 
 - the `onos-config` gNMI server on port `5150` (`kubectl port-forward svc/onos-config 5150`)
 - the `onos-topo` gRPC server on port `5151` (`kubectl port-forward svc/onos-topo 5151:5150`)
 
+## Deployment
+
+If you want to deploy `scaling-umbrella` in you cluster you can use the provided helm chart.
+Since the image is not yet available on DockerHub you need to make it available to your cluster.
+
+You can build and load the image to a `Kind` cluster with `make kind`.
+If you are using a different setup you can build the docker image with `make docker-build` and load it in you cluster as appropriate.
+
+```shell
+ helm upgrade --install scaling-umbrella ./deployments/scaling-umbrella 
+```
+
+> NOTE the default `values` for this chart assume that it is deployed in the same `namespace` as `aether-roc-umbrella`
+> 
+> If you deploy in a different namespace you can customize the `onos-config` and `onos-topo` endpoints with:
+> ```shell
+> helm upgrade --install scaling-umbrella ./deployments/scaling-umbrella \
+>   --set scalingUmbrella.dataSources.onosConfig=onos-config.<namespace>.svc:5150 \
+>   --set scalingUmbrella.dataSources.onosTopo=onos-topo.<namespace>.svc:5150
+> ```
+
+_For more information on the supported customization refer to the [values.yaml](deployments/scaling-umbrella/values.yaml) file._
 
 ## Usage
 

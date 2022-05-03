@@ -25,8 +25,8 @@ message Site {
   string description = 3;
   repeated devices.v1.Device devices = 4;
   repeated slices.v1.Slice slices = 5;
-//  repeated smallcells.v1.SmallCell small_cells = 6;
-//  repeated simcards.v1.SimCard sim_cards = 7;
+  //  repeated smallcells.v1.SmallCell small_cells = 6;
+  //  repeated simcards.v1.SimCard sim_cards = 7;
 }
 
 message GetSitesResponse {

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "scaling-umbrella.fullname" . }}
+  labels:
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/part-of: "roc"
+    name: {{ .Chart.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.scalingUmbrella.servers.http.port }}
+      protocol: TCP
+      name: http
+    - port: {{ .Values.scalingUmbrella.servers.grpc.port }}
+      protocol: TCP
+      name: grpc
+  selector:
+    name: {{ template "scaling-umbrella.fullname" . }}
+    app: aether

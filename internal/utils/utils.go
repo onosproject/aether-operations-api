@@ -6,7 +6,9 @@
 
 package utils
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func PointerToString(p *string) string {
 	if reflect.ValueOf(p).IsNil() {

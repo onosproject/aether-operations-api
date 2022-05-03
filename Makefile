@@ -2,7 +2,31 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+SHELL = bash -e -o pipefail
+VERSION     ?= $(shell cat ./VERSION)
 PROTO_FILES := $(sort $(wildcard api/**/*/*.proto))
+
+DOCKER_TAG  			?= ${VERSION}
+DOCKER_REPOSITORY  		?= onosproject/
+DOCKER_REGISTRY 		?=
+## Docker labels. Only set ref and commit date if committed
+DOCKER_LABEL_VCS_URL       ?= $(shell git remote get-url $(shell git remote))
+DOCKER_LABEL_VCS_REF       = $(shell git rev-parse HEAD)
+DOCKER_LABEL_BUILD_DATE    ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
+DOCKER_LABEL_COMMIT_DATE   = $(shell git show -s --format=%cd --date=iso-strict HEAD)
+DOCKER_LABEL_VCS_DIRTY     = false
+ifneq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
+    DOCKER_LABEL_VCS_DIRTY = true
+endif
+DOCKER_BUILD_ARGS ?= \
+	${DOCKER_ARGS} \
+	--build-arg org_label_schema_version="${VERSION}" \
+	--build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \
+	--build-arg org_label_schema_vcs_ref="${DOCKER_LABEL_VCS_REF}" \
+	--build-arg org_label_schema_build_date="${DOCKER_LABEL_BUILD_DATE}" \
+	--build-arg org_opencord_vcs_commit_date="${DOCKER_LABEL_COMMIT_DATE}" \
+	--build-arg org_opencord_vcs_dirty="${DOCKER_LABEL_VCS_DIRTY}"
+KIND_CLUSTER_NAME 		?= kind
 
 help: # @HELP Print the command options
 	@echo
@@ -54,16 +78,31 @@ build: buf gql graphql build-go # @HELP Build the protos, graphql gateway and go
 
 build-go: # @HELP Build the go executable
 	@go build -mod vendor \
-	  -ldflags "-w -X main.buildTime=$(date +%Y/%m/%d-%H:%M:%S) \
-		-X main.commitHash=$(git log --pretty=format:%H -n 1) \
-		-X main.gitStatus=${GIT_STATUS} \
-		-X main.version=${VERSION}" \
+	  -ldflags "-w -X github.com/onosproject/scaling-umbrella/internal/config.buildTime=${DOCKER_LABEL_BUILD_DATE} \
+		-X github.com/onosproject/scaling-umbrella/internal/config.commitHash=${DOCKER_LABEL_VCS_REF} \
+		-X github.com/onosproject/scaling-umbrella/internal/config.vcsDirty=${DOCKER_LABEL_VCS_DIRTY} \
+		-X github.com/onosproject/scaling-umbrella/internal/config.version=${VERSION}" \
 	  ./cmd/roc-api
 
-lint:
+lint-go:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
 	golangci-lint run
 
 mod-update: # @HELP Download the dependencies to the vendor folder
 	go mod tidy
 	go mod vendor
+
+docker-build: # @HELP Build the BBSim docker container (contains BBSimCtl too)
+	docker build \
+	  ${DOCKER_BUILD_ARGS} \
+	  -t ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG} \
+	  -f build/Dockerfile .
+
+docker-push: # @HELP Push the docker container to a registry
+	docker push ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
+
+kind-only: # @HELP Load the docker container into a kind cluster (cluster name can be customized with KIND_CLUSTER_NAME)
+	@if [ "`kind get clusters`" = '' ]; then echo "no kind cluster found" && exit 1; fi
+	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
+
+kind: docker-build kind-only
