@@ -13,7 +13,7 @@ echo "--- done testing gRPC"
 echo "Testing REST server"
 
 curl --fail -X 'GET' \
-  'http://localhost:8080/api/v1/enterpise/acme/applications' \
+  'http://localhost:8080/api/v1/enterpises/acme/applications' \
   -H 'accept: application/json' | jq .
 echo " "
 curl --fail -X 'GET' \
