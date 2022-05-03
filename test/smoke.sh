@@ -29,6 +29,10 @@ curl --fail -X 'GET' \
   -H 'accept: application/json' | jq .
 
 curl --fail -X 'GET' \
+  'http://localhost:8080/api/v1/sim_cards?enterprise_id=acme&site_id=acme-chicago' \
+  -H 'accept: application/json' | jq .
+
+curl --fail -X 'GET' \
   'http://localhost:8080/api/v1/slices?enterprise_id=acme&site_id=acme-chicago' \
   -H 'accept: application/json' | jq .
 

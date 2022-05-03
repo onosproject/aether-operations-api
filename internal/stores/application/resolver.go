@@ -23,17 +23,17 @@ type ApplicationResolver struct {
 	grpcServer v1.ApplicationServiceServer
 }
 
-func (a *ApplicationResolver) Mutation() application.MutationResolver {
-	return &v1.ApplicationServiceResolvers{
-		Service: a.grpcServer,
-	}
-}
-
-func (a *ApplicationResolver) Query() application.QueryResolver {
-	return &v1.ApplicationServiceResolvers{
-		Service: a.grpcServer,
-	}
-}
+//func (a *ApplicationResolver) Mutation() application.MutationResolver {
+//	return &v1.ApplicationServiceResolvers{
+//		Service: a.grpcServer,
+//	}
+//}
+//
+//func (a *ApplicationResolver) Query() application.QueryResolver {
+//	return &v1.ApplicationServiceResolvers{
+//		Service: a.grpcServer,
+//	}
+//}
 
 func NewApplicationResolver(grpcServer v1.ApplicationServiceServer) *ApplicationResolver {
 	return &ApplicationResolver{

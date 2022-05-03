@@ -9,6 +9,9 @@
       "name": "ApplicationService"
     },
     {
+      "name": "SimCardService"
+    },
+    {
       "name": "DeviceService"
     },
     {
@@ -252,6 +255,44 @@
         ]
       }
     },
+    "/api/v1/enterprises/{enterpriseId}/sites/{siteId}/sim_cards": {
+      "get": {
+        "operationId": "SimCardService_GetSimCards",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetSimCardsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "Unique identifier for an enterprise",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "Unique identifier for a site",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SimCardService"
+        ]
+      }
+    },
     "/api/v1/enterprises/{enterpriseId}/sites/{siteId}/slices": {
       "get": {
         "operationId": "SliceService_GetSlices",
@@ -287,6 +328,46 @@
         ],
         "tags": [
           "SliceService"
+        ]
+      }
+    },
+    "/api/v1/sim_cards": {
+      "get": {
+        "operationId": "SimCardService_GetSimCards2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetSimCardsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enterpriseId",
+            "description": "EnterpriseId. Unique identifier for an enterprise",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "siteId",
+            "description": "SiteId. Unique identifier for a site",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "SimCardService"
         ]
       }
     },
@@ -440,6 +521,9 @@
         },
         "ip": {
           "type": "string"
+        },
+        "simCard": {
+          "$ref": "#/definitions/SimCard"
         }
       },
       "required": [
@@ -523,6 +607,18 @@
         }
       }
     },
+    "GetSimCardsResponse": {
+      "type": "object",
+      "properties": {
+        "simCards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimCard"
+          },
+          "description": "A list of SimCard objects"
+        }
+      }
+    },
     "GetSitesResponse": {
       "type": "object",
       "properties": {
@@ -557,6 +653,20 @@
         "downlink": {
           "type": "string",
           "format": "int64"
+        }
+      }
+    },
+    "SimCard": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       }
     },

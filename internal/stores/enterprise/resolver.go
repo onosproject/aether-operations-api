@@ -25,11 +25,11 @@ type EnterpriseResolver struct {
 //	}
 //}
 
-func (e *EnterpriseResolver) Query() enterprise.QueryResolver {
-	return &v1.EnterpriseServiceResolvers{
-		Service: e.grpcServer,
-	}
-}
+//func (e *EnterpriseResolver) Query() enterprise.QueryResolver {
+//	return &v1.EnterpriseServiceResolvers{
+//		Service: e.grpcServer,
+//	}
+//}
 
 func NewEnterpriseResolver(grpcServer v1.EnterpriseServiceServer) *EnterpriseResolver {
 	return &EnterpriseResolver{

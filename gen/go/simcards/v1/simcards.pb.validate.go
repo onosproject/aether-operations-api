@@ -56,7 +56,7 @@ func (m *SimCard) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for SimcardId
+	// no validation rules for Id
 
 	// no validation rules for Name
 
@@ -139,22 +139,22 @@ var _ interface {
 	ErrorName() string
 } = SimCardValidationError{}
 
-// Validate checks the field values on SimCards with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *SimCards) Validate() error {
+// Validate checks the field values on GetSimCardsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetSimCardsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SimCards with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in SimCardsMultiError, or nil
-// if none found.
-func (m *SimCards) ValidateAll() error {
+// ValidateAll checks the field values on GetSimCardsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetSimCardsResponseMultiError, or nil if none found.
+func (m *GetSimCardsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SimCards) validate(all bool) error {
+func (m *GetSimCardsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -168,7 +168,7 @@ func (m *SimCards) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, SimCardsValidationError{
+					errors = append(errors, GetSimCardsResponseValidationError{
 						field:  fmt.Sprintf("SimCards[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -176,7 +176,7 @@ func (m *SimCards) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, SimCardsValidationError{
+					errors = append(errors, GetSimCardsResponseValidationError{
 						field:  fmt.Sprintf("SimCards[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -185,7 +185,7 @@ func (m *SimCards) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return SimCardsValidationError{
+				return GetSimCardsResponseValidationError{
 					field:  fmt.Sprintf("SimCards[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -196,18 +196,19 @@ func (m *SimCards) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return SimCardsMultiError(errors)
+		return GetSimCardsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// SimCardsMultiError is an error wrapping multiple validation errors returned
-// by SimCards.ValidateAll() if the designated constraints aren't met.
-type SimCardsMultiError []error
+// GetSimCardsResponseMultiError is an error wrapping multiple validation
+// errors returned by GetSimCardsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetSimCardsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SimCardsMultiError) Error() string {
+func (m GetSimCardsResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -216,11 +217,11 @@ func (m SimCardsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SimCardsMultiError) AllErrors() []error { return m }
+func (m GetSimCardsResponseMultiError) AllErrors() []error { return m }
 
-// SimCardsValidationError is the validation error returned by
-// SimCards.Validate if the designated constraints aren't met.
-type SimCardsValidationError struct {
+// GetSimCardsResponseValidationError is the validation error returned by
+// GetSimCardsResponse.Validate if the designated constraints aren't met.
+type GetSimCardsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -228,22 +229,24 @@ type SimCardsValidationError struct {
 }
 
 // Field function returns field value.
-func (e SimCardsValidationError) Field() string { return e.field }
+func (e GetSimCardsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SimCardsValidationError) Reason() string { return e.reason }
+func (e GetSimCardsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SimCardsValidationError) Cause() error { return e.cause }
+func (e GetSimCardsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SimCardsValidationError) Key() bool { return e.key }
+func (e GetSimCardsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SimCardsValidationError) ErrorName() string { return "SimCardsValidationError" }
+func (e GetSimCardsResponseValidationError) ErrorName() string {
+	return "GetSimCardsResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e SimCardsValidationError) Error() string {
+func (e GetSimCardsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -255,14 +258,14 @@ func (e SimCardsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSimCards.%s: %s%s",
+		"invalid %sGetSimCardsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SimCardsValidationError{}
+var _ error = GetSimCardsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -270,4 +273,110 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SimCardsValidationError{}
+} = GetSimCardsResponseValidationError{}
+
+// Validate checks the field values on GetSimCardsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetSimCardsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetSimCardsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetSimCardsRequestMultiError, or nil if none found.
+func (m *GetSimCardsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetSimCardsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for EnterpriseId
+
+	// no validation rules for SiteId
+
+	if len(errors) > 0 {
+		return GetSimCardsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetSimCardsRequestMultiError is an error wrapping multiple validation errors
+// returned by GetSimCardsRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GetSimCardsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetSimCardsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetSimCardsRequestMultiError) AllErrors() []error { return m }
+
+// GetSimCardsRequestValidationError is the validation error returned by
+// GetSimCardsRequest.Validate if the designated constraints aren't met.
+type GetSimCardsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetSimCardsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetSimCardsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetSimCardsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetSimCardsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetSimCardsRequestValidationError) ErrorName() string {
+	return "GetSimCardsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetSimCardsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetSimCardsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetSimCardsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetSimCardsRequestValidationError{}

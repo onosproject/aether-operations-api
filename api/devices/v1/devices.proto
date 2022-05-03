@@ -9,7 +9,7 @@ package devices.v1;
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/devices/v1";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
-//import "simcards/v1/simcards.proto";
+import "simcards/v1/simcards.proto";
 //import "devicegroups/v1/devicegroups.proto";
 import "google/api/field_behavior.proto";
 import "pb/graphql.proto";
@@ -25,7 +25,7 @@ message Device {
   string attached = 4;
   string imei = 5;
   string ip = 6;
-//  simcards.v1.SimCard sim_card = 7;
+  simcards.v1.SimCard sim_card = 7;
 //  repeated devicegroups.v1.DeviceGroup device_groups = 8;
 }
 

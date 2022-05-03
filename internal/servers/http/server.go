@@ -21,6 +21,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
 	"google.golang.org/grpc"
@@ -82,6 +83,9 @@ func (s RocHttpServer) RegisterRestGatewayHandlers() error {
 		return err
 	}
 	if err := device.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
+	if err := simcard.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
 	if err := slice.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
