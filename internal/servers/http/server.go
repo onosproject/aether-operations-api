@@ -22,6 +22,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
 	"github.com/onosproject/scaling-umbrella/internal/utils"
@@ -87,6 +88,9 @@ func (s RocHttpServer) RegisterRestGatewayHandlers() error {
 	if err := device.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
+	if err := simcard.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
 	if err := slice.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
@@ -121,6 +125,11 @@ func (s RocHttpServer) playgroundHandler() gin.HandlerFunc {
 func (s RocHttpServer) RegisterGraphqlHandlers() {
 	s.gin.POST("/graphql", s.graphqlHandler())
 	s.gin.GET("/graphiql", s.playgroundHandler())
+
+	// TODO it would be good to collect the registered endpoinds to
+	// dinamically generate a navigation page
+	//application.RegisterGraphQlHandler(s.grpcServer.Services.ApplicationService, s.gin)
+	//enterprise.RegisterGraphQlHandler(s.grpcServer.Services.EnterpriseService, s.gin)
 }
 
 func (s RocHttpServer) StartHttpServer() error {

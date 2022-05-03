@@ -10,7 +10,9 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/datasources"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
+	"github.com/onosproject/scaling-umbrella/internal/stores/devicegroup"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
+	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
 )
@@ -20,6 +22,8 @@ type Stores struct {
 	Application *application.ApplicationHandler
 	Site        *site.SiteHandler
 	Device      *device.DeviceHandler
+	SimCard     *simcard.SimCardHandler
+	DeviceGroup *devicegroup.DeviceGroupHandler
 	Slice       *slice.SliceHandler
 }
 
@@ -31,6 +35,8 @@ func RegisterStores(ds *datasources.Datasources) (*Stores, error) {
 		Application: application.NewApplicationHandler(ds.OnosConfig),
 		Site:        site.NewSiteHandler(ds.OnosConfig),
 		Device:      device.NewDeviceHandler(ds.OnosConfig),
+		SimCard:     simcard.NewSimCardHandler(ds.OnosConfig),
+		DeviceGroup: devicegroup.NewDeviceGroupHandler(ds.OnosConfig),
 		Slice:       slice.NewSliceHandler(ds.OnosConfig),
 	}, nil
 }

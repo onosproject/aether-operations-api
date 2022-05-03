@@ -13,7 +13,7 @@ echo "--- done testing gRPC"
 echo "Testing REST server"
 
 curl --fail -X 'GET' \
-  'http://localhost:8080/api/v1/enterpises/acme/applications' \
+  'http://localhost:8080/api/v1/enterprises/acme/applications' \
   -H 'accept: application/json' | jq .
 echo " "
 curl --fail -X 'GET' \
@@ -26,6 +26,10 @@ curl --fail -X 'GET' \
 
 curl --fail -X 'GET' \
   'http://localhost:8080/api/v1/devices?enterprise_id=acme&site_id=acme-chicago' \
+  -H 'accept: application/json' | jq .
+
+curl --fail -X 'GET' \
+  'http://localhost:8080/api/v1/sim_cards?enterprise_id=acme&site_id=acme-chicago' \
   -H 'accept: application/json' | jq .
 
 curl --fail -X 'GET' \
@@ -49,6 +53,12 @@ curl --fail 'http://localhost:8080/graphql' \
     | jq .
 
 curl --fail 'http://localhost:8080/graphql' \
+    -H 'accept: application/json, multipart/mixed' \
+    -H 'content-type: application/json' \
+    -d '{ "query":"query{ devices(enterpriseID: \"acme\", siteID: \"acme-chicago\") {id name description}}"}' \
+    | jq .
+
+curl --fail 'http://localhost:8080/application-query' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
     -d '{ "query":"query{ devices(enterpriseID: \"acme\", siteID: \"acme-chicago\") {id name description}}"}' \

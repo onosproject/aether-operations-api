@@ -4,7 +4,7 @@
 
 SHELL = bash -e -o pipefail
 VERSION     ?= $(shell cat ./VERSION)
-PROTO_FILES := $(sort $(wildcard api/**/*.proto))
+PROTO_FILES := $(sort $(wildcard api/**/*/*.proto))
 
 DOCKER_TAG  			?= ${VERSION}
 DOCKER_REPOSITORY  		?= onosproject/
@@ -62,15 +62,6 @@ protos: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway an
 		-I api \
 		-I vendor/github.com/grpc-ecosystem/grpc-gateway/v2/ \
 		-I vendor/github.com/danielvladco/go-proto-gql/ \
-		--go_out=. --go_opt=paths=source_relative \
-		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-		--grpc-gateway_out . \
-		--grpc-gateway_opt logtostderr=true \
-		--grpc-gateway_opt paths=source_relative \
-		--openapiv2_out ./api/swagger/dist \
-		--openapiv2_opt logtostderr=true,generate_unbound_methods=true \
-		--openapiv2_opt openapi_naming_strategy=simple \
-		--openapiv2_opt allow_merge=true,merge_file_name=roc,output_format=yaml \
 		--gql_out=paths=source_relative:. \
 		--gogql_out=paths=source_relative:. \
 		$(PROTO_FILES)
