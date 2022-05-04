@@ -39,7 +39,8 @@ the source of the data.
   - the `grpc` service implementation
   - the `rest` and `graphql` bindings to the `grpc` server
 
-A simpler way to understand the internal implementation is to look at how a request is handled:
+A simpler way to understand the internal implementation is to look at how a request is handled.
+We'll be using the `Aether Enterprise` model as an example:
 ![Request handling](./assets/request-handling.png)
 
 ### Support for multiple internal API versions 
@@ -63,7 +64,7 @@ Translating the diagram in words a request lifecycle would be:
   - If the request fails we return the error
 
 When you consider that the `onos-config` endpoint is a Kubernetes service it's easy to
-envision how this implementation opens to way to blue/gree migration: 
+envision how this implementation opens to way to blue/green migration: 
 we can have two different `onos-config` instances, one implementing the `aether-2.0` models
 and one implementing the `aether-2.1` models, being associated with the same `onos-config` service.
 

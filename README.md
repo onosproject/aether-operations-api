@@ -86,7 +86,4 @@ If you are using a different setup you can build the docker image with `make doc
 _For more information on the supported customization refer to the [values.yaml](deployments/scaling-umbrella/values.yaml) file._
 
 ## TODO
-- [ ] Add an endpoint to submit the `MEGA_patch`
-- [ ] Combine the multiple generated `.graphql` schemas in a single one
-  - [ ] Remove the handcrafted `gql` schema
-- [ ] Convert the generated `swagger` documentation in `openapi-v3` documentation
+- [ ] Bootstrapping of the data
