@@ -45,11 +45,11 @@ setup_tools: mod-update
 	@echo "Downloading dependencies..."
 	go install \
         github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
-        github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
         google.golang.org/protobuf/cmd/protoc-gen-go \
         google.golang.org/grpc/cmd/protoc-gen-go-grpc \
         github.com/danielvladco/go-proto-gql/protoc-gen-gql \
-        github.com/danielvladco/go-proto-gql/protoc-gen-gogql
+        github.com/danielvladco/go-proto-gql/protoc-gen-gogql \
+        github.com/google/gnostic/cmd/protoc-gen-openapi
 	@echo "Dependencies downloaded OK"
 
 buf: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
