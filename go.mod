@@ -9,6 +9,7 @@ require (
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golangci/golangci-lint v1.45.2
+	github.com/google/gnostic v0.6.9
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/onosproject/aether-roc-api v0.10.7
 	github.com/onosproject/onos-api/go v0.9.8

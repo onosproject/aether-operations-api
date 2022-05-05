@@ -4,11 +4,6 @@ deps:
   - buf.build/googleapis/googleapis
   - buf.build/envoyproxy/protoc-gen-validate
   - buf.build/grpc-ecosystem/grpc-gateway
-#build:
-#  roots:
-#    - .
-#    - vendor/github.com/danielvladco/go-proto-gql/
-#  excludes: []
 lint:
   use:
     - DEFAULT

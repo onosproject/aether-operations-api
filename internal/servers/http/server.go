@@ -14,8 +14,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/scaling-umbrella/api/swagger"
 	generated "github.com/onosproject/scaling-umbrella/gen/graph/graphql"
+	"github.com/onosproject/scaling-umbrella/gen/openapiv3"
 	"github.com/onosproject/scaling-umbrella/internal/config"
 	"github.com/onosproject/scaling-umbrella/internal/graph/resolvers"
 	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
@@ -63,7 +63,7 @@ func (e embedFileSystem) Exists(prefix string, path string) bool {
 }
 
 func getStaticOapiFiles() (static.ServeFileSystem, error) {
-	files, err := fs.Sub(swagger.OpenAPI, "dist")
+	files, err := fs.Sub(openapiv3.OpenAPI, "dist")
 	if err != nil {
 		return nil, err
 	}
