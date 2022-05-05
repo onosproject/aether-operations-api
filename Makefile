@@ -52,7 +52,7 @@ setup_tools: mod-update
         github.com/google/gnostic/cmd/protoc-gen-openapi
 	@echo "Dependencies downloaded OK"
 
-buf: setup_tools # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
+buf: # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
 	buf mod update api
 	buf build
 	buf generate
@@ -67,14 +67,18 @@ gql:
 
 graphql:
 	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml
-	cp internal/servers/graphql/config/gqlgen.apps.yaml gqlgen.yaml
-	go run github.com/99designs/gqlgen --config gqlgen.apps.yaml --verbose generate
 	cp internal/servers/graphql/config/gqlgen.ent.yaml gqlgen.yaml
 	go run github.com/99designs/gqlgen --config gqlgen.ent.yaml --verbose generate
+	cp internal/servers/graphql/config/gqlgen.apps.yaml gqlgen.yaml
+	go run github.com/99designs/gqlgen --config gqlgen.apps.yaml --verbose generate
 	rm gqlgen.yaml
 
+clean-gen: # @HELP Removes all generated files
+	rm -r ./gen/go || true
+	rm -r ./gen/graphql || true
+
 .PHONY: build
-build: buf gql graphql build-go # @HELP Build the protos, graphql gateway and go executable
+build: setup_tools clean-gen buf graphql gql build-go # @HELP Build the protos, graphql gateway and go executable
 
 build-go: # @HELP Build the go executable
 	@go build -mod vendor \

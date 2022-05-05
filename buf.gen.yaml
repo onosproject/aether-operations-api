@@ -18,7 +18,7 @@ plugins:
   # generate openapi documentation for api
   - name: gnostic
     path: protoc-gen-openapi
-    out: gen/openapiv2/dist
+    out: gen/openapiv3/dist
     strategy: all
     opt:
       - title=Aether Roc API
