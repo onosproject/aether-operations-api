@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: $today.year-present Intel Corporation
+ * SPDX-FileCopyrightText: 2022-present Intel Corporation
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package openapiv2
+package openapiv3
 
 import (
 	"embed"

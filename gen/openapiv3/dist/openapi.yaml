@@ -1,0 +1,429 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Aether Roc API
+    description: API for the ROC project - more info at https://docs.aetherproject.org/
+    version: 0.0.1-alpha
+paths:
+    /api/v1/applications:
+        post:
+            tags:
+                - ApplicationService
+            operationId: ApplicationService_CreateApplication
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Application'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Application'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises:
+        get:
+            tags:
+                - EnterpriseService
+            operationId: EnterpriseService_GetEnterprises
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Enterprises'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/applications:
+        get:
+            tags:
+                - ApplicationService
+            operationId: ApplicationService_GetApplications
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Applications'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites:
+        get:
+            tags:
+                - SiteService
+            operationId: SiteService_GetSites
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSitesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites/{siteId}/device_groups:
+        get:
+            tags:
+                - DeviceGroupService
+            operationId: DeviceGroupService_GetDeviceGroups
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: siteId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetDeviceGroupsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites/{siteId}/devices:
+        get:
+            tags:
+                - DeviceService
+            operationId: DeviceService_GetDevices
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: siteId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetDevicesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites/{siteId}/sim_cards:
+        get:
+            tags:
+                - SimCardService
+            operationId: SimCardService_GetSimCards
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: siteId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSimCardsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites/{siteId}/slices:
+        get:
+            tags:
+                - SliceService
+            operationId: SliceService_GetSlices
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: siteId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSlicesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Application:
+            required:
+                - applicationId
+            type: object
+            properties:
+                applicationId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                endpoints:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Endpoint'
+        Applications:
+            type: object
+            properties:
+                applications:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Application'
+        Device:
+            required:
+                - deviceId
+            type: object
+            properties:
+                deviceId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                attached:
+                    type: string
+                imei:
+                    type: string
+                ip:
+                    type: string
+                simCard:
+                    $ref: '#/components/schemas/SimCard'
+                deviceGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DeviceGroup'
+        DeviceGroup:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        Endpoint:
+            type: object
+            properties:
+                endpointId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                mbr:
+                    $ref: '#/components/schemas/MBR'
+                portStart:
+                    type: integer
+                    format: int32
+                portEnd:
+                    type: integer
+                    format: int32
+                protocol:
+                    type: string
+        Enterprise:
+            type: object
+            properties:
+                enterpriseId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                applications:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Application'
+                sites:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Site'
+        Enterprises:
+            type: object
+            properties:
+                enterprises:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Enterprise'
+        GetDeviceGroupsResponse:
+            type: object
+            properties:
+                deviceGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DeviceGroup'
+        GetDevicesResponse:
+            type: object
+            properties:
+                devices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Device'
+        GetSimCardsResponse:
+            type: object
+            properties:
+                simCards:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/SimCard'
+        GetSitesResponse:
+            type: object
+            properties:
+                sites:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Site'
+        GetSlicesResponse:
+            type: object
+            properties:
+                slices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Slice'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        MBR:
+            type: object
+            properties:
+                uplink:
+                    type: integer
+                    format: int64
+                downlink:
+                    type: integer
+                    format: int64
+        SimCard:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        Site:
+            required:
+                - siteId
+            type: object
+            properties:
+                siteId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                devices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Device'
+                slices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Slice'
+        Slice:
+            required:
+                - sliceId
+            type: object
+            properties:
+                sliceId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: ApplicationService
+    - name: DeviceGroupService
+    - name: DeviceService
+    - name: EnterpriseService
+    - name: SimCardService
+    - name: SiteService
+    - name: SliceService
