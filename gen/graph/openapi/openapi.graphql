@@ -1,0 +1,4 @@
+type Query {
+	dummy: Boolean
+}
+w

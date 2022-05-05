@@ -131,12 +131,13 @@ func RegisterSiteServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_SiteService_GetSites_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_SiteService_GetSites_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -154,12 +155,13 @@ func RegisterSiteServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_SiteService_GetSites_1(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_SiteService_GetSites_1(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -216,12 +218,13 @@ func RegisterSiteServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_SiteService_GetSites_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_SiteService_GetSites_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -236,12 +239,13 @@ func RegisterSiteServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_SiteService_GetSites_1(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_SiteService_GetSites_1(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
