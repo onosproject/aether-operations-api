@@ -9,7 +9,6 @@ package simcards.v1;
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/simcards/v1";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "google/api/field_behavior.proto";
 import "pb/graphql.proto";
 import "google/api/annotations.proto";
 

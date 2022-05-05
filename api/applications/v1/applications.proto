@@ -8,7 +8,6 @@ package applications.v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/applications/v1";
 
-import "protoc-gen-openapiv2/options/annotations.proto";
 import "endpoints/v1/endpoints.proto";
 import "google/api/field_behavior.proto";
 import "pb/graphql.proto";
@@ -16,7 +15,6 @@ import "google/api/annotations.proto";
 
 message Application {
   string application_id = 1 [
-    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {title: "The ID field.", description: "Unique identifier for applications", pattern: "[a-zA-Z]"},
     (google.api.field_behavior) = REQUIRED
   ];
   string name = 2;
@@ -25,24 +23,18 @@ message Application {
 }
 
 message Applications {
-  repeated Application applications = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of Application objects"}];
+  repeated Application applications = 1;
 }
 
-message EnterpriseId {
-  string enterpriseId = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    pattern: "[a-zA-Z]",
-    title: "EnterpriseId",
-    description: "Unique identifier for enterprise",
-    format: "string",
-    example: "\"acme\""
-  }];
+message GetApplicationsRequest {
+  string enterprise_id = 1;
 }
 
 service ApplicationService {
-  rpc GetApplications(EnterpriseId) returns (applications.v1.Applications) {
+  rpc GetApplications(GetApplicationsRequest) returns (Applications) {
     option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
     option (google.api.http) = {
-      get: "/api/v1/enterprises/{enterpriseId}/applications",
+      get: "/api/v1/enterprises/{enterprise_id}/applications",
       additional_bindings {
         // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
         // are automatically added to query parameters
@@ -51,7 +43,7 @@ service ApplicationService {
     };
   }
 
-  rpc CreateApplication(applications.v1.Application) returns (applications.v1.Application) {
+  rpc CreateApplication(Application) returns (Application) {
     option (danielvladco.protobuf.graphql.rpc) = {type: MUTATION};
     option (google.api.http) = {
       post: "/api/v1/applications"

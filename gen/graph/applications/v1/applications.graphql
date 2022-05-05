@@ -32,7 +32,7 @@ input EndpointInput {
 	portEnd: Int
 	protocol: String
 }
-input EnterpriseIdInput {
+input GetApplicationsRequestInput {
 	enterpriseId: String
 }
 type MBR {
@@ -47,5 +47,5 @@ type Mutation {
 	applicationServiceCreateApplication(in: ApplicationInput): Application
 }
 type Query {
-	applicationServiceGetApplications(in: EnterpriseIdInput): Applications
+	applicationServiceGetApplications(in: GetApplicationsRequestInput): Applications
 }

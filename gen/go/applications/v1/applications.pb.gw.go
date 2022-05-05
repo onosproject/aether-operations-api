@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_ApplicationService_GetApplications_0(ctx context.Context, marshaler runtime.Marshaler, client ApplicationServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EnterpriseId
+	var protoReq GetApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -42,14 +42,14 @@ func request_ApplicationService_GetApplications_0(ctx context.Context, marshaler
 		_   = err
 	)
 
-	val, ok = pathParams["enterpriseId"]
+	val, ok = pathParams["enterprise_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "enterpriseId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "enterprise_id")
 	}
 
 	protoReq.EnterpriseId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "enterpriseId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "enterprise_id", err)
 	}
 
 	msg, err := client.GetApplications(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -58,7 +58,7 @@ func request_ApplicationService_GetApplications_0(ctx context.Context, marshaler
 }
 
 func local_request_ApplicationService_GetApplications_0(ctx context.Context, marshaler runtime.Marshaler, server ApplicationServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EnterpriseId
+	var protoReq GetApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -68,14 +68,14 @@ func local_request_ApplicationService_GetApplications_0(ctx context.Context, mar
 		_   = err
 	)
 
-	val, ok = pathParams["enterpriseId"]
+	val, ok = pathParams["enterprise_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "enterpriseId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "enterprise_id")
 	}
 
 	protoReq.EnterpriseId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "enterpriseId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "enterprise_id", err)
 	}
 
 	msg, err := server.GetApplications(ctx, &protoReq)
@@ -88,7 +88,7 @@ var (
 )
 
 func request_ApplicationService_GetApplications_1(ctx context.Context, marshaler runtime.Marshaler, client ApplicationServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EnterpriseId
+	var protoReq GetApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
@@ -104,7 +104,7 @@ func request_ApplicationService_GetApplications_1(ctx context.Context, marshaler
 }
 
 func local_request_ApplicationService_GetApplications_1(ctx context.Context, marshaler runtime.Marshaler, server ApplicationServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EnterpriseId
+	var protoReq GetApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
@@ -166,7 +166,7 @@ func RegisterApplicationServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterpriseId}/applications"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -277,7 +277,7 @@ func RegisterApplicationServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterpriseId}/applications"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -339,7 +339,7 @@ func RegisterApplicationServiceHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_ApplicationService_GetApplications_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "enterprises", "enterpriseId", "applications"}, ""))
+	pattern_ApplicationService_GetApplications_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "enterprises", "enterprise_id", "applications"}, ""))
 
 	pattern_ApplicationService_GetApplications_1 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "applications"}, ""))
 

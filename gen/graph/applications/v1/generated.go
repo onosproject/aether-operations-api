@@ -76,7 +76,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		ApplicationServiceGetApplications func(childComplexity int, in *v1.EnterpriseId) int
+		ApplicationServiceGetApplications func(childComplexity int, in *v1.GetApplicationsRequest) int
 	}
 }
 
@@ -87,7 +87,7 @@ type MutationResolver interface {
 	ApplicationServiceCreateApplication(ctx context.Context, in *v1.Application) (*v1.Application, error)
 }
 type QueryResolver interface {
-	ApplicationServiceGetApplications(ctx context.Context, in *v1.EnterpriseId) (*v1.Applications, error)
+	ApplicationServiceGetApplications(ctx context.Context, in *v1.GetApplicationsRequest) (*v1.Applications, error)
 }
 
 type ApplicationInputResolver interface {
@@ -229,7 +229,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.ApplicationServiceGetApplications(childComplexity, args["in"].(*v1.EnterpriseId)), true
+		return e.complexity.Query.ApplicationServiceGetApplications(childComplexity, args["in"].(*v1.GetApplicationsRequest)), true
 
 	}
 	return 0, false
@@ -329,7 +329,7 @@ input EndpointInput {
 	portEnd: Int
 	protocol: String
 }
-input EnterpriseIdInput {
+input GetApplicationsRequestInput {
 	enterpriseId: String
 }
 type MBR {
@@ -344,7 +344,7 @@ type Mutation {
 	applicationServiceCreateApplication(in: ApplicationInput): Application
 }
 type Query {
-	applicationServiceGetApplications(in: EnterpriseIdInput): Applications
+	applicationServiceGetApplications(in: GetApplicationsRequestInput): Applications
 }
 `, BuiltIn: false},
 }
@@ -387,10 +387,10 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 func (ec *executionContext) field_Query_applicationServiceGetApplications_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *v1.EnterpriseId
+	var arg0 *v1.GetApplicationsRequest
 	if tmp, ok := rawArgs["in"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-		arg0, err = ec.unmarshalOEnterpriseIdInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐEnterpriseId(ctx, tmp)
+		arg0, err = ec.unmarshalOGetApplicationsRequestInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐGetApplicationsRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -949,7 +949,7 @@ func (ec *executionContext) _Query_applicationServiceGetApplications(ctx context
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ApplicationServiceGetApplications(rctx, args["in"].(*v1.EnterpriseId))
+		return ec.resolvers.Query().ApplicationServiceGetApplications(rctx, args["in"].(*v1.GetApplicationsRequest))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2341,8 +2341,8 @@ func (ec *executionContext) unmarshalInputEndpointInput(ctx context.Context, obj
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputEnterpriseIdInput(ctx context.Context, obj interface{}) (v1.EnterpriseId, error) {
-	var it v1.EnterpriseId
+func (ec *executionContext) unmarshalInputGetApplicationsRequestInput(ctx context.Context, obj interface{}) (v1.GetApplicationsRequest, error) {
+	var it v1.GetApplicationsRequest
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -3589,11 +3589,11 @@ func (ec *executionContext) unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonospro
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOEnterpriseIdInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐEnterpriseId(ctx context.Context, v interface{}) (*v1.EnterpriseId, error) {
+func (ec *executionContext) unmarshalOGetApplicationsRequestInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐGetApplicationsRequest(ctx context.Context, v interface{}) (*v1.GetApplicationsRequest, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputEnterpriseIdInput(ctx, v)
+	res, err := ec.unmarshalInputGetApplicationsRequestInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
