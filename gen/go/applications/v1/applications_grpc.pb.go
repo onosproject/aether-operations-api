@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApplicationServiceClient interface {
-	GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error)
+	GetApplications(ctx context.Context, in *GetApplicationsRequest, opts ...grpc.CallOption) (*Applications, error)
 	CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
 }
 
@@ -30,7 +30,7 @@ func NewApplicationServiceClient(cc grpc.ClientConnInterface) ApplicationService
 	return &applicationServiceClient{cc}
 }
 
-func (c *applicationServiceClient) GetApplications(ctx context.Context, in *EnterpriseId, opts ...grpc.CallOption) (*Applications, error) {
+func (c *applicationServiceClient) GetApplications(ctx context.Context, in *GetApplicationsRequest, opts ...grpc.CallOption) (*Applications, error) {
 	out := new(Applications)
 	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/GetApplications", in, out, opts...)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *applicationServiceClient) CreateApplication(ctx context.Context, in *Ap
 // All implementations must embed UnimplementedApplicationServiceServer
 // for forward compatibility
 type ApplicationServiceServer interface {
-	GetApplications(context.Context, *EnterpriseId) (*Applications, error)
+	GetApplications(context.Context, *GetApplicationsRequest) (*Applications, error)
 	CreateApplication(context.Context, *Application) (*Application, error)
 	mustEmbedUnimplementedApplicationServiceServer()
 }
@@ -61,7 +61,7 @@ type ApplicationServiceServer interface {
 type UnimplementedApplicationServiceServer struct {
 }
 
-func (UnimplementedApplicationServiceServer) GetApplications(context.Context, *EnterpriseId) (*Applications, error) {
+func (UnimplementedApplicationServiceServer) GetApplications(context.Context, *GetApplicationsRequest) (*Applications, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetApplications not implemented")
 }
 func (UnimplementedApplicationServiceServer) CreateApplication(context.Context, *Application) (*Application, error) {
@@ -81,7 +81,7 @@ func RegisterApplicationServiceServer(s grpc.ServiceRegistrar, srv ApplicationSe
 }
 
 func _ApplicationService_GetApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EnterpriseId)
+	in := new(GetApplicationsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func _ApplicationService_GetApplications_Handler(srv interface{}, ctx context.Co
 		FullMethod: "/applications.v1.ApplicationService/GetApplications",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApplicationServiceServer).GetApplications(ctx, req.(*EnterpriseId))
+		return srv.(ApplicationServiceServer).GetApplications(ctx, req.(*GetApplicationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

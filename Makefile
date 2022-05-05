@@ -4,7 +4,6 @@
 
 SHELL = bash -e -o pipefail
 VERSION     ?= $(shell cat ./VERSION)
-PROTO_FILES := $(sort $(wildcard api/**/*/*.proto))
 
 DOCKER_TAG  			?= ${VERSION}
 DOCKER_REPOSITORY  		?= onosproject/
@@ -77,8 +76,18 @@ clean-gen: # @HELP Removes all generated files
 	rm -r ./gen/go || true
 	rm -r ./gen/graphql || true
 
+PROTO_DIR = api
+lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and badkward compatibility on the protos
+	@for file in $^ ; do \
+		if [ -d "$${file}" ]; then \
+			echo "Linting" $${file} ; \
+			buf lint --path $${file}; \
+		fi; \
+	done
+	buf breaking --against '.git#branch=main'
+
 .PHONY: build
-build: setup_tools clean-gen buf graphql gql build-go # @HELP Build the protos, graphql gateway and go executable
+build: setup_tools buf graphql gql build-go # @HELP Build the protos, graphql gateway and go executable
 
 build-go: # @HELP Build the go executable
 	@go build -mod vendor \
@@ -88,7 +97,7 @@ build-go: # @HELP Build the go executable
 		-X github.com/onosproject/scaling-umbrella/internal/config.version=${VERSION}" \
 	  ./cmd/roc-api
 
-lint-go:
+lint-go: # @HELP Lints the GO code
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
 	golangci-lint run
 

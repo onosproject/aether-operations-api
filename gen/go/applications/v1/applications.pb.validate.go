@@ -307,22 +307,22 @@ var _ interface {
 	ErrorName() string
 } = ApplicationsValidationError{}
 
-// Validate checks the field values on EnterpriseId with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *EnterpriseId) Validate() error {
+// Validate checks the field values on GetApplicationsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetApplicationsRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on EnterpriseId with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in EnterpriseIdMultiError, or
-// nil if none found.
-func (m *EnterpriseId) ValidateAll() error {
+// ValidateAll checks the field values on GetApplicationsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetApplicationsRequestMultiError, or nil if none found.
+func (m *GetApplicationsRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *EnterpriseId) validate(all bool) error {
+func (m *GetApplicationsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -332,18 +332,19 @@ func (m *EnterpriseId) validate(all bool) error {
 	// no validation rules for EnterpriseId
 
 	if len(errors) > 0 {
-		return EnterpriseIdMultiError(errors)
+		return GetApplicationsRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// EnterpriseIdMultiError is an error wrapping multiple validation errors
-// returned by EnterpriseId.ValidateAll() if the designated constraints aren't met.
-type EnterpriseIdMultiError []error
+// GetApplicationsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetApplicationsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetApplicationsRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m EnterpriseIdMultiError) Error() string {
+func (m GetApplicationsRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -352,11 +353,11 @@ func (m EnterpriseIdMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m EnterpriseIdMultiError) AllErrors() []error { return m }
+func (m GetApplicationsRequestMultiError) AllErrors() []error { return m }
 
-// EnterpriseIdValidationError is the validation error returned by
-// EnterpriseId.Validate if the designated constraints aren't met.
-type EnterpriseIdValidationError struct {
+// GetApplicationsRequestValidationError is the validation error returned by
+// GetApplicationsRequest.Validate if the designated constraints aren't met.
+type GetApplicationsRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -364,22 +365,24 @@ type EnterpriseIdValidationError struct {
 }
 
 // Field function returns field value.
-func (e EnterpriseIdValidationError) Field() string { return e.field }
+func (e GetApplicationsRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e EnterpriseIdValidationError) Reason() string { return e.reason }
+func (e GetApplicationsRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e EnterpriseIdValidationError) Cause() error { return e.cause }
+func (e GetApplicationsRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e EnterpriseIdValidationError) Key() bool { return e.key }
+func (e GetApplicationsRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e EnterpriseIdValidationError) ErrorName() string { return "EnterpriseIdValidationError" }
+func (e GetApplicationsRequestValidationError) ErrorName() string {
+	return "GetApplicationsRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e EnterpriseIdValidationError) Error() string {
+func (e GetApplicationsRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -391,14 +394,14 @@ func (e EnterpriseIdValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sEnterpriseId.%s: %s%s",
+		"invalid %sGetApplicationsRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = EnterpriseIdValidationError{}
+var _ error = GetApplicationsRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -406,4 +409,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = EnterpriseIdValidationError{}
+} = GetApplicationsRequestValidationError{}

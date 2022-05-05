@@ -6,7 +6,7 @@ import (
 
 type ApplicationServiceResolvers struct{ Service ApplicationServiceServer }
 
-func (s *ApplicationServiceResolvers) ApplicationServiceGetApplications(ctx context.Context, in *EnterpriseId) (*Applications, error) {
+func (s *ApplicationServiceResolvers) ApplicationServiceGetApplications(ctx context.Context, in *GetApplicationsRequest) (*Applications, error) {
 	return s.Service.GetApplications(ctx, in)
 }
 func (s *ApplicationServiceResolvers) ApplicationServiceCreateApplication(ctx context.Context, in *Application) (*Application, error) {
@@ -15,4 +15,4 @@ func (s *ApplicationServiceResolvers) ApplicationServiceCreateApplication(ctx co
 
 type ApplicationInput = Application
 type ApplicationsInput = Applications
-type EnterpriseIdInput = EnterpriseId
+type GetApplicationsRequestInput = GetApplicationsRequest

@@ -77,7 +77,7 @@ func (r *QueryResolver) Enterprises(ctx context.Context) ([]*model.Enterprise, e
 func (r *QueryResolver) Applications(ctx context.Context, enterpriseID string) ([]*model.Application, error) {
 	var apps []*model.Application
 
-	protoEntId := appsv1.EnterpriseId{
+	protoEntId := appsv1.GetApplicationsRequest{
 		EnterpriseId: enterpriseID,
 	}
 	grpcApps, _ := r.grpcServer.Services.ApplicationService.GetApplications(ctx, &protoEntId)

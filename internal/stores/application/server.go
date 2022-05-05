@@ -24,8 +24,8 @@ func (r *ApplicationServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegist
 	v1.RegisterApplicationServiceServer(srv, r)
 }
 
-func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, entId *v1.EnterpriseId) (*v1.Applications, error) {
-	return r.handler.ListApplications(entId.EnterpriseId)
+func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, req *v1.GetApplicationsRequest) (*v1.Applications, error) {
+	return r.handler.ListApplications(req.EnterpriseId)
 }
 
 func (r *ApplicationServiceGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
