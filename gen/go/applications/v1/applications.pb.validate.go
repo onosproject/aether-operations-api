@@ -63,6 +63,8 @@ func (m *Application) validate(all bool) error {
 
 	// no validation rules for Description
 
+	// no validation rules for Address
+
 	for idx, item := range m.GetEndpoints() {
 		_, _ = idx, item
 
@@ -96,6 +98,8 @@ func (m *Application) validate(all bool) error {
 		}
 
 	}
+
+	// no validation rules for EnterpriseId
 
 	if len(errors) > 0 {
 		return ApplicationMultiError(errors)
@@ -410,3 +414,109 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetApplicationsRequestValidationError{}
+
+// Validate checks the field values on ApplicationFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ApplicationFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ApplicationFilter with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ApplicationFilterMultiError, or nil if none found.
+func (m *ApplicationFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ApplicationFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for EnterpriseId
+
+	// no validation rules for ApplicationId
+
+	if len(errors) > 0 {
+		return ApplicationFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// ApplicationFilterMultiError is an error wrapping multiple validation errors
+// returned by ApplicationFilter.ValidateAll() if the designated constraints
+// aren't met.
+type ApplicationFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ApplicationFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ApplicationFilterMultiError) AllErrors() []error { return m }
+
+// ApplicationFilterValidationError is the validation error returned by
+// ApplicationFilter.Validate if the designated constraints aren't met.
+type ApplicationFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ApplicationFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ApplicationFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ApplicationFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ApplicationFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ApplicationFilterValidationError) ErrorName() string {
+	return "ApplicationFilterValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ApplicationFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sApplicationFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ApplicationFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ApplicationFilterValidationError{}

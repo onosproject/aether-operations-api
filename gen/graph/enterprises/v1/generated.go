@@ -44,9 +44,11 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Application struct {
+		Address       func(childComplexity int) int
 		ApplicationID func(childComplexity int) int
 		Description   func(childComplexity int) int
 		Endpoints     func(childComplexity int) int
+		EnterpriseID  func(childComplexity int) int
 		Name          func(childComplexity int) int
 	}
 
@@ -68,13 +70,14 @@ type ComplexityRoot struct {
 	}
 
 	Endpoint struct {
-		Description func(childComplexity int) int
-		EndpointID  func(childComplexity int) int
-		Mbr         func(childComplexity int) int
-		Name        func(childComplexity int) int
-		PortEnd     func(childComplexity int) int
-		PortStart   func(childComplexity int) int
-		Protocol    func(childComplexity int) int
+		Description  func(childComplexity int) int
+		EndpointID   func(childComplexity int) int
+		Mbr          func(childComplexity int) int
+		Name         func(childComplexity int) int
+		PortEnd      func(childComplexity int) int
+		PortStart    func(childComplexity int) int
+		Protocol     func(childComplexity int) int
+		TrafficClass func(childComplexity int) int
 	}
 
 	Enterprise struct {
@@ -142,6 +145,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "Application.address":
+		if e.complexity.Application.Address == nil {
+			break
+		}
+
+		return e.complexity.Application.Address(childComplexity), true
+
 	case "Application.applicationId":
 		if e.complexity.Application.ApplicationID == nil {
 			break
@@ -162,6 +172,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Application.Endpoints(childComplexity), true
+
+	case "Application.enterpriseId":
+		if e.complexity.Application.EnterpriseID == nil {
+			break
+		}
+
+		return e.complexity.Application.EnterpriseID(childComplexity), true
 
 	case "Application.name":
 		if e.complexity.Application.Name == nil {
@@ -295,6 +312,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Endpoint.Protocol(childComplexity), true
+
+	case "Endpoint.trafficClass":
+		if e.complexity.Endpoint.TrafficClass == nil {
+			break
+		}
+
+		return e.complexity.Endpoint.TrafficClass(childComplexity), true
 
 	case "Enterprise.applications":
 		if e.complexity.Enterprise.Applications == nil {
@@ -491,7 +515,9 @@ type Application {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [Endpoint!]
+	enterpriseId: String
 }
 type Device {
 	deviceId: String
@@ -516,6 +542,7 @@ type Endpoint {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 type Enterprise {
 	enterpriseId: String
@@ -713,6 +740,38 @@ func (ec *executionContext) _Application_description(ctx context.Context, field 
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Application_address(ctx context.Context, field graphql.CollectedField, obj *Application) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Address, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Application_endpoints(ctx context.Context, field graphql.CollectedField, obj *Application) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -743,6 +802,38 @@ func (ec *executionContext) _Application_endpoints(ctx context.Context, field gr
 	res := resTmp.([]*Endpoint)
 	fc.Result = res
 	return ec.marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgraphᚋenterprisesᚋv1ᚐEndpointᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Application_enterpriseId(ctx context.Context, field graphql.CollectedField, obj *Application) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EnterpriseID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Device_deviceId(ctx context.Context, field graphql.CollectedField, obj *Device) (ret graphql.Marshaler) {
@@ -1308,6 +1399,38 @@ func (ec *executionContext) _Endpoint_protocol(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Protocol, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Endpoint_trafficClass(ctx context.Context, field graphql.CollectedField, obj *Endpoint) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Endpoint",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TrafficClass, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3257,9 +3380,23 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 
 			out.Values[i] = innerFunc(ctx)
 
+		case "address":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Application_address(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		case "endpoints":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Application_endpoints(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
+		case "enterpriseId":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Application_enterpriseId(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -3449,6 +3586,13 @@ func (ec *executionContext) _Endpoint(ctx context.Context, sel ast.SelectionSet,
 		case "protocol":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Endpoint_protocol(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
+		case "trafficClass":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Endpoint_trafficClass(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)

@@ -46,9 +46,11 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Application struct {
+		Address       func(childComplexity int) int
 		ApplicationId func(childComplexity int) int
 		Description   func(childComplexity int) int
 		Endpoints     func(childComplexity int) int
+		EnterpriseId  func(childComplexity int) int
 		Name          func(childComplexity int) int
 	}
 
@@ -57,13 +59,14 @@ type ComplexityRoot struct {
 	}
 
 	Endpoint struct {
-		Description func(childComplexity int) int
-		EndpointID  func(childComplexity int) int
-		Mbr         func(childComplexity int) int
-		Name        func(childComplexity int) int
-		PortEnd     func(childComplexity int) int
-		PortStart   func(childComplexity int) int
-		Protocol    func(childComplexity int) int
+		Description  func(childComplexity int) int
+		EndpointID   func(childComplexity int) int
+		Mbr          func(childComplexity int) int
+		Name         func(childComplexity int) int
+		PortEnd      func(childComplexity int) int
+		PortStart    func(childComplexity int) int
+		Protocol     func(childComplexity int) int
+		TrafficClass func(childComplexity int) int
 	}
 
 	MBR struct {
@@ -72,11 +75,13 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		ApplicationServiceCreateApplication func(childComplexity int, in *v1.Application) int
+		ApplicationServiceCreateOrUpdateApplication func(childComplexity int, in *v1.Application) int
 	}
 
 	Query struct {
-		ApplicationServiceGetApplications func(childComplexity int, in *v1.GetApplicationsRequest) int
+		ApplicationServiceDeleteApplication func(childComplexity int, in *v1.ApplicationFilter) int
+		ApplicationServiceGetApplication    func(childComplexity int, in *v1.ApplicationFilter) int
+		ApplicationServiceGetApplications   func(childComplexity int, in *v1.GetApplicationsRequest) int
 	}
 }
 
@@ -84,10 +89,12 @@ type ApplicationResolver interface {
 	Endpoints(ctx context.Context, obj *v1.Application) ([]*Endpoint, error)
 }
 type MutationResolver interface {
-	ApplicationServiceCreateApplication(ctx context.Context, in *v1.Application) (*v1.Application, error)
+	ApplicationServiceCreateOrUpdateApplication(ctx context.Context, in *v1.Application) (*v1.Application, error)
 }
 type QueryResolver interface {
 	ApplicationServiceGetApplications(ctx context.Context, in *v1.GetApplicationsRequest) (*v1.Applications, error)
+	ApplicationServiceGetApplication(ctx context.Context, in *v1.ApplicationFilter) (*v1.Application, error)
+	ApplicationServiceDeleteApplication(ctx context.Context, in *v1.ApplicationFilter) (*bool, error)
 }
 
 type ApplicationInputResolver interface {
@@ -109,6 +116,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "Application.address":
+		if e.complexity.Application.Address == nil {
+			break
+		}
+
+		return e.complexity.Application.Address(childComplexity), true
+
 	case "Application.applicationId":
 		if e.complexity.Application.ApplicationId == nil {
 			break
@@ -129,6 +143,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Application.Endpoints(childComplexity), true
+
+	case "Application.enterpriseId":
+		if e.complexity.Application.EnterpriseId == nil {
+			break
+		}
+
+		return e.complexity.Application.EnterpriseId(childComplexity), true
 
 	case "Application.name":
 		if e.complexity.Application.Name == nil {
@@ -193,6 +214,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Endpoint.Protocol(childComplexity), true
 
+	case "Endpoint.trafficClass":
+		if e.complexity.Endpoint.TrafficClass == nil {
+			break
+		}
+
+		return e.complexity.Endpoint.TrafficClass(childComplexity), true
+
 	case "MBR.downlink":
 		if e.complexity.MBR.Downlink == nil {
 			break
@@ -207,17 +235,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.MBR.Uplink(childComplexity), true
 
-	case "Mutation.applicationServiceCreateApplication":
-		if e.complexity.Mutation.ApplicationServiceCreateApplication == nil {
+	case "Mutation.applicationServiceCreateOrUpdateApplication":
+		if e.complexity.Mutation.ApplicationServiceCreateOrUpdateApplication == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_applicationServiceCreateApplication_args(context.TODO(), rawArgs)
+		args, err := ec.field_Mutation_applicationServiceCreateOrUpdateApplication_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.ApplicationServiceCreateApplication(childComplexity, args["in"].(*v1.Application)), true
+		return e.complexity.Mutation.ApplicationServiceCreateOrUpdateApplication(childComplexity, args["in"].(*v1.Application)), true
+
+	case "Query.applicationServiceDeleteApplication":
+		if e.complexity.Query.ApplicationServiceDeleteApplication == nil {
+			break
+		}
+
+		args, err := ec.field_Query_applicationServiceDeleteApplication_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ApplicationServiceDeleteApplication(childComplexity, args["in"].(*v1.ApplicationFilter)), true
+
+	case "Query.applicationServiceGetApplication":
+		if e.complexity.Query.ApplicationServiceGetApplication == nil {
+			break
+		}
+
+		args, err := ec.field_Query_applicationServiceGetApplication_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ApplicationServiceGetApplication(childComplexity, args["in"].(*v1.ApplicationFilter)), true
 
 	case "Query.applicationServiceGetApplications":
 		if e.complexity.Query.ApplicationServiceGetApplications == nil {
@@ -300,13 +352,21 @@ type Application {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [Endpoint!]
+	enterpriseId: String
+}
+input ApplicationFilterInput {
+	enterpriseId: String
+	applicationId: String
 }
 input ApplicationInput {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [EndpointInput!]
+	enterpriseId: String
 }
 type Applications {
 	applications: [Application!]
@@ -319,6 +379,7 @@ type Endpoint {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 input EndpointInput {
 	endpointId: String
@@ -328,6 +389,7 @@ input EndpointInput {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 input GetApplicationsRequestInput {
 	enterpriseId: String
@@ -341,10 +403,31 @@ input MBRInput {
 	downlink: Int
 }
 type Mutation {
-	applicationServiceCreateApplication(in: ApplicationInput): Application
+	"""
+	 Creates or Updates an Application, then returns the updated Application
+	
+	"""
+	applicationServiceCreateOrUpdateApplication(in: ApplicationInput): Application
 }
 type Query {
+	"""
+	 List the Applications in the system for a given EnterpriseId.
+	 Returns NOT_FOUND if the list is empty.
+	
+	"""
 	applicationServiceGetApplications(in: GetApplicationsRequestInput): Applications
+	"""
+	 Gets an Application. Returns NOT_FOUND if the Application does not exist.
+	
+	"""
+	applicationServiceGetApplication(in: ApplicationFilterInput): Application
+	"""
+	 Removes an Application.
+	 Returns NOT_FOUND if the Application does not exist.
+	 Returns NO_CONTENT if the Application has been removed.
+	
+	"""
+	applicationServiceDeleteApplication(in: ApplicationFilterInput): Boolean
 }
 `, BuiltIn: false},
 }
@@ -354,7 +437,7 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_applicationServiceCreateApplication_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_applicationServiceCreateOrUpdateApplication_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 *v1.Application
@@ -381,6 +464,36 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_applicationServiceDeleteApplication_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *v1.ApplicationFilter
+	if tmp, ok := rawArgs["in"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
+		arg0, err = ec.unmarshalOApplicationFilterInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplicationFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["in"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_applicationServiceGetApplication_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *v1.ApplicationFilter
+	if tmp, ok := rawArgs["in"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
+		arg0, err = ec.unmarshalOApplicationFilterInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplicationFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["in"] = arg0
 	return args, nil
 }
 
@@ -533,6 +646,38 @@ func (ec *executionContext) _Application_description(ctx context.Context, field 
 	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Application_address(ctx context.Context, field graphql.CollectedField, obj *v1.Application) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Address, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Application_endpoints(ctx context.Context, field graphql.CollectedField, obj *v1.Application) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -563,6 +708,38 @@ func (ec *executionContext) _Application_endpoints(ctx context.Context, field gr
 	res := resTmp.([]*Endpoint)
 	fc.Result = res
 	return ec.marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgraphᚋapplicationsᚋv1ᚐEndpointᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Application_enterpriseId(ctx context.Context, field graphql.CollectedField, obj *v1.Application) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EnterpriseId, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Applications_applications(ctx context.Context, field graphql.CollectedField, obj *v1.Applications) (ret graphql.Marshaler) {
@@ -821,6 +998,38 @@ func (ec *executionContext) _Endpoint_protocol(ctx context.Context, field graphq
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Endpoint_trafficClass(ctx context.Context, field graphql.CollectedField, obj *Endpoint) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Endpoint",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TrafficClass, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _MBR_uplink(ctx context.Context, field graphql.CollectedField, obj *Mbr) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -885,7 +1094,7 @@ func (ec *executionContext) _MBR_downlink(ctx context.Context, field graphql.Col
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_applicationServiceCreateApplication(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_applicationServiceCreateOrUpdateApplication(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -902,7 +1111,7 @@ func (ec *executionContext) _Mutation_applicationServiceCreateApplication(ctx co
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_applicationServiceCreateApplication_args(ctx, rawArgs)
+	args, err := ec.field_Mutation_applicationServiceCreateOrUpdateApplication_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -910,7 +1119,7 @@ func (ec *executionContext) _Mutation_applicationServiceCreateApplication(ctx co
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().ApplicationServiceCreateApplication(rctx, args["in"].(*v1.Application))
+		return ec.resolvers.Mutation().ApplicationServiceCreateOrUpdateApplication(rctx, args["in"].(*v1.Application))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -961,6 +1170,84 @@ func (ec *executionContext) _Query_applicationServiceGetApplications(ctx context
 	res := resTmp.(*v1.Applications)
 	fc.Result = res
 	return ec.marshalOApplications2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplications(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_applicationServiceGetApplication(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_applicationServiceGetApplication_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ApplicationServiceGetApplication(rctx, args["in"].(*v1.ApplicationFilter))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*v1.Application)
+	fc.Result = res
+	return ec.marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplication(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_applicationServiceDeleteApplication(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_applicationServiceDeleteApplication_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ApplicationServiceDeleteApplication(rctx, args["in"].(*v1.ApplicationFilter))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2220,6 +2507,37 @@ func (ec *executionContext) ___Type_specifiedByURL(ctx context.Context, field gr
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputApplicationFilterInput(ctx context.Context, obj interface{}) (v1.ApplicationFilter, error) {
+	var it v1.ApplicationFilter
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "enterpriseId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("enterpriseId"))
+			it.EnterpriseId, err = ec.unmarshalOString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "applicationId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applicationId"))
+			it.ApplicationId, err = ec.unmarshalOString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputApplicationInput(ctx context.Context, obj interface{}) (v1.Application, error) {
 	var it v1.Application
 	asMap := map[string]interface{}{}
@@ -2253,6 +2571,14 @@ func (ec *executionContext) unmarshalInputApplicationInput(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
+		case "address":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("address"))
+			it.Address, err = ec.unmarshalOString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "endpoints":
 			var err error
 
@@ -2262,6 +2588,14 @@ func (ec *executionContext) unmarshalInputApplicationInput(ctx context.Context, 
 				return it, err
 			}
 			if err = ec.resolvers.ApplicationInput().Endpoints(ctx, &it, data); err != nil {
+				return it, err
+			}
+		case "enterpriseId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("enterpriseId"))
+			it.EnterpriseId, err = ec.unmarshalOString2string(ctx, v)
+			if err != nil {
 				return it, err
 			}
 		}
@@ -2332,6 +2666,14 @@ func (ec *executionContext) unmarshalInputEndpointInput(ctx context.Context, obj
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("protocol"))
 			it.Protocol, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "trafficClass":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("trafficClass"))
+			it.TrafficClass, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2434,6 +2776,13 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 
 			out.Values[i] = innerFunc(ctx)
 
+		case "address":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Application_address(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		case "endpoints":
 			field := field
 
@@ -2451,6 +2800,13 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 				return innerFunc(ctx)
 
 			})
+		case "enterpriseId":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Application_enterpriseId(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2549,6 +2905,13 @@ func (ec *executionContext) _Endpoint(ctx context.Context, sel ast.SelectionSet,
 
 			out.Values[i] = innerFunc(ctx)
 
+		case "trafficClass":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Endpoint_trafficClass(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2614,9 +2977,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "applicationServiceCreateApplication":
+		case "applicationServiceCreateOrUpdateApplication":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_applicationServiceCreateApplication(ctx, field)
+				return ec._Mutation_applicationServiceCreateOrUpdateApplication(ctx, field)
 			}
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
@@ -2661,6 +3024,46 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_applicationServiceGetApplications(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "applicationServiceGetApplication":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_applicationServiceGetApplication(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "applicationServiceDeleteApplication":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_applicationServiceDeleteApplication(ctx, field)
 				return res
 			}
 
@@ -3479,6 +3882,14 @@ func (ec *executionContext) marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋ
 		return graphql.Null
 	}
 	return ec._Application(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOApplicationFilterInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplicationFilter(ctx context.Context, v interface{}) (*v1.ApplicationFilter, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputApplicationFilterInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOApplicationInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋapplicationsᚋv1ᚐApplication(ctx context.Context, v interface{}) (*v1.Application, error) {

@@ -200,6 +200,8 @@ func (m *Endpoint) validate(all bool) error {
 
 	// no validation rules for Protocol
 
+	// no validation rules for TrafficClass
+
 	if len(errors) > 0 {
 		return EndpointMultiError(errors)
 	}

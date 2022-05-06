@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -18,8 +19,17 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApplicationServiceClient interface {
+	// List the Applications in the system for a given EnterpriseId.
+	// Returns NOT_FOUND if the list is empty.
 	GetApplications(ctx context.Context, in *GetApplicationsRequest, opts ...grpc.CallOption) (*Applications, error)
-	CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
+	// Gets an Application. Returns NOT_FOUND if the Application does not exist.
+	GetApplication(ctx context.Context, in *ApplicationFilter, opts ...grpc.CallOption) (*Application, error)
+	// Creates or Updates an Application, then returns the updated Application
+	CreateOrUpdateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error)
+	// Removes an Application.
+	// Returns NOT_FOUND if the Application does not exist.
+	// Returns NO_CONTENT if the Application has been removed.
+	DeleteApplication(ctx context.Context, in *ApplicationFilter, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type applicationServiceClient struct {
@@ -39,9 +49,27 @@ func (c *applicationServiceClient) GetApplications(ctx context.Context, in *GetA
 	return out, nil
 }
 
-func (c *applicationServiceClient) CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
+func (c *applicationServiceClient) GetApplication(ctx context.Context, in *ApplicationFilter, opts ...grpc.CallOption) (*Application, error) {
 	out := new(Application)
-	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/CreateApplication", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/GetApplication", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *applicationServiceClient) CreateOrUpdateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
+	out := new(Application)
+	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/CreateOrUpdateApplication", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *applicationServiceClient) DeleteApplication(ctx context.Context, in *ApplicationFilter, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/DeleteApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,8 +80,17 @@ func (c *applicationServiceClient) CreateApplication(ctx context.Context, in *Ap
 // All implementations must embed UnimplementedApplicationServiceServer
 // for forward compatibility
 type ApplicationServiceServer interface {
+	// List the Applications in the system for a given EnterpriseId.
+	// Returns NOT_FOUND if the list is empty.
 	GetApplications(context.Context, *GetApplicationsRequest) (*Applications, error)
-	CreateApplication(context.Context, *Application) (*Application, error)
+	// Gets an Application. Returns NOT_FOUND if the Application does not exist.
+	GetApplication(context.Context, *ApplicationFilter) (*Application, error)
+	// Creates or Updates an Application, then returns the updated Application
+	CreateOrUpdateApplication(context.Context, *Application) (*Application, error)
+	// Removes an Application.
+	// Returns NOT_FOUND if the Application does not exist.
+	// Returns NO_CONTENT if the Application has been removed.
+	DeleteApplication(context.Context, *ApplicationFilter) (*emptypb.Empty, error)
 	mustEmbedUnimplementedApplicationServiceServer()
 }
 
@@ -64,8 +101,14 @@ type UnimplementedApplicationServiceServer struct {
 func (UnimplementedApplicationServiceServer) GetApplications(context.Context, *GetApplicationsRequest) (*Applications, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetApplications not implemented")
 }
-func (UnimplementedApplicationServiceServer) CreateApplication(context.Context, *Application) (*Application, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateApplication not implemented")
+func (UnimplementedApplicationServiceServer) GetApplication(context.Context, *ApplicationFilter) (*Application, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetApplication not implemented")
+}
+func (UnimplementedApplicationServiceServer) CreateOrUpdateApplication(context.Context, *Application) (*Application, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrUpdateApplication not implemented")
+}
+func (UnimplementedApplicationServiceServer) DeleteApplication(context.Context, *ApplicationFilter) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteApplication not implemented")
 }
 func (UnimplementedApplicationServiceServer) mustEmbedUnimplementedApplicationServiceServer() {}
 
@@ -98,20 +141,56 @@ func _ApplicationService_GetApplications_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApplicationService_CreateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ApplicationService_GetApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplicationFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApplicationServiceServer).GetApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/applications.v1.ApplicationService/GetApplication",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApplicationServiceServer).GetApplication(ctx, req.(*ApplicationFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApplicationService_CreateOrUpdateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Application)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApplicationServiceServer).CreateApplication(ctx, in)
+		return srv.(ApplicationServiceServer).CreateOrUpdateApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/applications.v1.ApplicationService/CreateApplication",
+		FullMethod: "/applications.v1.ApplicationService/CreateOrUpdateApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApplicationServiceServer).CreateApplication(ctx, req.(*Application))
+		return srv.(ApplicationServiceServer).CreateOrUpdateApplication(ctx, req.(*Application))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApplicationService_DeleteApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplicationFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApplicationServiceServer).DeleteApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/applications.v1.ApplicationService/DeleteApplication",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApplicationServiceServer).DeleteApplication(ctx, req.(*ApplicationFilter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -128,8 +207,16 @@ var ApplicationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ApplicationService_GetApplications_Handler,
 		},
 		{
-			MethodName: "CreateApplication",
-			Handler:    _ApplicationService_CreateApplication_Handler,
+			MethodName: "GetApplication",
+			Handler:    _ApplicationService_GetApplication_Handler,
+		},
+		{
+			MethodName: "CreateOrUpdateApplication",
+			Handler:    _ApplicationService_CreateOrUpdateApplication_Handler,
+		},
+		{
+			MethodName: "DeleteApplication",
+			Handler:    _ApplicationService_DeleteApplication_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

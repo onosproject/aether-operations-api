@@ -3,13 +3,21 @@ type Application {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [Endpoint!]
+	enterpriseId: String
+}
+input ApplicationFilterInput {
+	enterpriseId: String
+	applicationId: String
 }
 input ApplicationInput {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [EndpointInput!]
+	enterpriseId: String
 }
 type Applications {
 	applications: [Application!]
@@ -22,6 +30,7 @@ type Endpoint {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 input EndpointInput {
 	endpointId: String
@@ -31,6 +40,7 @@ input EndpointInput {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 input GetApplicationsRequestInput {
 	enterpriseId: String
@@ -44,8 +54,29 @@ input MBRInput {
 	downlink: Int
 }
 type Mutation {
-	applicationServiceCreateApplication(in: ApplicationInput): Application
+	"""
+	 Creates or Updates an Application, then returns the updated Application
+	
+	"""
+	applicationServiceCreateOrUpdateApplication(in: ApplicationInput): Application
 }
 type Query {
+	"""
+	 List the Applications in the system for a given EnterpriseId.
+	 Returns NOT_FOUND if the list is empty.
+	
+	"""
 	applicationServiceGetApplications(in: GetApplicationsRequestInput): Applications
+	"""
+	 Gets an Application. Returns NOT_FOUND if the Application does not exist.
+	
+	"""
+	applicationServiceGetApplication(in: ApplicationFilterInput): Application
+	"""
+	 Removes an Application.
+	 Returns NOT_FOUND if the Application does not exist.
+	 Returns NO_CONTENT if the Application has been removed.
+	
+	"""
+	applicationServiceDeleteApplication(in: ApplicationFilterInput): Boolean
 }

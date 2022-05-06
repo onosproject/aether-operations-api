@@ -23,3 +23,10 @@ func PointerToInt64(p *int64) int64 {
 	}
 	return *p
 }
+
+func IntPointerToInt32(p *int) int32 {
+	if reflect.ValueOf(p).IsNil() {
+		return 0
+	}
+	return int32(*p)
+}

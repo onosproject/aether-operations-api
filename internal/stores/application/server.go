@@ -11,8 +11,6 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type ApplicationServiceGrpcServer struct {
@@ -25,11 +23,19 @@ func (r *ApplicationServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegist
 }
 
 func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, req *v1.GetApplicationsRequest) (*v1.Applications, error) {
-	return r.handler.ListApplications(req.EnterpriseId)
+	return r.handler.ListApplications(ctx, req.EnterpriseId)
 }
 
-func (r *ApplicationServiceGrpcServer) CreateApplication(context.Context, *v1.Application) (*v1.Application, error) {
-	return nil, status.Error(codes.Unimplemented, "create-applications-not-implemented")
+func (r *ApplicationServiceGrpcServer) GetApplication(ctx context.Context, req *v1.ApplicationFilter) (*v1.Application, error) {
+	return r.handler.GetApplication(ctx, req)
+}
+
+func (r *ApplicationServiceGrpcServer) CreateOrUpdateApplication(ctx context.Context, app *v1.Application) (*v1.Application, error) {
+	return r.handler.CreateApplication(ctx, app)
+}
+
+func (r *ApplicationServiceGrpcServer) DeleteApplication(ctx context.Context, req *v1.ApplicationFilter) (*v1.Empty, error) {
+	return r.handler.DeleteApplication(ctx, req)
 }
 
 func NewGrpcServer(handler *ApplicationHandler) *ApplicationServiceGrpcServer {

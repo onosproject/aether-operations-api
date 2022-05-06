@@ -11,7 +11,8 @@ paths:
         post:
             tags:
                 - ApplicationService
-            operationId: ApplicationService_CreateApplication
+            description: Creates or Updates an Application, then returns the updated Application
+            operationId: ApplicationService_CreateOrUpdateApplication
             requestBody:
                 content:
                     application/json:
@@ -53,6 +54,9 @@ paths:
         get:
             tags:
                 - ApplicationService
+            description: |-
+                List the Applications in the system for a given EnterpriseId.
+                 Returns NOT_FOUND if the list is empty.
             operationId: ApplicationService_GetApplications
             parameters:
                 - name: enterpriseId
@@ -67,6 +71,65 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Applications'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/applications/{applicationId}:
+        get:
+            tags:
+                - ApplicationService
+            description: Gets an Application. Returns NOT_FOUND if the Application does not exist.
+            operationId: ApplicationService_GetApplication
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: applicationId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Application'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - ApplicationService
+            description: |-
+                Removes an Application.
+                 Returns NOT_FOUND if the Application does not exist.
+                 Returns NO_CONTENT if the Application has been removed.
+            operationId: ApplicationService_DeleteApplication
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: applicationId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
                 default:
                     description: Default error response
                     content:
@@ -226,10 +289,14 @@ components:
                     type: string
                 description:
                     type: string
+                address:
+                    type: string
                 endpoints:
                     type: array
                     items:
                         $ref: '#/components/schemas/Endpoint'
+                enterpriseId:
+                    type: string
         Applications:
             type: object
             properties:
@@ -270,6 +337,8 @@ components:
                 description:
                     type: string
         Endpoint:
+            required:
+                - endpointId
             type: object
             properties:
                 endpointId:
@@ -287,6 +356,8 @@ components:
                     type: integer
                     format: int32
                 protocol:
+                    type: string
+                trafficClass:
                     type: string
         Enterprise:
             type: object

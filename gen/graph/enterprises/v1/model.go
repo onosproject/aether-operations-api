@@ -6,7 +6,9 @@ type Application struct {
 	ApplicationID *string     `json:"applicationId"`
 	Name          *string     `json:"name"`
 	Description   *string     `json:"description"`
+	Address       *string     `json:"address"`
 	Endpoints     []*Endpoint `json:"endpoints"`
+	EnterpriseID  *string     `json:"enterpriseId"`
 }
 
 type Device struct {
@@ -27,13 +29,14 @@ type DeviceGroup struct {
 }
 
 type Endpoint struct {
-	EndpointID  *string `json:"endpointId"`
-	Name        *string `json:"name"`
-	Description *string `json:"description"`
-	Mbr         *Mbr    `json:"mbr"`
-	PortStart   *int    `json:"portStart"`
-	PortEnd     *int    `json:"portEnd"`
-	Protocol    *string `json:"protocol"`
+	EndpointID   *string `json:"endpointId"`
+	Name         *string `json:"name"`
+	Description  *string `json:"description"`
+	Mbr          *Mbr    `json:"mbr"`
+	PortStart    *int    `json:"portStart"`
+	PortEnd      *int    `json:"portEnd"`
+	Protocol     *string `json:"protocol"`
+	TrafficClass *string `json:"trafficClass"`
 }
 
 type Mbr struct {

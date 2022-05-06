@@ -10,19 +10,24 @@ package endpoints.v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/endpoints/v1";
 
+import "google/api/field_behavior.proto";
+
 message MBR {
   int64 uplink = 1;
   int64 downlink = 2;
 }
 
 message Endpoint {
-  string endpoint_id = 1;
+  string endpoint_id = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
   string name = 2;
   string description = 3;
   MBR mbr = 4;
   int32 port_start = 5;
   int32  port_end = 6;
   string protocol = 7;
+  string traffic_class = 8;
 }
 
 message Endpoints {

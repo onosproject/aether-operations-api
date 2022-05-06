@@ -12,6 +12,8 @@ import "endpoints/v1/endpoints.proto";
 import "google/api/field_behavior.proto";
 import "pb/graphql.proto";
 import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import public "google/protobuf/empty.proto";
 
 message Application {
   string application_id = 1 [
@@ -19,7 +21,9 @@ message Application {
   ];
   string name = 2;
   string description = 3;
-  repeated endpoints.v1.Endpoint endpoints = 4;
+  string address = 4;
+  repeated endpoints.v1.Endpoint endpoints = 5;
+  string enterprise_id = 6;
 }
 
 message Applications {
@@ -30,11 +34,22 @@ message GetApplicationsRequest {
   string enterprise_id = 1;
 }
 
+message ApplicationFilter {
+  string enterprise_id = 1;
+  string application_id = 2;
+}
+
+// This API let you manage `Application`s deployed on top of Aether.
+
 service ApplicationService {
+  // List the Applications in the system for a given EnterpriseId.
+  // Returns NOT_FOUND if the list is empty.
   rpc GetApplications(GetApplicationsRequest) returns (Applications) {
     option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
     option (google.api.http) = {
       get: "/api/v1/enterprises/{enterprise_id}/applications",
+      // NOTE additional_bindings are not currently supported by gnostic
+      // https://github.com/google/gnostic/issues/345
       additional_bindings {
         // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
         // are automatically added to query parameters
@@ -43,11 +58,30 @@ service ApplicationService {
     };
   }
 
-  rpc CreateApplication(Application) returns (Application) {
+  // Gets an Application. Returns NOT_FOUND if the Application does not exist.
+  rpc GetApplication(ApplicationFilter) returns (Application) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      get: "/api/v1/enterprises/{enterprise_id}/applications/{application_id}",
+    };
+  }
+
+  // Creates or Updates an Application, then returns the updated Application
+  rpc CreateOrUpdateApplication(Application) returns (Application) {
     option (danielvladco.protobuf.graphql.rpc) = {type: MUTATION};
     option (google.api.http) = {
       post: "/api/v1/applications"
       body: "*"
+    };
+  }
+
+  // Removes an Application.
+  // Returns NOT_FOUND if the Application does not exist.
+  // Returns NO_CONTENT if the Application has been removed.
+  rpc DeleteApplication(ApplicationFilter) returns (google.protobuf.Empty) {
+    option (danielvladco.protobuf.graphql.rpc) = {type: QUERY};
+    option (google.api.http) = {
+      delete: "/api/v1/enterprises/{enterprise_id}/applications/{application_id}",
     };
   }
 }

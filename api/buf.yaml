@@ -20,6 +20,11 @@ lint:
     - FILE_LOWER_SNAKE_CASE
     - PACKAGE_VERSION_SUFFIX
     - SERVICE_SUFFIX
+  ignore_only:
+    IMPORT_NO_PUBLIC:
+      # We are importing google.protobuf.Empty, which needs to be made available
+      # in the generated code and the simpler way to do that is to use a public import
+      - enterprises/v1/enterprises.proto
 breaking:
   use:
     - FILE

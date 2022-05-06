@@ -3,23 +3,25 @@
 package application
 
 type Endpoint struct {
-	EndpointID  *string `json:"endpointId"`
-	Name        *string `json:"name"`
-	Description *string `json:"description"`
-	Mbr         *Mbr    `json:"mbr"`
-	PortStart   *int    `json:"portStart"`
-	PortEnd     *int    `json:"portEnd"`
-	Protocol    *string `json:"protocol"`
+	EndpointID   *string `json:"endpointId"`
+	Name         *string `json:"name"`
+	Description  *string `json:"description"`
+	Mbr          *Mbr    `json:"mbr"`
+	PortStart    *int    `json:"portStart"`
+	PortEnd      *int    `json:"portEnd"`
+	Protocol     *string `json:"protocol"`
+	TrafficClass *string `json:"trafficClass"`
 }
 
 type EndpointInput struct {
-	EndpointID  *string   `json:"endpointId"`
-	Name        *string   `json:"name"`
-	Description *string   `json:"description"`
-	Mbr         *MBRInput `json:"mbr"`
-	PortStart   *int      `json:"portStart"`
-	PortEnd     *int      `json:"portEnd"`
-	Protocol    *string   `json:"protocol"`
+	EndpointID   *string   `json:"endpointId"`
+	Name         *string   `json:"name"`
+	Description  *string   `json:"description"`
+	Mbr          *MBRInput `json:"mbr"`
+	PortStart    *int      `json:"portStart"`
+	PortEnd      *int      `json:"portEnd"`
+	Protocol     *string   `json:"protocol"`
+	TrafficClass *string   `json:"trafficClass"`
 }
 
 type Mbr struct {

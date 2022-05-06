@@ -3,7 +3,9 @@ type Application {
 	applicationId: String
 	name: String
 	description: String
+	address: String
 	endpoints: [Endpoint!]
+	enterpriseId: String
 }
 type Device {
 	deviceId: String
@@ -28,6 +30,7 @@ type Endpoint {
 	portStart: Int
 	portEnd: Int
 	protocol: String
+	trafficClass: String
 }
 type Enterprise {
 	enterpriseId: String
