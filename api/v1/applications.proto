@@ -4,11 +4,10 @@
 
 syntax = "proto3";
 
-package applications.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
-import "protoc-gen-openapiv2/options/annotations.proto";
 import "endpoints.proto";
 import "google/api/field_behavior.proto";
 import "google/api/annotations.proto";
@@ -19,11 +18,7 @@ message Application {
   ];
   string name = 2;
   string description = 3;
-  repeated endpoints.v1.Endpoint endpoints = 4;
-}
-
-message Applications {
-  repeated Application applications = 1;
+  repeated v1.Endpoint endpoints = 4;
 }
 
 message GetApplicationsRequest {
@@ -31,11 +26,11 @@ message GetApplicationsRequest {
 }
 
 message GetApplicationsResponse {
-  repeated Application applications = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of Application objects"}];
+  repeated Application applications = 1;
 }
 
 service ApplicationService {
-  rpc GetApplications(GetApplicationsRequest) returns (applications.v1.GetApplicationsResponse) {
+  rpc GetApplications(GetApplicationsRequest) returns (v1.GetApplicationsResponse) {
     option (google.api.http) = {
       get: "/api/v1/enterprises/{enterprise_id}/applications",
       additional_bindings {

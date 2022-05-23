@@ -117,15 +117,15 @@ input MBRInput {
 	downlink: Int
 }
 type Mutation {
+	deviceGroupServiceGetDeviceGroups(in: GetDeviceGroupsRequestInput): GetDeviceGroupsResponse
 	simCardServiceGetSimCards(in: GetSimCardsRequestInput): GetSimCardsResponse
-	smallCellServiceGetSmallCells(in: GetSmallCellsRequestInput): GetSmallCellsResponse
-	siteServiceGetSites(in: GetSitesRequestInput): GetSitesResponse
+	deviceServiceGetDevices(in: GetDevicesRequestInput): GetDevicesResponse
 	applicationServiceGetApplications(in: GetApplicationsRequestInput): GetApplicationsResponse
 	applicationServiceCreateApplication(in: ApplicationInput): Application
-	deviceServiceGetDevices(in: GetDevicesRequestInput): GetDevicesResponse
-	sliceServiceGetSlices(in: GetSlicesRequestInput): GetSlicesResponse
-	deviceGroupServiceGetDeviceGroups(in: GetDeviceGroupsRequestInput): GetDeviceGroupsResponse
+	siteServiceGetSites(in: GetSitesRequestInput): GetSitesResponse
 	enterpriseServiceGetEnterprises: GetEnterprisesResponse
+	sliceServiceGetSlices(in: GetSlicesRequestInput): GetSlicesResponse
+	smallCellServiceGetSmallCells(in: GetSmallCellsRequestInput): GetSmallCellsResponse
 }
 type Query {
 	dummy: Boolean

@@ -152,7 +152,7 @@ func RegisterDeviceGroupServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/devicegroups.v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/device_groups"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/device_groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -176,7 +176,7 @@ func RegisterDeviceGroupServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/devicegroups.v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/device_groups"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/device_groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -239,7 +239,7 @@ func RegisterDeviceGroupServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/devicegroups.v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/device_groups"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/device_groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterDeviceGroupServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/devicegroups.v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/device_groups"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.DeviceGroupService/GetDeviceGroups", runtime.WithHTTPPathPattern("/api/v1/device_groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

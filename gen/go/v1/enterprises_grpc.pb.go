@@ -32,7 +32,7 @@ func NewEnterpriseServiceClient(cc grpc.ClientConnInterface) EnterpriseServiceCl
 
 func (c *enterpriseServiceClient) GetEnterprises(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetEnterprisesResponse, error) {
 	out := new(GetEnterprisesResponse)
-	err := c.cc.Invoke(ctx, "/enterprises.v1.EnterpriseService/GetEnterprises", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.EnterpriseService/GetEnterprises", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func _EnterpriseService_GetEnterprises_Handler(srv interface{}, ctx context.Cont
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/enterprises.v1.EnterpriseService/GetEnterprises",
+		FullMethod: "/v1.EnterpriseService/GetEnterprises",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EnterpriseServiceServer).GetEnterprises(ctx, req.(*emptypb.Empty))
@@ -89,7 +89,7 @@ func _EnterpriseService_GetEnterprises_Handler(srv interface{}, ctx context.Cont
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var EnterpriseService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "enterprises.v1.EnterpriseService",
+	ServiceName: "v1.EnterpriseService",
 	HandlerType: (*EnterpriseServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

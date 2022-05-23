@@ -31,7 +31,7 @@ func NewDeviceGroupServiceClient(cc grpc.ClientConnInterface) DeviceGroupService
 
 func (c *deviceGroupServiceClient) GetDeviceGroups(ctx context.Context, in *GetDeviceGroupsRequest, opts ...grpc.CallOption) (*GetDeviceGroupsResponse, error) {
 	out := new(GetDeviceGroupsResponse)
-	err := c.cc.Invoke(ctx, "/devicegroups.v1.DeviceGroupService/GetDeviceGroups", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.DeviceGroupService/GetDeviceGroups", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _DeviceGroupService_GetDeviceGroups_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/devicegroups.v1.DeviceGroupService/GetDeviceGroups",
+		FullMethod: "/v1.DeviceGroupService/GetDeviceGroups",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DeviceGroupServiceServer).GetDeviceGroups(ctx, req.(*GetDeviceGroupsRequest))
@@ -88,7 +88,7 @@ func _DeviceGroupService_GetDeviceGroups_Handler(srv interface{}, ctx context.Co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DeviceGroupService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "devicegroups.v1.DeviceGroupService",
+	ServiceName: "v1.DeviceGroupService",
 	HandlerType: (*DeviceGroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

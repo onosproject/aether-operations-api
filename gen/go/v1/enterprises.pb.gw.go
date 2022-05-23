@@ -63,7 +63,7 @@ func RegisterEnterpriseServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/enterprises.v1.EnterpriseService/GetEnterprises", runtime.WithHTTPPathPattern("/api/v1/enterprises"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.EnterpriseService/GetEnterprises", runtime.WithHTTPPathPattern("/api/v1/enterprises"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -126,7 +126,7 @@ func RegisterEnterpriseServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/enterprises.v1.EnterpriseService/GetEnterprises", runtime.WithHTTPPathPattern("/api/v1/enterprises"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.EnterpriseService/GetEnterprises", runtime.WithHTTPPathPattern("/api/v1/enterprises"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

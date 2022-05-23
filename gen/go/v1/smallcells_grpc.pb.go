@@ -31,7 +31,7 @@ func NewSmallCellServiceClient(cc grpc.ClientConnInterface) SmallCellServiceClie
 
 func (c *smallCellServiceClient) GetSmallCells(ctx context.Context, in *GetSmallCellsRequest, opts ...grpc.CallOption) (*GetSmallCellsResponse, error) {
 	out := new(GetSmallCellsResponse)
-	err := c.cc.Invoke(ctx, "/smallcells.v1.SmallCellService/GetSmallCells", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.SmallCellService/GetSmallCells", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _SmallCellService_GetSmallCells_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/smallcells.v1.SmallCellService/GetSmallCells",
+		FullMethod: "/v1.SmallCellService/GetSmallCells",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SmallCellServiceServer).GetSmallCells(ctx, req.(*GetSmallCellsRequest))
@@ -88,7 +88,7 @@ func _SmallCellService_GetSmallCells_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SmallCellService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "smallcells.v1.SmallCellService",
+	ServiceName: "v1.SmallCellService",
 	HandlerType: (*SmallCellServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

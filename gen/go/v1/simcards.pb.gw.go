@@ -152,7 +152,7 @@ func RegisterSimCardServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/simcards.v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -176,7 +176,7 @@ func RegisterSimCardServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/simcards.v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/sim_cards"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/sim_cards"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -239,7 +239,7 @@ func RegisterSimCardServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/simcards.v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterSimCardServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/simcards.v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/sim_cards"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SimCardService/GetSimCards", runtime.WithHTTPPathPattern("/api/v1/sim_cards"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

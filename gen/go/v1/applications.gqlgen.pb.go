@@ -14,6 +14,5 @@ func (s *ApplicationServiceResolvers) ApplicationServiceCreateApplication(ctx co
 }
 
 type ApplicationInput = Application
-type ApplicationsInput = Applications
 type GetApplicationsRequestInput = GetApplicationsRequest
 type GetApplicationsResponseInput = GetApplicationsResponse

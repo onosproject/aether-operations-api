@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package slices.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
@@ -12,20 +12,20 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/annotations.proto";
 
-message Slice {
+message SmallCell {
   string id = 1 [
-    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {title: "The ID field.", description: "Unique identifier for a slice", pattern: "[a-zA-Z]"},
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {title: "The ID field.", description: "Unique identifier for a small cell", pattern: "[a-zA-Z]"},
     (google.api.field_behavior) = REQUIRED
   ];
   string name = 2;
   string description = 3;
 }
 
-message GetSlicesResponse {
-  repeated Slice slices = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of Slice objects"}];
+message GetSmallCellsResponse {
+  repeated SmallCell small_cells = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of SmallCell objects"}];
 }
 
-message GetSlicesRequest {
+message GetSmallCellsRequest {
   string enterprise_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
     pattern: "[a-zA-Z]",
     title: "EnterpriseId",
@@ -42,15 +42,16 @@ message GetSlicesRequest {
   }];
 }
 
-service SliceService {
-  rpc GetSlices(GetSlicesRequest) returns (slices.v1.GetSlicesResponse) {
+service SmallCellService {
+  rpc GetSmallCells(GetSmallCellsRequest) returns (v1.GetSmallCellsResponse) {
     option (google.api.http) = {
-      get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/slices",
+      get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells",
       additional_bindings {
         // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
         // are automatically added to query parameters
-        get: "/api/v1/slices"
+        get: "/api/v1/small_cells"
       }
     };
   }
 }
+

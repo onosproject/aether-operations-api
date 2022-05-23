@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package sites.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
@@ -23,9 +23,9 @@ message Site {
   ];
   string name = 2;
   string description = 3;
-  repeated devices.v1.Device devices = 4;
-  repeated slices.v1.Slice slices = 5;
-  repeated smallcells.v1.SmallCell small_cells = 6;
+  repeated v1.Device devices = 4;
+  repeated v1.Slice slices = 5;
+  repeated v1.SmallCell small_cells = 6;
   //  repeated simcards.v1.SimCard sim_cards = 7;
 }
 
@@ -44,7 +44,7 @@ message GetSitesRequest {
 }
 
 service SiteService {
-  rpc GetSites(GetSitesRequest) returns (sites.v1.GetSitesResponse) {
+  rpc GetSites(GetSitesRequest) returns (v1.GetSitesResponse) {
     option (google.api.http) = {
       get: "/api/v1/enterprises/{enterprise_id}/sites",
       additional_bindings {

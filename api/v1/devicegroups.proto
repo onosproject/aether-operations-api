@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package devicegroups.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
@@ -39,7 +39,7 @@ message GetDeviceGroupsRequest {
 }
 
 service DeviceGroupService {
-  rpc GetDeviceGroups(GetDeviceGroupsRequest) returns (devicegroups.v1.GetDeviceGroupsResponse) {
+  rpc GetDeviceGroups(GetDeviceGroupsRequest) returns (v1.GetDeviceGroupsResponse) {
     option (google.api.http) = {
       get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/device_groups",
       additional_bindings {

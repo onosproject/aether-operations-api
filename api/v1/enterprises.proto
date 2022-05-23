@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package enterprises.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
@@ -12,14 +12,14 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "applications.proto";
 import "sites.proto";
 import "google/api/annotations.proto";
-import public "google/protobuf/empty.proto";
+import "google/protobuf/empty.proto";
 
 message Enterprise {
   string id = 1;
   string name = 2;
   string description = 3;
-  repeated applications.v1.Application applications = 4;
-  repeated sites.v1.Site sites = 5;
+  repeated v1.Application applications = 4;
+  repeated v1.Site sites = 5;
 }
 
 message Enterprises {
@@ -31,7 +31,7 @@ message GetEnterprisesResponse {
 }
 
 service EnterpriseService {
-  rpc GetEnterprises(google.protobuf.Empty) returns (enterprises.v1.GetEnterprisesResponse) {
+  rpc GetEnterprises(google.protobuf.Empty) returns (v1.GetEnterprisesResponse) {
     option (google.api.http) = {
       get: "/api/v1/enterprises"
     };

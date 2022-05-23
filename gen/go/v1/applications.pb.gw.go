@@ -166,7 +166,7 @@ func RegisterApplicationServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -190,7 +190,7 @@ func RegisterApplicationServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/applications"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -214,7 +214,7 @@ func RegisterApplicationServiceHandlerServer(ctx context.Context, mux *runtime.S
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/applications.v1.ApplicationService/CreateApplication", runtime.WithHTTPPathPattern("/api/v1/applications"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.ApplicationService/CreateApplication", runtime.WithHTTPPathPattern("/api/v1/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -277,7 +277,7 @@ func RegisterApplicationServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -298,7 +298,7 @@ func RegisterApplicationServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/applications.v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/applications"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.ApplicationService/GetApplications", runtime.WithHTTPPathPattern("/api/v1/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -319,7 +319,7 @@ func RegisterApplicationServiceHandlerClient(ctx context.Context, mux *runtime.S
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/applications.v1.ApplicationService/CreateApplication", runtime.WithHTTPPathPattern("/api/v1/applications"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.ApplicationService/CreateApplication", runtime.WithHTTPPathPattern("/api/v1/applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

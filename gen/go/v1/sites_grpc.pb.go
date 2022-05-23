@@ -31,7 +31,7 @@ func NewSiteServiceClient(cc grpc.ClientConnInterface) SiteServiceClient {
 
 func (c *siteServiceClient) GetSites(ctx context.Context, in *GetSitesRequest, opts ...grpc.CallOption) (*GetSitesResponse, error) {
 	out := new(GetSitesResponse)
-	err := c.cc.Invoke(ctx, "/sites.v1.SiteService/GetSites", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.SiteService/GetSites", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _SiteService_GetSites_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/sites.v1.SiteService/GetSites",
+		FullMethod: "/v1.SiteService/GetSites",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SiteServiceServer).GetSites(ctx, req.(*GetSitesRequest))
@@ -88,7 +88,7 @@ func _SiteService_GetSites_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SiteService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "sites.v1.SiteService",
+	ServiceName: "v1.SiteService",
 	HandlerType: (*SiteServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

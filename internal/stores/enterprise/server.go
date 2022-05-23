@@ -11,6 +11,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type EnterpriseServiceGrpcServer struct {
@@ -22,7 +23,7 @@ func (r *EnterpriseServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegistr
 	v1.RegisterEnterpriseServiceServer(srv, r)
 }
 
-func (r *EnterpriseServiceGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.GetEnterprisesResponse, error) {
+func (r *EnterpriseServiceGrpcServer) GetEnterprises(ctx context.Context, empty *emptypb.Empty) (*v1.GetEnterprisesResponse, error) {
 	return r.handler.ListEnterprises()
 }
 

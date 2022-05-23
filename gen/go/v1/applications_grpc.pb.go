@@ -32,7 +32,7 @@ func NewApplicationServiceClient(cc grpc.ClientConnInterface) ApplicationService
 
 func (c *applicationServiceClient) GetApplications(ctx context.Context, in *GetApplicationsRequest, opts ...grpc.CallOption) (*GetApplicationsResponse, error) {
 	out := new(GetApplicationsResponse)
-	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/GetApplications", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.ApplicationService/GetApplications", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (c *applicationServiceClient) GetApplications(ctx context.Context, in *GetA
 
 func (c *applicationServiceClient) CreateApplication(ctx context.Context, in *Application, opts ...grpc.CallOption) (*Application, error) {
 	out := new(Application)
-	err := c.cc.Invoke(ctx, "/applications.v1.ApplicationService/CreateApplication", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.ApplicationService/CreateApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func _ApplicationService_GetApplications_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/applications.v1.ApplicationService/GetApplications",
+		FullMethod: "/v1.ApplicationService/GetApplications",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ApplicationServiceServer).GetApplications(ctx, req.(*GetApplicationsRequest))
@@ -108,7 +108,7 @@ func _ApplicationService_CreateApplication_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/applications.v1.ApplicationService/CreateApplication",
+		FullMethod: "/v1.ApplicationService/CreateApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ApplicationServiceServer).CreateApplication(ctx, req.(*Application))
@@ -120,7 +120,7 @@ func _ApplicationService_CreateApplication_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ApplicationService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "applications.v1.ApplicationService",
+	ServiceName: "v1.ApplicationService",
 	HandlerType: (*ApplicationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

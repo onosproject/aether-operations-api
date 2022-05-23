@@ -31,7 +31,7 @@ func NewSimCardServiceClient(cc grpc.ClientConnInterface) SimCardServiceClient {
 
 func (c *simCardServiceClient) GetSimCards(ctx context.Context, in *GetSimCardsRequest, opts ...grpc.CallOption) (*GetSimCardsResponse, error) {
 	out := new(GetSimCardsResponse)
-	err := c.cc.Invoke(ctx, "/simcards.v1.SimCardService/GetSimCards", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.SimCardService/GetSimCards", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _SimCardService_GetSimCards_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/simcards.v1.SimCardService/GetSimCards",
+		FullMethod: "/v1.SimCardService/GetSimCards",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SimCardServiceServer).GetSimCards(ctx, req.(*GetSimCardsRequest))
@@ -88,7 +88,7 @@ func _SimCardService_GetSimCards_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SimCardService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "simcards.v1.SimCardService",
+	ServiceName: "v1.SimCardService",
 	HandlerType: (*SimCardServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

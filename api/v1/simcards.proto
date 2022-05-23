@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package simcards.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 
@@ -39,7 +39,7 @@ message GetSimCardsRequest {
 }
 
 service SimCardService {
-  rpc GetSimCards(GetSimCardsRequest) returns (simcards.v1.GetSimCardsResponse) {
+  rpc GetSimCards(GetSimCardsRequest) returns (v1.GetSimCardsResponse) {
     option (google.api.http) = {
       get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards",
       additional_bindings {

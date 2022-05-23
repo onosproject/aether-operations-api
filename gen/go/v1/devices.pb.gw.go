@@ -152,7 +152,7 @@ func RegisterDeviceServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/devices.v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/devices"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/devices"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -176,7 +176,7 @@ func RegisterDeviceServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/devices.v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/devices"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/devices"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -239,7 +239,7 @@ func RegisterDeviceServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/devices.v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/devices"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/devices"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterDeviceServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/devices.v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/devices"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.DeviceService/GetDevices", runtime.WithHTTPPathPattern("/api/v1/devices"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

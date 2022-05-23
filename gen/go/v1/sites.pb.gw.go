@@ -132,7 +132,7 @@ func RegisterSiteServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -156,7 +156,7 @@ func RegisterSiteServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -219,7 +219,7 @@ func RegisterSiteServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -240,7 +240,7 @@ func RegisterSiteServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/sites.v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SiteService/GetSites", runtime.WithHTTPPathPattern("/api/v1/sites"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

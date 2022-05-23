@@ -31,7 +31,7 @@ func NewSliceServiceClient(cc grpc.ClientConnInterface) SliceServiceClient {
 
 func (c *sliceServiceClient) GetSlices(ctx context.Context, in *GetSlicesRequest, opts ...grpc.CallOption) (*GetSlicesResponse, error) {
 	out := new(GetSlicesResponse)
-	err := c.cc.Invoke(ctx, "/slices.v1.SliceService/GetSlices", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.SliceService/GetSlices", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _SliceService_GetSlices_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/slices.v1.SliceService/GetSlices",
+		FullMethod: "/v1.SliceService/GetSlices",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SliceServiceServer).GetSlices(ctx, req.(*GetSlicesRequest))
@@ -88,7 +88,7 @@ func _SliceService_GetSlices_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SliceService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "slices.v1.SliceService",
+	ServiceName: "v1.SliceService",
 	HandlerType: (*SliceServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

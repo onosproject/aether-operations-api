@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package endpoints.v1;
+package v1;
 
 option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
 

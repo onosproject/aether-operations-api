@@ -31,7 +31,7 @@ func NewDeviceServiceClient(cc grpc.ClientConnInterface) DeviceServiceClient {
 
 func (c *deviceServiceClient) GetDevices(ctx context.Context, in *GetDevicesRequest, opts ...grpc.CallOption) (*GetDevicesResponse, error) {
 	out := new(GetDevicesResponse)
-	err := c.cc.Invoke(ctx, "/devices.v1.DeviceService/GetDevices", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v1.DeviceService/GetDevices", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _DeviceService_GetDevices_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/devices.v1.DeviceService/GetDevices",
+		FullMethod: "/v1.DeviceService/GetDevices",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DeviceServiceServer).GetDevices(ctx, req.(*GetDevicesRequest))
@@ -88,7 +88,7 @@ func _DeviceService_GetDevices_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DeviceService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "devices.v1.DeviceService",
+	ServiceName: "v1.DeviceService",
 	HandlerType: (*DeviceServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -152,7 +152,7 @@ func RegisterSmallCellServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/smallcells.v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -176,7 +176,7 @@ func RegisterSmallCellServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/smallcells.v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/small_cells"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/small_cells"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -239,7 +239,7 @@ func RegisterSmallCellServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/smallcells.v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterSmallCellServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/smallcells.v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/small_cells"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/v1.SmallCellService/GetSmallCells", runtime.WithHTTPPathPattern("/api/v1/small_cells"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

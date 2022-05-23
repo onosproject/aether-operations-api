@@ -52,7 +52,7 @@ setup_tools: mod-update
 	@echo "Dependencies downloaded OK"
 
 buf: # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
-	buf mod update api/v1/proto
+	buf mod update api/v1
 	buf build
 	buf generate
 
@@ -64,7 +64,7 @@ clean-gen: # @HELP Removes all generated files
 	rm -r ./gen/graph || true
 
 PROTO_DIR = api
-lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and badkward compatibility on the protos
+lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and backward compatibility on the protos
 	@for file in $^ ; do \
 		if [ -d "$${file}" ]; then \
 			echo "Linting" $${file} ; \
