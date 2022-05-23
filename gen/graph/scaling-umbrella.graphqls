@@ -1,0 +1,159 @@
+directive @ApplicationService on FIELD_DEFINITION
+directive @DeviceGroupService on FIELD_DEFINITION
+directive @DeviceService on FIELD_DEFINITION
+directive @EnterpriseService on FIELD_DEFINITION
+directive @SimCardService on FIELD_DEFINITION
+directive @SiteService on FIELD_DEFINITION
+directive @SliceService on FIELD_DEFINITION
+directive @SmallCellService on FIELD_DEFINITION
+type Application {
+	id: String
+	name: String
+	description: String
+	endpoints: [Endpoint!]
+}
+input ApplicationInput {
+	id: String
+	name: String
+	description: String
+	endpoints: [EndpointInput!]
+}
+type Device {
+	id: String
+	name: String
+	description: String
+	attached: String
+	imei: String
+	ip: String
+	simCard: SimCard
+	deviceGroups: [DeviceGroup!]
+}
+type DeviceGroup {
+	id: String
+	name: String
+	description: String
+}
+type Endpoint {
+	id: String
+	name: String
+	description: String
+	mbr: MBR
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+input EndpointInput {
+	id: String
+	name: String
+	description: String
+	mbr: MBRInput
+	portStart: Int
+	portEnd: Int
+	protocol: String
+}
+type Enterprise {
+	id: String
+	name: String
+	description: String
+	applications: [Application!]
+	sites: [Site!]
+}
+input GetApplicationsRequestInput {
+	enterpriseId: String
+}
+type GetApplicationsResponse {
+	applications: [Application!]
+}
+input GetDeviceGroupsRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetDeviceGroupsResponse {
+	deviceGroups: [DeviceGroup!]
+}
+input GetDevicesRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetDevicesResponse {
+	devices: [Device!]
+}
+type GetEnterprisesResponse {
+	enterprises: [Enterprise!]
+}
+input GetSimCardsRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetSimCardsResponse {
+	simCards: [SimCard!]
+}
+input GetSitesRequestInput {
+	enterpriseId: String
+}
+type GetSitesResponse {
+	sites: [Site!]
+}
+input GetSlicesRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetSlicesResponse {
+	slices: [Slice!]
+}
+input GetSmallCellsRequestInput {
+	enterpriseId: String
+	siteId: String
+}
+type GetSmallCellsResponse {
+	smallCells: [SmallCell!]
+}
+type MBR {
+	uplink: Int
+	downlink: Int
+}
+input MBRInput {
+	uplink: Int
+	downlink: Int
+}
+type Mutation {
+	simCardServiceGetSimCards(in: GetSimCardsRequestInput): GetSimCardsResponse
+	smallCellServiceGetSmallCells(in: GetSmallCellsRequestInput): GetSmallCellsResponse
+	siteServiceGetSites(in: GetSitesRequestInput): GetSitesResponse
+	applicationServiceGetApplications(in: GetApplicationsRequestInput): GetApplicationsResponse
+	applicationServiceCreateApplication(in: ApplicationInput): Application
+	deviceServiceGetDevices(in: GetDevicesRequestInput): GetDevicesResponse
+	sliceServiceGetSlices(in: GetSlicesRequestInput): GetSlicesResponse
+	deviceGroupServiceGetDeviceGroups(in: GetDeviceGroupsRequestInput): GetDeviceGroupsResponse
+	enterpriseServiceGetEnterprises: GetEnterprisesResponse
+}
+type Query {
+	dummy: Boolean
+}
+type SimCard {
+	id: String
+	name: String
+	description: String
+}
+type Site {
+	id: String
+	name: String
+	description: String
+	devices: [Device!]
+	slices: [Slice!]
+	"""
+	  repeated simcards.v1.SimCard sim_cards = 7;
+	
+	"""
+	smallCells: [SmallCell!]
+}
+type Slice {
+	id: String
+	name: String
+	description: String
+}
+type SmallCell {
+	id: String
+	name: String
+	description: String
+}

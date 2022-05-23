@@ -1,7 +1,0 @@
-type DeviceGroup {
-    id: ID!
-    name: String!
-    description: String!
-    devices: [Device!]!
-    slice: Slice
-}

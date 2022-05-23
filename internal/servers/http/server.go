@@ -14,17 +14,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	generated "github.com/onosproject/scaling-umbrella/gen/graph/graphql"
+	gqlgen "github.com/onosproject/scaling-umbrella/gen/graph"
 	"github.com/onosproject/scaling-umbrella/gen/openapiv3"
 	"github.com/onosproject/scaling-umbrella/internal/config"
-	"github.com/onosproject/scaling-umbrella/internal/graph/resolvers"
+	"github.com/onosproject/scaling-umbrella/internal/servers/graphql/app"
 	rocGrpcServer "github.com/onosproject/scaling-umbrella/internal/servers/grpc"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
+	"github.com/onosproject/scaling-umbrella/internal/stores/devicegroup"
 	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
 	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
+	"github.com/onosproject/scaling-umbrella/internal/stores/smallcell"
 	"github.com/onosproject/scaling-umbrella/internal/utils"
 	"google.golang.org/grpc"
 	"io/fs"
@@ -88,10 +90,16 @@ func (s RocHttpServer) RegisterRestGatewayHandlers() error {
 	if err := device.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
+	if err := devicegroup.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
 	if err := simcard.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
 	if err := slice.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
+		return err
+	}
+	if err := smallcell.RegisterGatewayHandler(ctx, s.mux, s.grpcConn); err != nil {
 		return err
 	}
 
@@ -106,7 +114,19 @@ func (s RocHttpServer) RegisterRestGatewayHandlers() error {
 // Defining the Graphql handler
 func (s RocHttpServer) graphqlHandler() gin.HandlerFunc {
 
-	h := handler.NewDefaultServer(generated.NewExecutableSchema(resolvers.NewResolver(s.grpcServer)))
+	app := graphqlapp.NewApp(
+		enterprise.NewEnterpriseResolver(s.grpcServer.Services.EnterpriseService),
+		application.NewApplicationResolver(s.grpcServer.Services.ApplicationService),
+		site.NewSiteResolver(s.grpcServer.Services.SiteService),
+		device.NewDeviceResolver(s.grpcServer.Services.DeviceService),
+		devicegroup.NewDeviceGroupResolver(s.grpcServer.Services.DeviceGroupService),
+		simcard.NewSimCardResolver(s.grpcServer.Services.SimCardService),
+		slice.NewSliceResolver(s.grpcServer.Services.SliceService),
+		smallcell.NewSmallCellResolver(s.grpcServer.Services.SmallCellService),
+	)
+	h := handler.NewDefaultServer(gqlgen.NewExecutableSchema(gqlgen.Config{
+		Resolvers: app,
+	}))
 
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)
@@ -125,11 +145,6 @@ func (s RocHttpServer) playgroundHandler() gin.HandlerFunc {
 func (s RocHttpServer) RegisterGraphqlHandlers() {
 	s.gin.POST("/graphql", s.graphqlHandler())
 	s.gin.GET("/graphiql", s.playgroundHandler())
-
-	// TODO it would be good to collect the registered endpoinds to
-	// dinamically generate a navigation page
-	application.RegisterGraphQlHandler(s.grpcServer.Services.ApplicationService, s.gin)
-	enterprise.RegisterGraphQlHandler(s.grpcServer.Services.EnterpriseService, s.gin)
 }
 
 func (s RocHttpServer) StartHttpServer() error {

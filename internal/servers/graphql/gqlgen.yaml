@@ -1,0 +1,36 @@
+schema:
+  #  - gen/graph/scaling-umbrella.graphql - copy types we care about
+  - internal/servers/graphql/schema/schema.graphql
+
+exec:
+  filename: gen/graph/generated.go
+  package: gqlgen
+
+# Location for auto generated models
+#model:
+#  filename: gen/graph/model/models_gen.go
+#  package: model
+
+# Location for implementing resolvers
+#resolver:
+#  filename: gen/graph/resolvers.go
+#  package: gqlgen
+
+# Optional: set to speed up generation time by not performing a final validation pass.
+skip_validation: true
+
+autobind:
+  - "github.com/onosproject/scaling-umbrella/gen/go/v1"
+
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32

@@ -9,7 +9,7 @@ package enterprise
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"google.golang.org/grpc"
 )
 
@@ -22,7 +22,7 @@ func (r *EnterpriseServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegistr
 	v1.RegisterEnterpriseServiceServer(srv, r)
 }
 
-func (r *EnterpriseServiceGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.Enterprises, error) {
+func (r *EnterpriseServiceGrpcServer) GetEnterprises(ctx context.Context, empty *v1.Empty) (*v1.GetEnterprisesResponse, error) {
 	return r.handler.ListEnterprises()
 }
 

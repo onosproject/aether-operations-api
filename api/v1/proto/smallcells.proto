@@ -1,0 +1,57 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package smallcells.v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+message SmallCell {
+  string id = 1 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {title: "The ID field.", description: "Unique identifier for a small cell", pattern: "[a-zA-Z]"},
+    (google.api.field_behavior) = REQUIRED
+  ];
+  string name = 2;
+  string description = 3;
+}
+
+message GetSmallCellsResponse {
+  repeated SmallCell smallCells = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of SmallCell objects"}];
+}
+
+message GetSmallCellsRequest {
+  string enterprise_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "EnterpriseId",
+    description: "Unique identifier for an enterprise",
+    format: "string",
+    example: "\"acme\""
+  }];
+  string site_id = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "SiteId",
+    description: "Unique identifier for a site",
+    format: "string",
+    example: "\"acme-chicago\""
+  }];
+}
+
+service SmallCellService {
+  rpc GetSmallCells(GetSmallCellsRequest) returns (smallcells.v1.GetSmallCellsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/small_cells",
+      additional_bindings {
+        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
+        // are automatically added to query parameters
+        get: "/api/v1/small_cells"
+      }
+    };
+  }
+}
+

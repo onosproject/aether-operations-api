@@ -1,7 +1,0 @@
-type Enterprise {
-    id: ID!
-    name: String!
-    description: String!
-    sites: [Site!]!
-    applications: [Application!]!
-}

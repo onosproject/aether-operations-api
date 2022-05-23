@@ -43,31 +43,25 @@ echo "Testing GraphQL server"
 curl --fail 'http://localhost:8080/graphql' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
-    -d '{ "query":"query{ enterprises {id name description}}"}' \
+    -d '{ "query": "query { enterprises { enterprises { id name description } } }" }' \
     | jq .
 
 curl --fail 'http://localhost:8080/graphql' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
-    -d '{ "query":"query{ applications(enterpriseID: \"acme\") {id name}}"}' \
+    -d '{ "query": "query { applications(enterpriseID: \"acme\") { applications { id name description } } }" }' \
     | jq .
 
 curl --fail 'http://localhost:8080/graphql' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
-    -d '{ "query":"query{ devices(enterpriseID: \"acme\", siteID: \"acme-chicago\") {id name description}}"}' \
+    -d '{ "query": "query { sites(enterpriseID: \"acme\") { sites { id name description devices { id name } } } }" }' \
     | jq .
 
-curl --fail 'http://localhost:8080/application-query' \
+curl --fail 'http://localhost:8080/graphql' \
     -H 'accept: application/json, multipart/mixed' \
     -H 'content-type: application/json' \
-    --data-raw '{"query":"query {\n  applicationServiceGetApplications(in: {enterpriseId: \"acme\"}) {\n    applications{\n      applicationId\n    }\n  }\n}","variables":null}' \
+    -d '{ "query": "query { slices(enterpriseID: \"acme\", siteID: \"acme-chicago\") { slices { id name description } } }" }' \
     | jq .
-
-curl --fail 'http://localhost:8080/enterprise-query' \
-  -H 'accept: application/json, multipart/mixed' \
-  -H 'content-type: application/json' \
-  --data-raw '{"query":"query {\n  enterpriseServiceGetEnterprises {\n    enterprises {\n      enterpriseId\n    }\n  }\n}","variables":null}' \
-  | jq .
 
 echo -e "\n--- done testing GraphQL"

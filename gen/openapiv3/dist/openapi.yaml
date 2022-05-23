@@ -42,7 +42,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Enterprises'
+                                $ref: '#/components/schemas/GetEnterprisesResponse'
                 default:
                     description: Default error response
                     content:
@@ -66,7 +66,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Applications'
+                                $ref: '#/components/schemas/GetApplicationsResponse'
                 default:
                     description: Default error response
                     content:
@@ -213,14 +213,43 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/enterprises/{enterpriseId}/sites/{siteId}/small_cells:
+        get:
+            tags:
+                - SmallCellService
+            operationId: SmallCellService_GetSmallCells
+            parameters:
+                - name: enterpriseId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: siteId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSmallCellsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
         Application:
             required:
-                - applicationId
+                - id
             type: object
             properties:
-                applicationId:
+                id:
                     type: string
                 name:
                     type: string
@@ -230,19 +259,12 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Endpoint'
-        Applications:
-            type: object
-            properties:
-                applications:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Application'
         Device:
             required:
-                - deviceId
+                - id
             type: object
             properties:
-                deviceId:
+                id:
                     type: string
                 name:
                     type: string
@@ -272,7 +294,7 @@ components:
         Endpoint:
             type: object
             properties:
-                endpointId:
+                id:
                     type: string
                 name:
                     type: string
@@ -291,7 +313,7 @@ components:
         Enterprise:
             type: object
             properties:
-                enterpriseId:
+                id:
                     type: string
                 name:
                     type: string
@@ -305,13 +327,13 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Site'
-        Enterprises:
+        GetApplicationsResponse:
             type: object
             properties:
-                enterprises:
+                applications:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Enterprise'
+                        $ref: '#/components/schemas/Application'
         GetDeviceGroupsResponse:
             type: object
             properties:
@@ -326,6 +348,13 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Device'
+        GetEnterprisesResponse:
+            type: object
+            properties:
+                enterprises:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Enterprise'
         GetSimCardsResponse:
             type: object
             properties:
@@ -347,6 +376,13 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Slice'
+        GetSmallCellsResponse:
+            type: object
+            properties:
+                smallCells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/SmallCell'
         GoogleProtobufAny:
             type: object
             properties:
@@ -375,10 +411,10 @@ components:
                     type: string
         Site:
             required:
-                - siteId
+                - id
             type: object
             properties:
-                siteId:
+                id:
                     type: string
                 name:
                     type: string
@@ -392,12 +428,27 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Slice'
+                smallCells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/SmallCell'
         Slice:
             required:
-                - sliceId
+                - id
             type: object
             properties:
-                sliceId:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        SmallCell:
+            required:
+                - id
+            type: object
+            properties:
+                id:
                     type: string
                 name:
                     type: string
@@ -427,3 +478,4 @@ tags:
     - name: SimCardService
     - name: SiteService
     - name: SliceService
+    - name: SmallCellService
