@@ -11,7 +11,7 @@ import (
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	v1 "github.com/onosproject/scaling-umbrella/gen/go/devices/v1"
+	v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
 	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -51,7 +51,7 @@ func FromGnmi(gnmiDevices *types.SiteDeviceList) (*v1.GetDevicesResponse, error)
 	for _, a := range *gnmiDevices {
 
 		devices.Devices = append(devices.Devices, &v1.Device{
-			DeviceId:    string(a.DeviceId),
+			Id:          string(a.DeviceId),
 			Name:        *a.DisplayName,
 			Description: *a.Description,
 			Attached:    "",

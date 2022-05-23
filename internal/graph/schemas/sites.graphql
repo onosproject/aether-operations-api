@@ -1,9 +1,0 @@
-type Site {
-    id: ID!
-    name: String!
-    description: String!
-    slices: [Slice!]!
-    smallCells: [SmallCell!]!
-    devices: [Device!]!
-    simCards: [SimCard!]!
-}

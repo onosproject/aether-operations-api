@@ -9,7 +9,7 @@ package device
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/onosproject/scaling-umbrella/gen/go/devices/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"google.golang.org/grpc"
 )
 

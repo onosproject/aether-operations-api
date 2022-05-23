@@ -15,6 +15,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
+	"github.com/onosproject/scaling-umbrella/internal/stores/smallcell"
 )
 
 type Stores struct {
@@ -25,6 +26,7 @@ type Stores struct {
 	SimCard     *simcard.SimCardHandler
 	DeviceGroup *devicegroup.DeviceGroupHandler
 	Slice       *slice.SliceHandler
+	SmallCell   *smallcell.SmallCellHandler
 }
 
 // RegisterStores will create one Store per supported resource
@@ -38,5 +40,6 @@ func RegisterStores(ds *datasources.Datasources) (*Stores, error) {
 		SimCard:     simcard.NewSimCardHandler(ds.OnosConfig),
 		DeviceGroup: devicegroup.NewDeviceGroupHandler(ds.OnosConfig),
 		Slice:       slice.NewSliceHandler(ds.OnosConfig),
+		SmallCell:   smallcell.NewSmallCellHandler(ds.OnosConfig),
 	}, nil
 }

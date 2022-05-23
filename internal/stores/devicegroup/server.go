@@ -9,7 +9,7 @@ package devicegroup
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	v1 "github.com/onosproject/scaling-umbrella/gen/go/devicegroups/v1"
+	v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"google.golang.org/grpc"
 )
 

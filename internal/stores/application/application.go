@@ -11,7 +11,7 @@ import (
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
 	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"
 	"google.golang.org/grpc/codes"
@@ -25,7 +25,7 @@ type ApplicationHandler struct {
 	aether21 *aether_2_1_0.ServerImpl
 }
 
-func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applications, error) {
+func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.GetApplicationsResponse, error) {
 	log.Debug("listing-application")
 	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
 	defer cancel()
@@ -44,23 +44,22 @@ func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.Applicat
 	return FromGnmi(response)
 }
 
-func FromGnmi(gnmiApps *types.ApplicationList) (*v1.Applications, error) {
-	apps := v1.Applications{
+func FromGnmi(gnmiApps *types.ApplicationList) (*v1.GetApplicationsResponse, error) {
+	apps := v1.GetApplicationsResponse{
 		Applications: []*v1.Application{},
 	}
 
 	for _, a := range *gnmiApps {
 
 		eps, err := endpoints.FromGnmi(a.Endpoint)
-
 		if err != nil {
 			return nil, err
 		}
 
 		apps.Applications = append(apps.Applications, &v1.Application{
-			ApplicationId: string(a.ApplicationId),
-			Description:   *a.Description,
-			Endpoints:     eps})
+			Id:          string(a.ApplicationId),
+			Description: *a.Description,
+			Endpoints:   eps})
 	}
 	return &apps, nil
 }

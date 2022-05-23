@@ -52,32 +52,19 @@ setup_tools: mod-update
 	@echo "Dependencies downloaded OK"
 
 buf: # @HELP Generates Go Models, gRPC Interface, REST Gateway and Swagger APIs
-	buf mod update api
+	buf mod update api/v1
 	buf build
 	buf generate
 
-# TODO: consider just crafting a single graphql schema and break it down only if needed
-# or figure out way to stitch them together... discuss tradeoffs
-# * doesn't need 1:1 mapping of proto models and maybe the decoupling is good
-# * simpler protos
-# * may allow for more idiomatic implementations
 gql:
-	go run github.com/99designs/gqlgen --verbose generate --config internal/graph/gqlgen.yaml
-
-graphql:
-	# FIXME looks like gqlgen ignores the config file name and always reads gqlgen.yaml
-	cp internal/servers/graphql/config/gqlgen.ent.yaml gqlgen.yaml
-	go run github.com/99designs/gqlgen --config gqlgen.ent.yaml --verbose generate
-	cp internal/servers/graphql/config/gqlgen.apps.yaml gqlgen.yaml
-	go run github.com/99designs/gqlgen --config gqlgen.apps.yaml --verbose generate
-	rm gqlgen.yaml
+	go run github.com/99designs/gqlgen --verbose generate --config internal/servers/graphql/gqlgen.yaml
 
 clean-gen: # @HELP Removes all generated files
 	rm -r ./gen/go || true
-	rm -r ./gen/graphql || true
+	rm -r ./gen/graph || true
 
-PROTO_DIR = api
-lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and badkward compatibility on the protos
+PROTO_DIR = api/v1
+lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and backward compatibility on the protos
 	@for file in $^ ; do \
 		if [ -d "$${file}" ]; then \
 			echo "Linting" $${file} ; \
@@ -87,7 +74,7 @@ lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and badkward compatibility on the
 	buf breaking --against '.git#branch=main'
 
 .PHONY: build
-build: setup_tools buf graphql gql build-go # @HELP Build the protos, graphql gateway and go executable
+build: setup_tools buf gql build-go # @HELP Build the protos, graphql gateway and go executable
 
 build-go: # @HELP Build the go executable
 	@go build -mod vendor \

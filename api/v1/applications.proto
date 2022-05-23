@@ -1,0 +1,50 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
+
+import "endpoints.proto";
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+message Application {
+  string id = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+  string name = 2;
+  string description = 3;
+  repeated v1.Endpoint endpoints = 4;
+}
+
+message GetApplicationsRequest {
+  string enterprise_id = 1;
+}
+
+message GetApplicationsResponse {
+  repeated Application applications = 1;
+}
+
+service ApplicationService {
+  rpc GetApplications(GetApplicationsRequest) returns (v1.GetApplicationsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/enterprises/{enterprise_id}/applications",
+      additional_bindings {
+        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
+        // are automatically added to query parameters
+        get: "/api/v1/applications"
+      }
+    };
+  }
+
+  rpc CreateApplication(Application) returns (Application) {
+    option (google.api.http) = {
+      post: "/api/v1/applications"
+      body: "*"
+    };
+  }
+}

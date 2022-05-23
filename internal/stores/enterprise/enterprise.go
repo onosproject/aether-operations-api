@@ -10,7 +10,7 @@ import (
 	"context"
 	"github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 )
 
 var log = logging.GetLogger("Enterprise")
@@ -19,7 +19,7 @@ type EnterpriseHandler struct {
 	client topo.TopoClient
 }
 
-func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
+func (e EnterpriseHandler) ListEnterprises() (*v1.GetEnterprisesResponse, error) {
 
 	// TODO better understand the Enterprise info stored in TOPO
 	// seems like we're only storing basic things:
@@ -52,7 +52,7 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 	}
 
 	// TODO move this in a FromGrpc method to convert the format
-	enterprises := &v1.Enterprises{Enterprises: []*v1.Enterprise{}}
+	enterprises := &v1.GetEnterprisesResponse{Enterprises: []*v1.Enterprise{}}
 
 	for _, o := range res.Objects {
 
@@ -63,8 +63,8 @@ func (e EnterpriseHandler) ListEnterprises() (*v1.Enterprises, error) {
 		}
 
 		e := &v1.Enterprise{
-			EnterpriseId: string(o.ID),
-			Name:         asset.Name,
+			Id:   string(o.ID),
+			Name: asset.Name,
 		}
 		enterprises.Enterprises = append(enterprises.Enterprises, e)
 	}

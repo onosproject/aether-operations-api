@@ -1,7 +1,0 @@
-type Device {
-    id: ID!
-    name: String!
-    description: String!
-    simCard: SimCard!
-    ip: String
-}

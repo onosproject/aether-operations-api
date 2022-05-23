@@ -19,7 +19,7 @@ const logLevel = "info"
 
 // Default values for southbound resources
 const defaultOnosConfigAddress = "onos-config:5150"
-const defaultOnosTopoAddress = "onos-topo:5150"
+const defaultOnosTopoAddress = "onos-topo:5151"
 
 // Defaults for exposed (northbound) resources
 const defaultGrpcAddress = "0.0.0.0:50060"

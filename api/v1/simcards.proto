@@ -1,0 +1,52 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package v1;
+
+option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+message SimCard {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message GetSimCardsResponse {
+  repeated SimCard sim_cards = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "A list of SimCard objects"}];
+}
+
+message GetSimCardsRequest {
+  string enterprise_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "EnterpriseId",
+    description: "Unique identifier for an enterprise",
+    format: "string",
+    example: "\"acme\""
+  }];
+  string site_id = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    pattern: "[a-zA-Z]",
+    title: "SiteId",
+    description: "Unique identifier for a site",
+    format: "string",
+    example: "\"acme-chicago\""
+  }];
+}
+
+service SimCardService {
+  rpc GetSimCards(GetSimCardsRequest) returns (v1.GetSimCardsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/enterprises/{enterprise_id}/sites/{site_id}/sim_cards",
+      additional_bindings {
+        // NOTE all the fields in the Request Parameter (EnterpriseId) which are not in the path
+        // are automatically added to query parameters
+        get: "/api/v1/sim_cards"
+      }
+    };
+  }
+}

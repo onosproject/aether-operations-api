@@ -6,7 +6,7 @@ package endpoints
 
 import (
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
-	"github.com/onosproject/scaling-umbrella/gen/go/endpoints/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"github.com/onosproject/scaling-umbrella/internal/utils"
 )
 
@@ -14,7 +14,7 @@ func FromGnmi(gnmiEp *types.ApplicationEndpointList) ([]*v1.Endpoint, error) {
 	eps := []*v1.Endpoint{}
 	for _, ep := range *gnmiEp {
 		eps = append(eps, &v1.Endpoint{
-			EndpointId:  string(ep.EndpointId),
+			Id:          string(ep.EndpointId),
 			Description: utils.PointerToString(ep.Description),
 			Name:        utils.PointerToString(ep.DisplayName),
 			Mbr: &v1.MBR{

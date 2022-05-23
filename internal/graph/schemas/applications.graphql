@@ -1,6 +1,0 @@
-type Application {
-    id: ID!
-    name: String!
-    description: String!
-    endpoint: Endpoint
-}

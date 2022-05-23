@@ -8,13 +8,7 @@ package grpc
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	applicationsv1 "github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
-	devicegroupsv1 "github.com/onosproject/scaling-umbrella/gen/go/devicegroups/v1"
-	devicesv1 "github.com/onosproject/scaling-umbrella/gen/go/devices/v1"
-	enterprisesv1 "github.com/onosproject/scaling-umbrella/gen/go/enterprises/v1"
-	simcardsv1 "github.com/onosproject/scaling-umbrella/gen/go/simcards/v1"
-	sitesv1 "github.com/onosproject/scaling-umbrella/gen/go/sites/v1"
-	slicesv1 "github.com/onosproject/scaling-umbrella/gen/go/slices/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"github.com/onosproject/scaling-umbrella/internal/stores/application"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
@@ -23,6 +17,7 @@ import (
 	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
 	"github.com/onosproject/scaling-umbrella/internal/stores/site"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
+	"github.com/onosproject/scaling-umbrella/internal/stores/smallcell"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -36,13 +31,14 @@ type IRocApiGrpcServer interface {
 }
 
 type RocApiGrpcServices struct {
-	EnterpriseService  enterprisesv1.EnterpriseServiceServer
-	ApplicationService applicationsv1.ApplicationServiceServer
-	SiteService        sitesv1.SiteServiceServer
-	DeviceService      devicesv1.DeviceServiceServer
-	SimCardService     simcardsv1.SimCardServiceServer
-	DeviceGroupService devicegroupsv1.DeviceGroupServiceServer
-	SliceService       slicesv1.SliceServiceServer
+	EnterpriseService  v1.EnterpriseServiceServer
+	ApplicationService v1.ApplicationServiceServer
+	SiteService        v1.SiteServiceServer
+	DeviceService      v1.DeviceServiceServer
+	SimCardService     v1.SimCardServiceServer
+	DeviceGroupService v1.DeviceGroupServiceServer
+	SliceService       v1.SliceServiceServer
+	SmallCellService   v1.SmallCellServiceServer
 }
 
 type RocApiGrpcServer struct {
@@ -125,6 +121,10 @@ func NewGrpcServer(doneCh chan bool, wg *sync.WaitGroup, address string, s *stor
 	sliceServer := slice.NewGrpcServer(s.Slice)
 	srv.Services.SliceService = sliceServer
 	srv.Servers = append(srv.Servers, sliceServer)
+
+	smallCellServer := smallcell.NewGrpcServer(s.SmallCell)
+	srv.Services.SmallCellService = smallCellServer
+	srv.Servers = append(srv.Servers, smallCellServer)
 
 	return &srv
 }

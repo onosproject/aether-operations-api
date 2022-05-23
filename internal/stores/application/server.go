@@ -9,7 +9,7 @@ package application
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/onosproject/scaling-umbrella/gen/go/applications/v1"
+	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -24,7 +24,7 @@ func (r *ApplicationServiceGrpcServer) RegisterGrpcServer(srv grpc.ServiceRegist
 	v1.RegisterApplicationServiceServer(srv, r)
 }
 
-func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, req *v1.GetApplicationsRequest) (*v1.Applications, error) {
+func (r *ApplicationServiceGrpcServer) GetApplications(ctx context.Context, req *v1.GetApplicationsRequest) (*v1.GetApplicationsResponse, error) {
 	return r.handler.ListApplications(req.EnterpriseId)
 }
 
