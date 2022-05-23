@@ -63,7 +63,7 @@ clean-gen: # @HELP Removes all generated files
 	rm -r ./gen/go || true
 	rm -r ./gen/graph || true
 
-PROTO_DIR = api
+PROTO_DIR = api/v1
 lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and backward compatibility on the protos
 	@for file in $^ ; do \
 		if [ -d "$${file}" ]; then \
