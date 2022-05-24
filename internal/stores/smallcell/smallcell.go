@@ -8,58 +8,62 @@ package smallcell
 
 import (
 	"context"
-	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
-	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
+	"fmt"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
-	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
+	"github.com/onosproject/scaling-umbrella/internal/utils"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"reflect"
+	"time"
 )
 
 var log = logging.GetLogger("SmallCell")
 
 type SmallCellHandler struct {
-	aether21 *aether_2_1_0.ServerImpl
+	aether21 *aether_models.GnmiClient
+	timeout  time.Duration
 }
 
 func (a *SmallCellHandler) ListSmallCells(enterpriseId string, siteId string) (*v1.GetSmallCellsResponse, error) {
 	log.Debug("listing-smallcells")
-	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), a.timeout)
 	defer cancel()
 
-	//const enterpriseId = "acme" // NOTE this needs to be the same as the defaultTarget in sdcore-adapter
-	response, err := a.aether21.GnmiGetSiteSmallCellList(ctx, "/aether/v2.1.x/{enterprise-id}/site/{site-id}/small-cell", types.EnterpriseId(enterpriseId), siteId)
-
+	res, err := a.aether21.GetSite(ctx, enterpriseId)
 	if err != nil {
 		return nil, err
 	}
-	// It's not enough to check if response==nil - see https://medium.com/@glucn/golang-an-interface-holding-a-nil-value-is-not-nil-bb151f472cc7
-	if reflect.ValueOf(response).Kind() == reflect.Ptr && reflect.ValueOf(response).IsNil() {
-		return nil, status.Error(codes.NotFound, "smallcells-not-found")
+
+	for id, s := range res {
+		if siteId == id {
+			return FromGnmi(s.SmallCell)
+		}
 	}
 
-	return FromGnmi(response)
+	return nil, status.Error(codes.NotFound, fmt.Sprintf("site-%s-not-found", siteId))
 }
 
-func FromGnmi(gnmiSmallCells *types.SiteSmallCellList) (*v1.GetSmallCellsResponse, error) {
+func FromGnmi(gnmiSmallCells map[string]*aether_models.OnfSite_Site_SmallCell) (*v1.GetSmallCellsResponse, error) {
 	smc := v1.GetSmallCellsResponse{
 		SmallCells: []*v1.SmallCell{},
 	}
 
-	for _, a := range *gnmiSmallCells {
+	for _, a := range gnmiSmallCells {
 
 		smc.SmallCells = append(smc.SmallCells, &v1.SmallCell{
-			Id:          string(a.SmallCellId),
-			Name:        *a.DisplayName,
-			Description: *a.Description,
+			Id:          utils.PointerToString(a.SmallCellId),
+			Name:        utils.PointerToString(a.DisplayName),
+			Description: utils.PointerToString(a.Description),
 		})
 
 	}
 	return &smc, nil
 }
 
-func NewSmallCellHandler(gnmi *onos_config.GnmiManager) *SmallCellHandler {
-	return &SmallCellHandler{aether21: gnmi.Aether21}
+func NewSmallCellHandler(gnmi *aether_models.GnmiClient, timeout time.Duration) *SmallCellHandler {
+	return &SmallCellHandler{
+		aether21: gnmi,
+		timeout:  timeout,
+	}
 }

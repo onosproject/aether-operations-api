@@ -9,7 +9,6 @@ package application
 import (
 	"context"
 	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
-	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"
@@ -33,10 +32,10 @@ func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.GetAppli
 		return nil, err
 	}
 
-	return FromGnmiClient(res)
+	return FromGnmi(res)
 }
 
-func FromGnmiClient(gnmiApps map[string]*aether_models.OnfApplication_Application) (*v1.GetApplicationsResponse, error) {
+func FromGnmi(gnmiApps map[string]*aether_models.OnfApplication_Application) (*v1.GetApplicationsResponse, error) {
 	apps := &v1.GetApplicationsResponse{
 		Applications: []*v1.Application{},
 	}
@@ -56,27 +55,6 @@ func FromGnmiClient(gnmiApps map[string]*aether_models.OnfApplication_Applicatio
 	}
 
 	return apps, nil
-}
-
-// deprecated
-func FromGnmi(gnmiApps *types.ApplicationList) (*v1.GetApplicationsResponse, error) {
-	apps := v1.GetApplicationsResponse{
-		Applications: []*v1.Application{},
-	}
-
-	for _, a := range *gnmiApps {
-
-		eps, err := endpoints.FromGnmi(a.Endpoint)
-		if err != nil {
-			return nil, err
-		}
-
-		apps.Applications = append(apps.Applications, &v1.Application{
-			Id:          string(a.ApplicationId),
-			Description: *a.Description,
-			Endpoints:   eps})
-	}
-	return &apps, nil
 }
 
 func NewApplicationHandler(gnmi *aether_models.GnmiClient, timeout time.Duration) *ApplicationHandler {

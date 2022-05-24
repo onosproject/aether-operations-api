@@ -36,11 +36,11 @@ func RegisterStores(ds *datasources.Datasources, cfg *config.Config) (*Stores, e
 	return &Stores{
 		Enterprise:  enterprise.NewEnterpriseHandler(ds.OnosTopo),
 		Application: application.NewApplicationHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
-		Site:        site.NewSiteHandler(ds.OnosConfig),
-		Device:      device.NewDeviceHandler(ds.OnosConfig),
-		SimCard:     simcard.NewSimCardHandler(ds.OnosConfig),
-		DeviceGroup: devicegroup.NewDeviceGroupHandler(ds.OnosConfig),
-		Slice:       slice.NewSliceHandler(ds.OnosConfig),
-		SmallCell:   smallcell.NewSmallCellHandler(ds.OnosConfig),
+		Site:        site.NewSiteHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
+		Device:      device.NewDeviceHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
+		SimCard:     simcard.NewSimCardHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
+		DeviceGroup: devicegroup.NewDeviceGroupHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
+		Slice:       slice.NewSliceHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
+		SmallCell:   smallcell.NewSmallCellHandler(ds.AetherModels_2_1_0, cfg.DataSources.OnosConfigTimeout),
 	}, nil
 }
