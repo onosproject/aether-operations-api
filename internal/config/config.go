@@ -9,6 +9,7 @@ package config
 import (
 	"flag"
 	"strings"
+	"time"
 )
 
 type arrayFlags []string
@@ -25,6 +26,7 @@ func (i *arrayFlags) Set(value string) error {
 
 type DataSourcesConfig struct {
 	OnosConfigAddress string
+	OnosConfigTimeout time.Duration
 	OnosTopoAddress   string
 }
 type ServersConfig struct {
@@ -62,6 +64,7 @@ func GetConfig() *Config {
 
 	flag.StringVar(&config.LogLevel, logLevelParam, logLevel, "Log Level")
 	flag.StringVar(&config.DataSources.OnosConfigAddress, onosConfigAddressParam, defaultOnosConfigAddress, "The ONOS Config address")
+	flag.DurationVar(&config.DataSources.OnosConfigTimeout, onosConfigTimeoutParam, defaultOnosConfigTimeout, "The ONOS Config timeout")
 	flag.StringVar(&config.DataSources.OnosTopoAddress, onosTopoAddressParam, defaultOnosTopoAddress, "The ONOS Topo address")
 	flag.StringVar(&config.ServersConfig.GrpcAddress, grpcServerAddressParam, defaultGrpcAddress, "The gRPC Server address")
 	flag.StringVar(&config.ServersConfig.HttpAddress, httpServerAddressParam, defaultHttpAddress, "The HTTP Server address")

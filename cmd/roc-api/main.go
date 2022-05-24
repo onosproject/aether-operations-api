@@ -57,7 +57,7 @@ func main() {
 	}
 
 	// setup the stores
-	s, err := stores.RegisterStores(ds)
+	s, err := stores.RegisterStores(ds, cfg)
 	if err != nil {
 		log.Fatalw("cannot-setup-stores", "err", err)
 	}

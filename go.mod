@@ -11,8 +11,9 @@ require (
 	github.com/golangci/golangci-lint v1.45.2
 	github.com/google/gnostic v0.6.9
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
+	github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437
 	github.com/onosproject/aether-roc-api v0.10.7
-	github.com/onosproject/onos-api/go v0.9.8
+	github.com/onosproject/onos-api/go v0.9.14
 	github.com/onosproject/onos-lib-go v0.8.15
 	github.com/vektah/gqlparser/v2 v2.4.0
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
@@ -155,7 +156,7 @@ require (
 	github.com/nishanths/exhaustive v0.7.11 // indirect
 	github.com/nishanths/predeclared v0.2.1 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
-	github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437 // indirect
+	github.com/onosproject/config-models v0.10.1 // indirect
 	github.com/openconfig/gnmi v0.0.0-20220131173555-39aa74195f0d // indirect
 	github.com/openconfig/goyang v0.4.0 // indirect
 	github.com/openconfig/ygot v0.14.0 // indirect
@@ -233,4 +234,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-//replace github.com/onosproject/aether-roc-api => ../aether-roc-api
+replace github.com/onosproject/aether-models/models/aether-2.1.x => ../aether-models/models/aether-2.1.x

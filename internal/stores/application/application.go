@@ -8,42 +8,57 @@ package application
 
 import (
 	"context"
-	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/gen/go/v1"
-	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
 	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"reflect"
+	"time"
 )
 
 var log = logging.GetLogger("Application")
 
 type ApplicationHandler struct {
-	aether21 *aether_2_1_0.ServerImpl
+	aether21 *aether_models.GnmiClient
+	timeout  time.Duration
 }
 
 func (a *ApplicationHandler) ListApplications(enterpriseId string) (*v1.GetApplicationsResponse, error) {
 	log.Debug("listing-application")
-	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), a.timeout)
 	defer cancel()
 
-	//const enterpriseId = "acme" // NOTE this needs to be the same as the defaultTarget in sdcore-adapter
-	response, err := a.aether21.GnmiGetApplicationList(ctx, "/aether/v2.1.x/{enterprise-id}/application", types.EnterpriseId(enterpriseId))
-
+	res, err := a.aether21.GetApplication(ctx, enterpriseId)
 	if err != nil {
 		return nil, err
 	}
-	// It's not enough to check if response==nil - see https://medium.com/@glucn/golang-an-interface-holding-a-nil-value-is-not-nil-bb151f472cc7
-	if reflect.ValueOf(response).Kind() == reflect.Ptr && reflect.ValueOf(response).IsNil() {
-		return nil, status.Error(codes.NotFound, "applications-not-found")
-	}
 
-	return FromGnmi(response)
+	return FromGnmiClient(res)
 }
 
+func FromGnmiClient(gnmiApps map[string]*aether_models.OnfApplication_Application) (*v1.GetApplicationsResponse, error) {
+	apps := &v1.GetApplicationsResponse{
+		Applications: []*v1.Application{},
+	}
+
+	for _, a := range gnmiApps {
+
+		eps, err := endpoints.FromGnmiClient(a.Endpoint)
+		if err != nil {
+			return nil, err
+		}
+
+		apps.Applications = append(apps.Applications, &v1.Application{
+			Id:          *a.ApplicationId,
+			Description: *a.Description,
+			Endpoints:   eps,
+		})
+	}
+
+	return apps, nil
+}
+
+// deprecated
 func FromGnmi(gnmiApps *types.ApplicationList) (*v1.GetApplicationsResponse, error) {
 	apps := v1.GetApplicationsResponse{
 		Applications: []*v1.Application{},
@@ -64,6 +79,9 @@ func FromGnmi(gnmiApps *types.ApplicationList) (*v1.GetApplicationsResponse, err
 	return &apps, nil
 }
 
-func NewApplicationHandler(gnmi *onos_config.GnmiManager) *ApplicationHandler {
-	return &ApplicationHandler{aether21: gnmi.Aether21}
+func NewApplicationHandler(gnmi *aether_models.GnmiClient, timeout time.Duration) *ApplicationHandler {
+	return &ApplicationHandler{
+		aether21: gnmi,
+		timeout:  timeout,
+	}
 }
