@@ -1220,6 +1220,10 @@ github.com/olekukonko/tablewriter v0.0.5 h1:P2Ga83D34wi1o9J6Wh1mRuqd4mF/x/lgBS7N
 github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
 github.com/onosproject/aether-models/models/aether-2.0.x v0.0.0-20220404214232-148c0e4da437 h1:0Vg6THir3wuc0EyTGejT3zYbdc4N3piiF15/ZIuXGCI=
 github.com/onosproject/aether-models/models/aether-2.0.x v0.0.0-20220404214232-148c0e4da437/go.mod h1:k8OZZtfgnzlQBLfSff13pnkanSCNxy690pnno734Vok=
+github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437 h1:vX7E0w+ot1i/HJNFxYXpfZq6P68ngtgb45sog/G/gN0=
+github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437/go.mod h1:zkuTTUN2NsIQ+jJCMihgk10afKA0EJjokkfU79Gu7oc=
+github.com/onosproject/aether-models/models/aether-2.1.x/v2 v2.1.7 h1:jL3eyLGhmuoOxX/MwypMA1KQ73C/k1e85uE9igKN/io=
+github.com/onosproject/aether-models/models/aether-2.1.x/v2 v2.1.7/go.mod h1:VQux8Z7mJhGB35tXhfwb54nXZ5SeCGJk+hwlptRIHj4=
 github.com/onosproject/aether-roc-api v0.10.7 h1:T9VRUUXbxBb20TiljgomeRl+2CgkKyLQ0UYN1LJPZ4g=
 github.com/onosproject/aether-roc-api v0.10.7/go.mod h1:0AgCFY8Ph8ZW2cLCGnTZ/yLQOeNuPO9DAjagG5LFPw0=
 github.com/onosproject/config-models v0.6.9/go.mod h1:cw1HoviQUVAjX1MOHVqHo1oL6rpM52d6ckidRyL1z/I=

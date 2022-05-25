@@ -8,7 +8,7 @@ package application
 
 import (
 	"context"
-	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"github.com/onosproject/scaling-umbrella/internal/stores/endpoints"

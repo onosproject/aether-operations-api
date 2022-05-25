@@ -79,11 +79,8 @@ build: local-aether-models setup_tools buf gql build-go # @HELP Build the protos
 local-aether-models: ## Copies a local version of the aether-models dependency into the vendor directory
 ifdef LOCAL_AETHER_MODELS
 	rm -rf vendor/github.com/onosproject/aether-models
-	mkdir -p vendor/github.com/onosproject/aether-models
-	cp -r ${LOCAL_AETHER_MODELS}/* vendor/github.com/onosproject/aether-models
-	rm -rf vendor/github.com/onosproject/aether-models/vendor
-	rm -rf vendor/github.com/onosproject/aether-models/models/*/vendor
-
+	mkdir -p vendor/github.com/onosproject/aether-models/models/aether-2.1.x/v2/api
+	cp -r ${LOCAL_AETHER_MODELS}/models/aether-2.1.x/api/* vendor/github.com/onosproject/aether-models/models/aether-2.1.x/v2/api
 endif
 
 build-go: local-aether-models # @HELP Build the go executable

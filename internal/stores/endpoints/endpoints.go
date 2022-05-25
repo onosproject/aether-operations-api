@@ -5,7 +5,7 @@
 package endpoints
 
 import (
-	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
 	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
 	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 	"github.com/onosproject/scaling-umbrella/internal/utils"

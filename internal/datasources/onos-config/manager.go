@@ -3,7 +3,7 @@ package onos_config
 import (
 	"crypto/tls"
 	"fmt"
-	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/api"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
