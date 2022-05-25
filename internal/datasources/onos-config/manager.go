@@ -1,13 +1,16 @@
 package onos_config
 
 import (
+	"crypto/tls"
 	"fmt"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
 	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"time"
 )
 
@@ -65,4 +68,26 @@ func NewOnosConfigClient(address string) (*GnmiManager, error) {
 	}
 
 	return &manager, nil
+}
+
+func NewAetherModels_2_1_0_Client(address string) (*aether_models.GnmiClient, error) {
+	// TODO handle secure connections
+	cert, err := tls.X509KeyPair([]byte(certs.DefaultClientCrt), []byte(certs.DefaultClientKey))
+	if err != nil {
+		return nil, err
+	}
+	options := []grpc.DialOption{
+		grpc.WithTransportCredentials(
+			credentials.NewTLS(&tls.Config{
+				Certificates:       []tls.Certificate{cert},
+				InsecureSkipVerify: true,
+			}),
+		),
+	}
+	gnmiConn, err := grpc.Dial(address, options...)
+	if err != nil {
+		return nil, err
+	}
+
+	return aether_models.NewAetherGnmiClient(gnmiConn), nil
 }

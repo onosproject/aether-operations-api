@@ -6,9 +6,12 @@
 
 package config
 
+import "time"
+
 // Default parameters name
 const logLevelParam = "log-level"
 const onosConfigAddressParam = "onos-config-address"
+const onosConfigTimeoutParam = "onos-config-timeout"
 const onosTopoAddressParam = "onos-topo-address"
 const grpcServerAddressParam = "grpc-server"
 const httpServerAddressParam = "http-server"
@@ -19,6 +22,7 @@ const logLevel = "info"
 
 // Default values for southbound resources
 const defaultOnosConfigAddress = "onos-config:5150"
+const defaultOnosConfigTimeout = 10 * time.Second
 const defaultOnosTopoAddress = "onos-topo:5151"
 
 // Defaults for exposed (northbound) resources

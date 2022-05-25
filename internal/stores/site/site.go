@@ -8,49 +8,40 @@ package site
 
 import (
 	"context"
-	aether_2_1_0 "github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/server"
-	"github.com/onosproject/aether-roc-api/pkg/aether_2_1_0/types"
+	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
-	onos_config "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
 	"github.com/onosproject/scaling-umbrella/internal/stores/device"
 	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"reflect"
+	"time"
 )
 
 var log = logging.GetLogger("Application")
 
 type SiteHandler struct {
-	aether21 *aether_2_1_0.ServerImpl
+	aether21 *aether_models.GnmiClient
+	timeout  time.Duration
 }
 
 func (a *SiteHandler) ListSites(enterpriseId string) (*v1.GetSitesResponse, error) {
 	log.Debug("listing-sites")
-	ctx, cancel := context.WithTimeout(context.Background(), a.aether21.GnmiTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), a.timeout)
 	defer cancel()
 
-	//const enterpriseId = "acme" // NOTE this needs to be the same as the defaultTarget in sdcore-adapter
-	response, err := a.aether21.GnmiGetSiteList(ctx, "/aether/v2.1.x/{enterprise-id}/site", types.EnterpriseId(enterpriseId))
-
+	res, err := a.aether21.GetSite(ctx, enterpriseId)
 	if err != nil {
 		return nil, err
 	}
-	// It's not enough to check if response==nil - see https://medium.com/@glucn/golang-an-interface-holding-a-nil-value-is-not-nil-bb151f472cc7
-	if reflect.ValueOf(response).Kind() == reflect.Ptr && reflect.ValueOf(response).IsNil() {
-		return nil, status.Error(codes.NotFound, "applications-not-found")
-	}
 
-	return FromGnmi(response)
+	return FromGnmi(res)
 }
 
-func FromGnmi(gnmiSites *types.SiteList) (*v1.GetSitesResponse, error) {
+func FromGnmi(gnmiSites map[string]*aether_models.OnfSite_Site) (*v1.GetSitesResponse, error) {
 	sites := v1.GetSitesResponse{
 		Sites: []*v1.Site{},
 	}
 
-	for _, a := range *gnmiSites {
+	for _, a := range gnmiSites {
 
 		d, err := device.FromGnmi(a.Device)
 		if err != nil {
@@ -68,7 +59,7 @@ func FromGnmi(gnmiSites *types.SiteList) (*v1.GetSitesResponse, error) {
 		//}
 
 		sites.Sites = append(sites.Sites, &v1.Site{
-			Id:          string(a.SiteId),
+			Id:          *a.SiteId,
 			Name:        *a.DisplayName,
 			Description: *a.Description,
 			Devices:     d.Devices,
@@ -80,6 +71,9 @@ func FromGnmi(gnmiSites *types.SiteList) (*v1.GetSitesResponse, error) {
 	return &sites, nil
 }
 
-func NewSiteHandler(gnmi *onos_config.GnmiManager) *SiteHandler {
-	return &SiteHandler{aether21: gnmi.Aether21}
+func NewSiteHandler(gnmi *aether_models.GnmiClient, timeout time.Duration) *SiteHandler {
+	return &SiteHandler{
+		aether21: gnmi,
+		timeout:  timeout,
+	}
 }

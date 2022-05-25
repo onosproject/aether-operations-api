@@ -74,10 +74,17 @@ lint-proto: $(PROTO_DIR)/*	# @HELP Runs a lint and backward compatibility on the
 	buf breaking --against '.git#branch=main'
 
 .PHONY: build
-build: setup_tools buf gql build-go # @HELP Build the protos, graphql gateway and go executable
+build: local-aether-models setup_tools buf gql build-go # @HELP Build the protos, graphql gateway and go executable
 
-build-go: # @HELP Build the go executable
-	@go build -mod vendor \
+local-aether-models: ## Copies a local version of the aether-models dependency into the vendor directory
+ifdef LOCAL_AETHER_MODELS
+	rm -rf vendor/github.com/onosproject/aether-models
+	mkdir -p vendor/github.com/onosproject/aether-models/models/aether-2.1.x/v2/api
+	cp -r ${LOCAL_AETHER_MODELS}/models/aether-2.1.x/api/* vendor/github.com/onosproject/aether-models/models/aether-2.1.x/v2/api
+endif
+
+build-go: local-aether-models # @HELP Build the go executable
+	@go build -mod vendor -v \
 	  -ldflags "-w -X github.com/onosproject/scaling-umbrella/internal/config.buildTime=${DOCKER_LABEL_BUILD_DATE} \
 		-X github.com/onosproject/scaling-umbrella/internal/config.commitHash=${DOCKER_LABEL_VCS_REF} \
 		-X github.com/onosproject/scaling-umbrella/internal/config.vcsDirty=${DOCKER_LABEL_VCS_DIRTY} \

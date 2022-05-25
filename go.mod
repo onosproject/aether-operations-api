@@ -11,9 +11,11 @@ require (
 	github.com/golangci/golangci-lint v1.45.2
 	github.com/google/gnostic v0.6.9
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
+	github.com/onosproject/aether-models/models/aether-2.1.x/v2 v2.1.7
 	github.com/onosproject/aether-roc-api v0.10.7
-	github.com/onosproject/onos-api/go v0.9.8
+	github.com/onosproject/onos-api/go v0.9.14
 	github.com/onosproject/onos-lib-go v0.8.15
+	github.com/stretchr/testify v1.7.1
 	github.com/vektah/gqlparser/v2 v2.4.0
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
 	google.golang.org/grpc v1.45.0
@@ -156,6 +158,7 @@ require (
 	github.com/nishanths/predeclared v0.2.1 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-148c0e4da437 // indirect
+	github.com/onosproject/config-models v0.10.1 // indirect
 	github.com/openconfig/gnmi v0.0.0-20220131173555-39aa74195f0d // indirect
 	github.com/openconfig/goyang v0.4.0 // indirect
 	github.com/openconfig/ygot v0.14.0 // indirect
@@ -192,7 +195,6 @@ require (
 	github.com/spf13/viper v1.10.1 // indirect
 	github.com/ssgreg/nlreturn/v2 v2.2.1 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
-	github.com/stretchr/testify v1.7.1 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/sylvia7788/contextcheck v1.0.4 // indirect
 	github.com/tdakkota/asciicheck v0.1.1 // indirect
@@ -232,5 +234,3 @@ require (
 	mvdan.cc/unparam v0.0.0-20211214103731-d0ef000c54e5 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
-
-//replace github.com/onosproject/aether-roc-api => ../aether-roc-api
