@@ -6,7 +6,7 @@
 
 package smallcell
 
-import v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
+import v1 "github.com/onosproject/aether-operations-api/gen/go/v1"
 
 func NewSmallCellResolver(srv v1.SmallCellServiceServer) *v1.SmallCellServiceResolvers {
 	r := v1.SmallCellServiceResolvers{

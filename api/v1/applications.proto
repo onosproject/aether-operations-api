@@ -6,7 +6,7 @@ syntax = "proto3";
 
 package v1;
 
-option go_package = "github.com/onosproject/scaling-umbrella/gen/go/v1";
+option go_package = "github.com/onosproject/aether-operations-api/gen/go/v1";
 
 import "endpoints.proto";
 import "google/api/field_behavior.proto";

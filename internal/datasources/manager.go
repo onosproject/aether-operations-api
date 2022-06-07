@@ -8,10 +8,10 @@ package datasources
 
 import (
 	aether_models "github.com/onosproject/aether-models/models/aether-2.1.x/v2/api"
+	"github.com/onosproject/aether-operations-api/internal/config"
+	onosConfig "github.com/onosproject/aether-operations-api/internal/datasources/onos-config"
+	onosTopo "github.com/onosproject/aether-operations-api/internal/datasources/onos-topo"
 	"github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/scaling-umbrella/internal/config"
-	onosConfig "github.com/onosproject/scaling-umbrella/internal/datasources/onos-config"
-	onosTopo "github.com/onosproject/scaling-umbrella/internal/datasources/onos-topo"
 )
 
 type Datasources struct {

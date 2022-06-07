@@ -20,7 +20,7 @@ exec:
 skip_validation: true
 
 autobind:
-  - "github.com/onosproject/scaling-umbrella/gen/go/v1"
+  - "github.com/onosproject/aether-operations-api/gen/go/v1"
 
 models:
   ID:
