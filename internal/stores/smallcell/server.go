@@ -9,7 +9,7 @@ package smallcell
 import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/onosproject/scaling-umbrella/gen/go/v1"
+	"github.com/onosproject/aether-operations-api/gen/go/v1"
 	"google.golang.org/grpc"
 )
 

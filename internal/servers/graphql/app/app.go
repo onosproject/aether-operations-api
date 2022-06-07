@@ -8,8 +8,8 @@ package graphqlapp
 
 import (
 	"context"
-	"github.com/onosproject/scaling-umbrella/gen/go/v1"
-	gqlgen "github.com/onosproject/scaling-umbrella/gen/graph"
+	"github.com/onosproject/aether-operations-api/gen/go/v1"
+	gqlgen "github.com/onosproject/aether-operations-api/gen/graph"
 )
 
 type App struct {

@@ -7,7 +7,7 @@
 package enterprise
 
 import (
-	v1 "github.com/onosproject/scaling-umbrella/gen/go/v1"
+	v1 "github.com/onosproject/aether-operations-api/gen/go/v1"
 )
 
 func NewEnterpriseResolver(srv v1.EnterpriseServiceServer) *v1.EnterpriseServiceResolvers {

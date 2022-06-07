@@ -6,12 +6,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/onosproject/aether-operations-api/internal/config"
+	"github.com/onosproject/aether-operations-api/internal/datasources"
+	"github.com/onosproject/aether-operations-api/internal/servers/grpc"
+	"github.com/onosproject/aether-operations-api/internal/servers/http"
+	"github.com/onosproject/aether-operations-api/internal/stores"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/scaling-umbrella/internal/config"
-	"github.com/onosproject/scaling-umbrella/internal/datasources"
-	"github.com/onosproject/scaling-umbrella/internal/servers/grpc"
-	"github.com/onosproject/scaling-umbrella/internal/servers/http"
-	"github.com/onosproject/scaling-umbrella/internal/stores"
 	"os"
 	"os/signal"
 	"strings"

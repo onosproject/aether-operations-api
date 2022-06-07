@@ -7,16 +7,16 @@
 package stores
 
 import (
-	"github.com/onosproject/scaling-umbrella/internal/config"
-	"github.com/onosproject/scaling-umbrella/internal/datasources"
-	"github.com/onosproject/scaling-umbrella/internal/stores/application"
-	"github.com/onosproject/scaling-umbrella/internal/stores/device"
-	"github.com/onosproject/scaling-umbrella/internal/stores/devicegroup"
-	"github.com/onosproject/scaling-umbrella/internal/stores/enterprise"
-	"github.com/onosproject/scaling-umbrella/internal/stores/simcard"
-	"github.com/onosproject/scaling-umbrella/internal/stores/site"
-	"github.com/onosproject/scaling-umbrella/internal/stores/slice"
-	"github.com/onosproject/scaling-umbrella/internal/stores/smallcell"
+	"github.com/onosproject/aether-operations-api/internal/config"
+	"github.com/onosproject/aether-operations-api/internal/datasources"
+	"github.com/onosproject/aether-operations-api/internal/stores/application"
+	"github.com/onosproject/aether-operations-api/internal/stores/device"
+	"github.com/onosproject/aether-operations-api/internal/stores/devicegroup"
+	"github.com/onosproject/aether-operations-api/internal/stores/enterprise"
+	"github.com/onosproject/aether-operations-api/internal/stores/simcard"
+	"github.com/onosproject/aether-operations-api/internal/stores/site"
+	"github.com/onosproject/aether-operations-api/internal/stores/slice"
+	"github.com/onosproject/aether-operations-api/internal/stores/smallcell"
 )
 
 type Stores struct {

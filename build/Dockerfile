@@ -19,10 +19,10 @@ WORKDIR /app
 COPY . ./
 
 RUN go build -mod vendor \
-      -ldflags "-w -X github.com/onosproject/scaling-umbrella/internal/config.buildTime=${org_label_schema_build_date} \
-        -X github.com/onosproject/scaling-umbrella/internal/config.commitHash=${org_label_schema_vcs_ref} \
-        -X github.com/onosproject/scaling-umbrella/internal/config.vcsDirty=${org_opencord_vcs_dirty} \
-        -X github.com/onosproject/scaling-umbrella/internal/config.version=${org_label_schema_version}" \
+      -ldflags "-w -X github.com/onosproject/aether-operations-api/internal/config.buildTime=${org_label_schema_build_date} \
+        -X github.com/onosproject/aether-operations-api/internal/config.commitHash=${org_label_schema_vcs_ref} \
+        -X github.com/onosproject/aether-operations-api/internal/config.vcsDirty=${org_opencord_vcs_dirty} \
+        -X github.com/onosproject/aether-operations-api/internal/config.version=${org_label_schema_version}" \
       ./cmd/roc-api
 RUN ls /app
 

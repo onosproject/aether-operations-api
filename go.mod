@@ -1,4 +1,4 @@
-module github.com/onosproject/scaling-umbrella
+module github.com/onosproject/aether-operations-api
 
 go 1.18
 

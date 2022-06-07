@@ -8,9 +8,9 @@ package enterprise
 
 import (
 	"context"
+	"github.com/onosproject/aether-operations-api/gen/go/v1"
 	"github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/scaling-umbrella/gen/go/v1"
 )
 
 var log = logging.GetLogger("Enterprise")

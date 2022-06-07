@@ -85,10 +85,10 @@ endif
 
 build-go: local-aether-models # @HELP Build the go executable
 	@go build -mod vendor -v \
-	  -ldflags "-w -X github.com/onosproject/scaling-umbrella/internal/config.buildTime=${DOCKER_LABEL_BUILD_DATE} \
-		-X github.com/onosproject/scaling-umbrella/internal/config.commitHash=${DOCKER_LABEL_VCS_REF} \
-		-X github.com/onosproject/scaling-umbrella/internal/config.vcsDirty=${DOCKER_LABEL_VCS_DIRTY} \
-		-X github.com/onosproject/scaling-umbrella/internal/config.version=${VERSION}" \
+	  -ldflags "-w -X github.com/onosproject/aether-operations-api/internal/config.buildTime=${DOCKER_LABEL_BUILD_DATE} \
+		-X github.com/onosproject/aether-operations-api/internal/config.commitHash=${DOCKER_LABEL_VCS_REF} \
+		-X github.com/onosproject/aether-operations-api/internal/config.vcsDirty=${DOCKER_LABEL_VCS_DIRTY} \
+		-X github.com/onosproject/aether-operations-api/internal/config.version=${VERSION}" \
 	  ./cmd/roc-api
 
 lint-go: # @HELP Lints the GO code
