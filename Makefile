@@ -29,7 +29,7 @@ KIND_CLUSTER_NAME 		?= kind
 
 help: # @HELP Print the command options
 	@echo
-	@echo "\033[0;31m    ROC API (scaling-umbrella) \033[0m"
+	@echo "\033[0;31m    ROC API (aether-operations-api) \033[0m"
 	@echo
 	@echo Aether ROC APIs
 	@echo
@@ -102,14 +102,14 @@ mod-update: # @HELP Download the dependencies to the vendor folder
 docker-build: # @HELP Build the BBSim docker container (contains BBSimCtl too)
 	docker build \
 	  ${DOCKER_BUILD_ARGS} \
-	  -t ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG} \
+	  -t ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}aether-operations-api:${DOCKER_TAG} \
 	  -f build/Dockerfile .
 
 docker-push: # @HELP Push the docker container to a registry
-	docker push ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
+	docker push ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}aether-operations-api:${DOCKER_TAG}
 
 kind-only: # @HELP Load the docker container into a kind cluster (cluster name can be customized with KIND_CLUSTER_NAME)
 	@if [ "`kind get clusters`" = '' ]; then echo "no kind cluster found" && exit 1; fi
-	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}scaling-umbrella:${DOCKER_TAG}
+	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}aether-operations-api:${DOCKER_TAG}
 
 kind: docker-build kind-only

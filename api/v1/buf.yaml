@@ -1,5 +1,5 @@
 version: v1
-name: "buf.build/kmarquardsen/scaling-umbrella"
+name: "buf.build/kmarquardsen/aether-operations-api"
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/envoyproxy/protoc-gen-validate

@@ -907,7 +907,7 @@ func (ec *executionContext) field_Mutation_createApplication_args(ctx context.Co
 	var arg0 *v1.Application
 	if tmp, ok := rawArgs["in"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-		arg0, err = ec.unmarshalOApplicationInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx, tmp)
+		arg0, err = ec.unmarshalOApplicationInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1244,7 +1244,7 @@ func (ec *executionContext) _Application_endpoints(ctx context.Context, field gr
 	}
 	res := resTmp.([]*v1.Endpoint)
 	fc.Result = res
-	return ec.marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx, field.Selections, res)
+	return ec.marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Device_id(ctx context.Context, field graphql.CollectedField, obj *v1.Device) (ret graphql.Marshaler) {
@@ -1468,7 +1468,7 @@ func (ec *executionContext) _Device_simCard(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*v1.SimCard)
 	fc.Result = res
-	return ec.marshalOSimCard2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCard(ctx, field.Selections, res)
+	return ec.marshalOSimCard2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCard(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Device_deviceGroups(ctx context.Context, field graphql.CollectedField, obj *v1.Device) (ret graphql.Marshaler) {
@@ -1500,7 +1500,7 @@ func (ec *executionContext) _Device_deviceGroups(ctx context.Context, field grap
 	}
 	res := resTmp.([]*v1.DeviceGroup)
 	fc.Result = res
-	return ec.marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _DeviceGroup_id(ctx context.Context, field graphql.CollectedField, obj *v1.DeviceGroup) (ret graphql.Marshaler) {
@@ -1724,7 +1724,7 @@ func (ec *executionContext) _Endpoint_mbr(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*v1.MBR)
 	fc.Result = res
-	return ec.marshalOMBR2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐMBR(ctx, field.Selections, res)
+	return ec.marshalOMBR2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐMBR(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Endpoint_portStart(ctx context.Context, field graphql.CollectedField, obj *v1.Endpoint) (ret graphql.Marshaler) {
@@ -1948,7 +1948,7 @@ func (ec *executionContext) _Enterprise_applications(ctx context.Context, field 
 	}
 	res := resTmp.([]*v1.Application)
 	fc.Result = res
-	return ec.marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx, field.Selections, res)
+	return ec.marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Enterprise_sites(ctx context.Context, field graphql.CollectedField, obj *v1.Enterprise) (ret graphql.Marshaler) {
@@ -1980,7 +1980,7 @@ func (ec *executionContext) _Enterprise_sites(ctx context.Context, field graphql
 	}
 	res := resTmp.([]*v1.Site)
 	fc.Result = res
-	return ec.marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx, field.Selections, res)
+	return ec.marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetApplicationsResponse_applications(ctx context.Context, field graphql.CollectedField, obj *v1.GetApplicationsResponse) (ret graphql.Marshaler) {
@@ -2012,7 +2012,7 @@ func (ec *executionContext) _GetApplicationsResponse_applications(ctx context.Co
 	}
 	res := resTmp.([]*v1.Application)
 	fc.Result = res
-	return ec.marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx, field.Selections, res)
+	return ec.marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetDeviceGroupsResponse_deviceGroups(ctx context.Context, field graphql.CollectedField, obj *v1.GetDeviceGroupsResponse) (ret graphql.Marshaler) {
@@ -2044,7 +2044,7 @@ func (ec *executionContext) _GetDeviceGroupsResponse_deviceGroups(ctx context.Co
 	}
 	res := resTmp.([]*v1.DeviceGroup)
 	fc.Result = res
-	return ec.marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetDevicesResponse_devices(ctx context.Context, field graphql.CollectedField, obj *v1.GetDevicesResponse) (ret graphql.Marshaler) {
@@ -2076,7 +2076,7 @@ func (ec *executionContext) _GetDevicesResponse_devices(ctx context.Context, fie
 	}
 	res := resTmp.([]*v1.Device)
 	fc.Result = res
-	return ec.marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx, field.Selections, res)
+	return ec.marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetEnterprisesResponse_enterprises(ctx context.Context, field graphql.CollectedField, obj *v1.GetEnterprisesResponse) (ret graphql.Marshaler) {
@@ -2108,7 +2108,7 @@ func (ec *executionContext) _GetEnterprisesResponse_enterprises(ctx context.Cont
 	}
 	res := resTmp.([]*v1.Enterprise)
 	fc.Result = res
-	return ec.marshalOEnterprise2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEnterpriseᚄ(ctx, field.Selections, res)
+	return ec.marshalOEnterprise2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEnterpriseᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetSimCardsResponse_simCards(ctx context.Context, field graphql.CollectedField, obj *v1.GetSimCardsResponse) (ret graphql.Marshaler) {
@@ -2140,7 +2140,7 @@ func (ec *executionContext) _GetSimCardsResponse_simCards(ctx context.Context, f
 	}
 	res := resTmp.([]*v1.SimCard)
 	fc.Result = res
-	return ec.marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCardᚄ(ctx, field.Selections, res)
+	return ec.marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCardᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetSitesResponse_sites(ctx context.Context, field graphql.CollectedField, obj *v1.GetSitesResponse) (ret graphql.Marshaler) {
@@ -2172,7 +2172,7 @@ func (ec *executionContext) _GetSitesResponse_sites(ctx context.Context, field g
 	}
 	res := resTmp.([]*v1.Site)
 	fc.Result = res
-	return ec.marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx, field.Selections, res)
+	return ec.marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetSlicesResponse_slices(ctx context.Context, field graphql.CollectedField, obj *v1.GetSlicesResponse) (ret graphql.Marshaler) {
@@ -2204,7 +2204,7 @@ func (ec *executionContext) _GetSlicesResponse_slices(ctx context.Context, field
 	}
 	res := resTmp.([]*v1.Slice)
 	fc.Result = res
-	return ec.marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx, field.Selections, res)
+	return ec.marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GetSmallCellsResponse_smallCells(ctx context.Context, field graphql.CollectedField, obj *v1.GetSmallCellsResponse) (ret graphql.Marshaler) {
@@ -2236,7 +2236,7 @@ func (ec *executionContext) _GetSmallCellsResponse_smallCells(ctx context.Contex
 	}
 	res := resTmp.([]*v1.SmallCell)
 	fc.Result = res
-	return ec.marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx, field.Selections, res)
+	return ec.marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _MBR_uplink(ctx context.Context, field graphql.CollectedField, obj *v1.MBR) (ret graphql.Marshaler) {
@@ -2339,7 +2339,7 @@ func (ec *executionContext) _Mutation_createApplication(ctx context.Context, fie
 	}
 	res := resTmp.(*v1.Application)
 	fc.Result = res
-	return ec.marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx, field.Selections, res)
+	return ec.marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_enterprises(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2374,7 +2374,7 @@ func (ec *executionContext) _Query_enterprises(ctx context.Context, field graphq
 	}
 	res := resTmp.(*v1.GetEnterprisesResponse)
 	fc.Result = res
-	return ec.marshalNGetEnterprisesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx, field.Selections, res)
+	return ec.marshalNGetEnterprisesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_applications(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2416,7 +2416,7 @@ func (ec *executionContext) _Query_applications(ctx context.Context, field graph
 	}
 	res := resTmp.(*v1.GetApplicationsResponse)
 	fc.Result = res
-	return ec.marshalNGetApplicationsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx, field.Selections, res)
+	return ec.marshalNGetApplicationsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_sites(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2458,7 +2458,7 @@ func (ec *executionContext) _Query_sites(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.(*v1.GetSitesResponse)
 	fc.Result = res
-	return ec.marshalNGetSitesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx, field.Selections, res)
+	return ec.marshalNGetSitesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_devices(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2500,7 +2500,7 @@ func (ec *executionContext) _Query_devices(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*v1.GetDevicesResponse)
 	fc.Result = res
-	return ec.marshalNGetDevicesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx, field.Selections, res)
+	return ec.marshalNGetDevicesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_devicesGroups(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2542,7 +2542,7 @@ func (ec *executionContext) _Query_devicesGroups(ctx context.Context, field grap
 	}
 	res := resTmp.(*v1.GetDeviceGroupsResponse)
 	fc.Result = res
-	return ec.marshalNGetDeviceGroupsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx, field.Selections, res)
+	return ec.marshalNGetDeviceGroupsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_simCards(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2584,7 +2584,7 @@ func (ec *executionContext) _Query_simCards(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*v1.GetSimCardsResponse)
 	fc.Result = res
-	return ec.marshalNGetSimCardsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx, field.Selections, res)
+	return ec.marshalNGetSimCardsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_slices(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2626,7 +2626,7 @@ func (ec *executionContext) _Query_slices(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*v1.GetSlicesResponse)
 	fc.Result = res
-	return ec.marshalNGetSlicesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx, field.Selections, res)
+	return ec.marshalNGetSlicesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_smallCells(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2668,7 +2668,7 @@ func (ec *executionContext) _Query_smallCells(ctx context.Context, field graphql
 	}
 	res := resTmp.(*v1.GetSmallCellsResponse)
 	fc.Result = res
-	return ec.marshalNGetSmallCellsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx, field.Selections, res)
+	return ec.marshalNGetSmallCellsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2963,7 +2963,7 @@ func (ec *executionContext) _Site_devices(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*v1.Device)
 	fc.Result = res
-	return ec.marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx, field.Selections, res)
+	return ec.marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Site_smallCells(ctx context.Context, field graphql.CollectedField, obj *v1.Site) (ret graphql.Marshaler) {
@@ -2995,7 +2995,7 @@ func (ec *executionContext) _Site_smallCells(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*v1.SmallCell)
 	fc.Result = res
-	return ec.marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx, field.Selections, res)
+	return ec.marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Site_slices(ctx context.Context, field graphql.CollectedField, obj *v1.Site) (ret graphql.Marshaler) {
@@ -3027,7 +3027,7 @@ func (ec *executionContext) _Site_slices(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*v1.Slice)
 	fc.Result = res
-	return ec.marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx, field.Selections, res)
+	return ec.marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Slice_id(ctx context.Context, field graphql.CollectedField, obj *v1.Slice) (ret graphql.Marshaler) {
@@ -4445,7 +4445,7 @@ func (ec *executionContext) unmarshalInputApplicationInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endpoints"))
-			it.Endpoints, err = ec.unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx, v)
+			it.Endpoints, err = ec.unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4492,7 +4492,7 @@ func (ec *executionContext) unmarshalInputEndpointInput(ctx context.Context, obj
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("mbr"))
-			it.Mbr, err = ec.unmarshalOMBRInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐMBR(ctx, v)
+			it.Mbr, err = ec.unmarshalOMBRInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐMBR(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6196,7 +6196,7 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNApplication2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, sel ast.SelectionSet, v *v1.Application) graphql.Marshaler {
+func (ec *executionContext) marshalNApplication2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, sel ast.SelectionSet, v *v1.Application) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6221,7 +6221,7 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNDevice2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDevice(ctx context.Context, sel ast.SelectionSet, v *v1.Device) graphql.Marshaler {
+func (ec *executionContext) marshalNDevice2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDevice(ctx context.Context, sel ast.SelectionSet, v *v1.Device) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6231,7 +6231,7 @@ func (ec *executionContext) marshalNDevice2ᚖgithubᚗcomᚋonosprojectᚋscali
 	return ec._Device(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNDeviceGroup2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceGroup(ctx context.Context, sel ast.SelectionSet, v *v1.DeviceGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNDeviceGroup2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceGroup(ctx context.Context, sel ast.SelectionSet, v *v1.DeviceGroup) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6241,7 +6241,7 @@ func (ec *executionContext) marshalNDeviceGroup2ᚖgithubᚗcomᚋonosprojectᚋ
 	return ec._DeviceGroup(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNEndpoint2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpoint(ctx context.Context, sel ast.SelectionSet, v *v1.Endpoint) graphql.Marshaler {
+func (ec *executionContext) marshalNEndpoint2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpoint(ctx context.Context, sel ast.SelectionSet, v *v1.Endpoint) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6251,12 +6251,12 @@ func (ec *executionContext) marshalNEndpoint2ᚖgithubᚗcomᚋonosprojectᚋsca
 	return ec._Endpoint(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNEndpointInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpoint(ctx context.Context, v interface{}) (*v1.Endpoint, error) {
+func (ec *executionContext) unmarshalNEndpointInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpoint(ctx context.Context, v interface{}) (*v1.Endpoint, error) {
 	res, err := ec.unmarshalInputEndpointInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNEnterprise2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEnterprise(ctx context.Context, sel ast.SelectionSet, v *v1.Enterprise) graphql.Marshaler {
+func (ec *executionContext) marshalNEnterprise2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEnterprise(ctx context.Context, sel ast.SelectionSet, v *v1.Enterprise) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6266,11 +6266,11 @@ func (ec *executionContext) marshalNEnterprise2ᚖgithubᚗcomᚋonosprojectᚋs
 	return ec._Enterprise(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetApplicationsResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetApplicationsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetApplicationsResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetApplicationsResponse) graphql.Marshaler {
 	return ec._GetApplicationsResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetApplicationsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetApplicationsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetApplicationsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetApplicationsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetApplicationsResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6280,11 +6280,11 @@ func (ec *executionContext) marshalNGetApplicationsResponse2ᚖgithubᚗcomᚋon
 	return ec._GetApplicationsResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetDeviceGroupsResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetDeviceGroupsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetDeviceGroupsResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetDeviceGroupsResponse) graphql.Marshaler {
 	return ec._GetDeviceGroupsResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetDeviceGroupsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetDeviceGroupsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetDeviceGroupsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDeviceGroupsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetDeviceGroupsResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6294,11 +6294,11 @@ func (ec *executionContext) marshalNGetDeviceGroupsResponse2ᚖgithubᚗcomᚋon
 	return ec._GetDeviceGroupsResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetDevicesResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetDevicesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetDevicesResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetDevicesResponse) graphql.Marshaler {
 	return ec._GetDevicesResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetDevicesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetDevicesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetDevicesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetDevicesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetDevicesResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6308,11 +6308,11 @@ func (ec *executionContext) marshalNGetDevicesResponse2ᚖgithubᚗcomᚋonospro
 	return ec._GetDevicesResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetEnterprisesResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetEnterprisesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetEnterprisesResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetEnterprisesResponse) graphql.Marshaler {
 	return ec._GetEnterprisesResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetEnterprisesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetEnterprisesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetEnterprisesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetEnterprisesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetEnterprisesResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6322,11 +6322,11 @@ func (ec *executionContext) marshalNGetEnterprisesResponse2ᚖgithubᚗcomᚋono
 	return ec._GetEnterprisesResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetSimCardsResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSimCardsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSimCardsResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSimCardsResponse) graphql.Marshaler {
 	return ec._GetSimCardsResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetSimCardsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSimCardsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSimCardsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSimCardsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSimCardsResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6336,11 +6336,11 @@ func (ec *executionContext) marshalNGetSimCardsResponse2ᚖgithubᚗcomᚋonospr
 	return ec._GetSimCardsResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetSitesResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSitesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSitesResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSitesResponse) graphql.Marshaler {
 	return ec._GetSitesResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetSitesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSitesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSitesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSitesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSitesResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6350,11 +6350,11 @@ func (ec *executionContext) marshalNGetSitesResponse2ᚖgithubᚗcomᚋonosproje
 	return ec._GetSitesResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetSlicesResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSlicesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSlicesResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSlicesResponse) graphql.Marshaler {
 	return ec._GetSlicesResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetSlicesResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSlicesResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSlicesResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSlicesResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSlicesResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6364,11 +6364,11 @@ func (ec *executionContext) marshalNGetSlicesResponse2ᚖgithubᚗcomᚋonosproj
 	return ec._GetSlicesResponse(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNGetSmallCellsResponse2githubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSmallCellsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSmallCellsResponse2githubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx context.Context, sel ast.SelectionSet, v v1.GetSmallCellsResponse) graphql.Marshaler {
 	return ec._GetSmallCellsResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGetSmallCellsResponse2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSmallCellsResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNGetSmallCellsResponse2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐGetSmallCellsResponse(ctx context.Context, sel ast.SelectionSet, v *v1.GetSmallCellsResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6393,7 +6393,7 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalNSimCard2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCard(ctx context.Context, sel ast.SelectionSet, v *v1.SimCard) graphql.Marshaler {
+func (ec *executionContext) marshalNSimCard2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCard(ctx context.Context, sel ast.SelectionSet, v *v1.SimCard) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6403,7 +6403,7 @@ func (ec *executionContext) marshalNSimCard2ᚖgithubᚗcomᚋonosprojectᚋscal
 	return ec._SimCard(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNSite2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSite(ctx context.Context, sel ast.SelectionSet, v *v1.Site) graphql.Marshaler {
+func (ec *executionContext) marshalNSite2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSite(ctx context.Context, sel ast.SelectionSet, v *v1.Site) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6413,7 +6413,7 @@ func (ec *executionContext) marshalNSite2ᚖgithubᚗcomᚋonosprojectᚋscaling
 	return ec._Site(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNSlice2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSlice(ctx context.Context, sel ast.SelectionSet, v *v1.Slice) graphql.Marshaler {
+func (ec *executionContext) marshalNSlice2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSlice(ctx context.Context, sel ast.SelectionSet, v *v1.Slice) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6423,7 +6423,7 @@ func (ec *executionContext) marshalNSlice2ᚖgithubᚗcomᚋonosprojectᚋscalin
 	return ec._Slice(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNSmallCell2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSmallCell(ctx context.Context, sel ast.SelectionSet, v *v1.SmallCell) graphql.Marshaler {
+func (ec *executionContext) marshalNSmallCell2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSmallCell(ctx context.Context, sel ast.SelectionSet, v *v1.SmallCell) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6701,7 +6701,7 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Application) graphql.Marshaler {
+func (ec *executionContext) marshalOApplication2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplicationᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Application) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6728,7 +6728,7 @@ func (ec *executionContext) marshalOApplication2ᚕᚖgithubᚗcomᚋonosproject
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNApplication2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx, sel, v[i])
+			ret[i] = ec.marshalNApplication2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6748,14 +6748,14 @@ func (ec *executionContext) marshalOApplication2ᚕᚖgithubᚗcomᚋonosproject
 	return ret
 }
 
-func (ec *executionContext) marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, sel ast.SelectionSet, v *v1.Application) graphql.Marshaler {
+func (ec *executionContext) marshalOApplication2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, sel ast.SelectionSet, v *v1.Application) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Application(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOApplicationInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, v interface{}) (*v1.Application, error) {
+func (ec *executionContext) unmarshalOApplicationInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐApplication(ctx context.Context, v interface{}) (*v1.Application, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6789,7 +6789,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Device) graphql.Marshaler {
+func (ec *executionContext) marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Device) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6816,7 +6816,7 @@ func (ec *executionContext) marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋsc
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDevice2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDevice(ctx, sel, v[i])
+			ret[i] = ec.marshalNDevice2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDevice(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6836,7 +6836,7 @@ func (ec *executionContext) marshalODevice2ᚕᚖgithubᚗcomᚋonosprojectᚋsc
 	return ret
 }
 
-func (ec *executionContext) marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.DeviceGroup) graphql.Marshaler {
+func (ec *executionContext) marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.DeviceGroup) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6863,7 +6863,7 @@ func (ec *executionContext) marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosproject
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDeviceGroup2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐDeviceGroup(ctx, sel, v[i])
+			ret[i] = ec.marshalNDeviceGroup2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐDeviceGroup(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6883,7 +6883,7 @@ func (ec *executionContext) marshalODeviceGroup2ᚕᚖgithubᚗcomᚋonosproject
 	return ret
 }
 
-func (ec *executionContext) marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Endpoint) graphql.Marshaler {
+func (ec *executionContext) marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Endpoint) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6910,7 +6910,7 @@ func (ec *executionContext) marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNEndpoint2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpoint(ctx, sel, v[i])
+			ret[i] = ec.marshalNEndpoint2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpoint(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6930,7 +6930,7 @@ func (ec *executionContext) marshalOEndpoint2ᚕᚖgithubᚗcomᚋonosprojectᚋ
 	return ret
 }
 
-func (ec *executionContext) unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx context.Context, v interface{}) ([]*v1.Endpoint, error) {
+func (ec *executionContext) unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpointᚄ(ctx context.Context, v interface{}) ([]*v1.Endpoint, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6942,7 +6942,7 @@ func (ec *executionContext) unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonospro
 	res := make([]*v1.Endpoint, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNEndpointInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEndpoint(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNEndpointInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEndpoint(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -6950,7 +6950,7 @@ func (ec *executionContext) unmarshalOEndpointInput2ᚕᚖgithubᚗcomᚋonospro
 	return res, nil
 }
 
-func (ec *executionContext) marshalOEnterprise2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEnterpriseᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Enterprise) graphql.Marshaler {
+func (ec *executionContext) marshalOEnterprise2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEnterpriseᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Enterprise) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6977,7 +6977,7 @@ func (ec *executionContext) marshalOEnterprise2ᚕᚖgithubᚗcomᚋonosproject�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNEnterprise2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐEnterprise(ctx, sel, v[i])
+			ret[i] = ec.marshalNEnterprise2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐEnterprise(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7017,14 +7017,14 @@ func (ec *executionContext) marshalOInt2int64(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalOMBR2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐMBR(ctx context.Context, sel ast.SelectionSet, v *v1.MBR) graphql.Marshaler {
+func (ec *executionContext) marshalOMBR2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐMBR(ctx context.Context, sel ast.SelectionSet, v *v1.MBR) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._MBR(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOMBRInput2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐMBR(ctx context.Context, v interface{}) (*v1.MBR, error) {
+func (ec *executionContext) unmarshalOMBRInput2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐMBR(ctx context.Context, v interface{}) (*v1.MBR, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -7032,7 +7032,7 @@ func (ec *executionContext) unmarshalOMBRInput2ᚖgithubᚗcomᚋonosprojectᚋs
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCardᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.SimCard) graphql.Marshaler {
+func (ec *executionContext) marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCardᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.SimCard) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7059,7 +7059,7 @@ func (ec *executionContext) marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋs
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNSimCard2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCard(ctx, sel, v[i])
+			ret[i] = ec.marshalNSimCard2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCard(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7079,14 +7079,14 @@ func (ec *executionContext) marshalOSimCard2ᚕᚖgithubᚗcomᚋonosprojectᚋs
 	return ret
 }
 
-func (ec *executionContext) marshalOSimCard2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSimCard(ctx context.Context, sel ast.SelectionSet, v *v1.SimCard) graphql.Marshaler {
+func (ec *executionContext) marshalOSimCard2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSimCard(ctx context.Context, sel ast.SelectionSet, v *v1.SimCard) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._SimCard(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Site) graphql.Marshaler {
+func (ec *executionContext) marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSiteᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Site) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7113,7 +7113,7 @@ func (ec *executionContext) marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋscal
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNSite2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSite(ctx, sel, v[i])
+			ret[i] = ec.marshalNSite2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSite(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7133,7 +7133,7 @@ func (ec *executionContext) marshalOSite2ᚕᚖgithubᚗcomᚋonosprojectᚋscal
 	return ret
 }
 
-func (ec *executionContext) marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Slice) graphql.Marshaler {
+func (ec *executionContext) marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSliceᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.Slice) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7160,7 +7160,7 @@ func (ec *executionContext) marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋsca
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNSlice2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSlice(ctx, sel, v[i])
+			ret[i] = ec.marshalNSlice2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSlice(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7180,7 +7180,7 @@ func (ec *executionContext) marshalOSlice2ᚕᚖgithubᚗcomᚋonosprojectᚋsca
 	return ret
 }
 
-func (ec *executionContext) marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.SmallCell) graphql.Marshaler {
+func (ec *executionContext) marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSmallCellᚄ(ctx context.Context, sel ast.SelectionSet, v []*v1.SmallCell) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7207,7 +7207,7 @@ func (ec *executionContext) marshalOSmallCell2ᚕᚖgithubᚗcomᚋonosproject�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNSmallCell2ᚖgithubᚗcomᚋonosprojectᚋscalingᚑumbrellaᚋgenᚋgoᚋv1ᚐSmallCell(ctx, sel, v[i])
+			ret[i] = ec.marshalNSmallCell2ᚖgithubᚗcomᚋonosprojectᚋaetherᚑoperationsᚑapiᚋgenᚋgoᚋv1ᚐSmallCell(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)

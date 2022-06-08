@@ -1,6 +1,0 @@
-apiVersion: v2
-name: scaling-umbrella
-description: A Helm chart to deploy scaling-umbrella
-type: application
-version: 0.0.1-dev
-appVersion: 0.0.1-dev
