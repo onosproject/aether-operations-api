@@ -113,3 +113,6 @@ kind-only: # @HELP Load the docker container into a kind cluster (cluster name c
 	kind load docker-image --name ${KIND_CLUSTER_NAME} ${DOCKER_REPOSITORY}aether-operations-api:${DOCKER_TAG}
 
 kind: docker-build kind-only
+
+test: mod-update # @HELP Run repository tests
+	go test ./...
