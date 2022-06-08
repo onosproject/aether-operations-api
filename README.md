@@ -1,4 +1,4 @@
-# Roc API
+# Aether Operations API
 
 This project defines external APIs to interact with the ROC.
 
@@ -64,26 +64,26 @@ _Refer to your IDE documentation to provide those same flags if you want to exec
 
 ## Deployment
 
-An `helm-chart` is provided to deploy `scaling-umbrella` on your Kubernetes cluster.
+An `helm-chart` is provided to deploy `aether-operations-api` on your Kubernetes cluster.
 Since the image is not yet available on DockerHub you need to make it available to your cluster.
 
 You can build and load the image to a `Kind` cluster with `make kind`.
 If you are using a different setup you can build the docker image with `make docker-build` and load it in you cluster as appropriate.
 
 ```shell
- helm upgrade --install scaling-umbrella ./deployments/scaling-umbrella 
+ helm upgrade --install aether-operations-api ./deployments/aether-operations-api
 ```
 
 > NOTE the default `values` for this chart assume that it is deployed in the same `namespace` as `aether-roc-umbrella`
 > 
 > If you deploy in a different namespace you can customize the `onos-config` and `onos-topo` endpoints with:
 > ```shell
-> helm upgrade --install scaling-umbrella ./deployments/scaling-umbrella \
->   --set scalingUmbrella.dataSources.onosConfig=onos-config.<namespace>.svc:5150 \
->   --set scalingUmbrella.dataSources.onosTopo=onos-topo.<namespace>.svc:5150
+> helm upgrade --install aether-operations-api ./deployments/aether-operations-api \
+>   --set aetherOperationsAPI.dataSources.onosConfig=onos-config.<namespace>.svc:5150 \
+>   --set aetherOperationsAPI.dataSources.onosTopo=onos-topo.<namespace>.svc:5150
 > ```
 
-_For more information on the supported customization refer to the [values.yaml](deployments/scaling-umbrella/values.yaml) file._
+_For more information on the supported customization refer to the [values.yaml](deployments/aether-operations-api/values.yaml) file._
 
 ## TODO
 - [ ] Bootstrapping of the data

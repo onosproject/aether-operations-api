@@ -1,5 +1,5 @@
 schema:
-  #  - gen/graph/scaling-umbrella.graphql - copy types we care about
+  #  - gen/graph/aether-operations-api.graphql - copy types we care about
   - internal/servers/graphql/schema/schema.graphql
 
 exec:
